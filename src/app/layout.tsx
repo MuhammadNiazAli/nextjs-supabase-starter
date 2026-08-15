@@ -4,7 +4,7 @@ import Footer from "@/components/Footer";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "FullStack Starter",
+  title: "Next.js Supabase Starter",
   description: "Next.js + Supabase + Tailwind SaaS starter kit",
 };
 

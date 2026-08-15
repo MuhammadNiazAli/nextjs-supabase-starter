@@ -1,4 +1,4 @@
-# 🚀 FullStack Starter — Next.js + Supabase + TypeScript + Tailwind
+# 🚀 Next.js Supabase Starter — TypeScript + Tailwind
 
 A **production-ready, beginner-friendly, senior-approved** open-source starter kit for building modern SaaS apps fast.
 
@@ -33,8 +33,8 @@ Whether you're writing your first PR ever or you're a 10-year senior looking for
 ## 🏁 Quick Start
 
 ```bash
-git clone https://github.com/<your-username>/fullstack-starter.git
-cd fullstack-starter
+git clone https://github.com/MuhammadNiazAli/nextjs-supabase-starter.git
+cd nextjs-supabase-starter
 npm install
 cp .env.example .env.local
 # fill in your Supabase URL + anon key in .env.local
@@ -80,6 +80,6 @@ MIT — free to use for personal or commercial projects. See [LICENSE](./LICENSE
 
 ## 🙌 Maintainer
 
-Built by [Muhammad Niaz Ali](https://github.com/<your-username>) — full stack developer (Next.js, React Native, Supabase, Python/n8n automation).
+Built by [Muhammad Niaz Ali](https://github.com/MuhammadNiazAli) — full stack developer (Next.js, React Native, Supabase, Python/n8n automation).
 
 If this project helped you, consider giving it a ⭐ — it genuinely helps the repo reach more contributors.
