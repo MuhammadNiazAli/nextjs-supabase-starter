@@ -8,6 +8,16 @@ A **production-ready, beginner-friendly, senior-approved** open-source starter k
 ![License](https://img.shields.io/badge/license-MIT-green)
 ![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen)
 
+## 📸 Screenshots
+
+| Light Mode | Dark Mode |
+|---|---|
+| ![Homepage Light](./screenshots/homepage-light.png) | ![Homepage Dark](./screenshots/homepage-dark.png) |
+
+| Login | Sign up |
+|---|---|
+| ![Login](./screenshots/login.png) | ![Sign up](./screenshots/signup.png) |
+
 ## ✨ Why this repo?
 
 Most starter kits are either too basic (toy examples) or too bloated (locked-in paid templates). This one aims for the middle: **real auth, real database, real dashboard — clean enough to learn from, solid enough to ship.**
