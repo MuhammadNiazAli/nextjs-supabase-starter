@@ -92,4 +92,4 @@ MIT — free to use for personal or commercial projects. See [LICENSE](./LICENSE
 
 Built by [Muhammad Niaz Ali](https://github.com/MuhammadNiazAli) — full stack developer (Next.js, React Native, Supabase, Python/n8n automation).
 
-If this project helped you, consider giving it a ⭐ — it genuinely helps the repo reach more contributors.
+If this project helped you, consider giving it a ⭐ it genuinely helps the repo reach more contributors.
