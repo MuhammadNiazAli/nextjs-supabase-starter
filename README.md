@@ -35,6 +35,7 @@ Whether you're writing your first PR ever or you're a 10-year senior looking for
 
 - Email/password authentication (Supabase Auth)
 - Google OAuth login (Supabase Auth)
+- Unit tests with Vitest + Testing Library (`npm test`)
 - Protected dashboard route
 - Dark mode toggle
 - Responsive Navbar/Footer
@@ -79,7 +80,7 @@ Ways to help:
 - [x] Add Google OAuth login
 - [ ] Add GitHub OAuth login
 - [ ] Add Stripe billing example
-- [ ] Add unit tests (Jest/Vitest)
+- [x] Add unit tests (Vitest)
 - [ ] Add i18n support
 - [ ] Add user profile page with avatar upload
 - [ ] Add rate limiting on API routes
