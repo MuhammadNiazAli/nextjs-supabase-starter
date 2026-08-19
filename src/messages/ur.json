@@ -1,0 +1,25 @@
+{
+  "navbar": {
+    "brand": "فل سٹیک سٹارٹر",
+    "login": "لاگ ان",
+    "signup": "سائن اپ"
+  },
+  "footer": {
+    "text": "Next.js + Supabase کے ساتھ بنایا گیا — MIT لائسنس یافتہ۔ تعاون کا خیرمقدم ہے۔"
+  },
+  "home": {
+    "titlePrefix": "خوش آمدید",
+    "titleHighlight": "Next.js Supabase سٹارٹر",
+    "subtitle": "ایک پروڈکشن کے لیے تیار Next.js + Supabase + Tailwind سٹارٹر کٹ — اوپن سورس اور کمیونٹی کے لیے بنائی گئی۔ فورک کریں، سٹار دیں، حصہ ڈالیں۔",
+    "getStarted": "شروع کریں",
+    "viewOnGithub": "گٹ ہب پر دیکھیں"
+  },
+  "theme": {
+    "toggleLabel": "ڈارک موڈ تبدیل کریں",
+    "light": "☀️ لائٹ",
+    "dark": "🌙 ڈارک"
+  },
+  "language": {
+    "label": "زبان"
+  }
+}
