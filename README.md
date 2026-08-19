@@ -34,6 +34,7 @@ Whether you're writing your first PR ever or you're a 10-year senior looking for
 ## 📦 Features
 
 - Email/password authentication (Supabase Auth)
+- Google OAuth login (Supabase Auth)
 - Protected dashboard route
 - Dark mode toggle
 - Responsive Navbar/Footer
@@ -75,7 +76,8 @@ Ways to help:
 
 ## 🗺️ Roadmap / Ideas for contributors
 
-- [ ] Add social login (Google/GitHub OAuth)
+- [x] Add Google OAuth login
+- [ ] Add GitHub OAuth login
 - [ ] Add Stripe billing example
 - [ ] Add unit tests (Jest/Vitest)
 - [ ] Add i18n support
