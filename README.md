@@ -20,7 +20,7 @@ A **production-ready, beginner-friendly, senior-approved** open-source starter k
 
 ## ✨ Why this repo?
 
-Most starter kits are either too basic (toy examples) or too bloated (locked-in paid templates). This one aims for the middle: **real auth, real database, real dashboard — clean enough to learn from, solid enough to ship.**
+Most starter kits are either too basic (toy examples) or too bloated (locked-in paid templates). This one aims for the middle: **real auth, real database, real dashboard clean enough to learn from, solid enough to ship.**
 
 Whether you're writing your first PR ever or you're a 10-year senior looking for a well-scoped repo to contribute to on weekends — there's something here for you.
 
@@ -88,7 +88,7 @@ Ways to help:
 
 ## 📄 License
 
-MIT — free to use for personal or commercial projects. See [LICENSE](./LICENSE).
+MIT free to use for personal or commercial projects. See [LICENSE](./LICENSE).
 
 ## 🙌 Maintainer
 
