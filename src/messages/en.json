@@ -1,0 +1,25 @@
+{
+  "navbar": {
+    "brand": "FullStack Starter",
+    "login": "Login",
+    "signup": "Sign up"
+  },
+  "footer": {
+    "text": "Built with Next.js + Supabase — MIT Licensed. Contributions welcome."
+  },
+  "home": {
+    "titlePrefix": "Welcome to",
+    "titleHighlight": "Next.js Supabase Starter",
+    "subtitle": "A production-ready Next.js + Supabase + Tailwind starter kit — open source and built for the community. Fork it, star it, contribute to it.",
+    "getStarted": "Get Started",
+    "viewOnGithub": "View on GitHub"
+  },
+  "theme": {
+    "toggleLabel": "Toggle dark mode",
+    "light": "☀️ Light",
+    "dark": "🌙 Dark"
+  },
+  "language": {
+    "label": "Language"
+  }
+}
