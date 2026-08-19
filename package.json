@@ -9,6 +9,8 @@
     "start": "next start",
     "lint": "next lint",
     "format": "prettier --write .",
+    "test": "vitest run --config vitest.unit.config.ts",
+    "test:watch": "vitest --config vitest.unit.config.ts",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
@@ -41,6 +43,11 @@
     "vitest": "latest",
     "playwright": "latest",
     "@vitest/browser-playwright": "latest",
-    "@vitest/coverage-v8": "latest"
+    "@vitest/coverage-v8": "latest",
+    "jsdom": "latest",
+    "@vitejs/plugin-react": "latest",
+    "@testing-library/react": "^16.0.0",
+    "@testing-library/jest-dom": "^6.4.0",
+    "@testing-library/user-event": "^14.5.0"
   }
 }
