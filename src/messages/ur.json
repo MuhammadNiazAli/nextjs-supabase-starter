@@ -2,7 +2,10 @@
   "navbar": {
     "brand": "فل سٹیک سٹارٹر",
     "login": "لاگ ان",
-    "signup": "سائن اپ"
+    "signup": "سائن اپ",
+    "pricing": "قیمتیں",
+    "profile": "پروفائل",
+    "logout": "لاگ آؤٹ"
   },
   "footer": {
     "text": "Next.js + Supabase کے ساتھ بنایا گیا — MIT لائسنس یافتہ۔ تعاون کا خیرمقدم ہے۔"

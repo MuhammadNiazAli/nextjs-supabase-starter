@@ -37,6 +37,8 @@ Whether you're writing your first PR ever or you're a 10-year senior looking for
 - Google OAuth login (Supabase Auth)
 - Unit tests with Vitest + Testing Library (`npm test`)
 - Protected dashboard route
+- User profile page with avatar upload (Supabase Storage)
+- Stripe billing example (pricing page, Checkout, webhook)
 - Dark mode toggle
 - Responsive Navbar/Footer
 - Clean folder structure, ready to extend
@@ -59,7 +61,17 @@ Open [http://localhost:3000](http://localhost:3000).
 
 1. Create a free project at [supabase.com](https://supabase.com)
 2. Copy your Project URL and anon key into `.env.local`
-3. Run `supabase/schema.sql` in the Supabase SQL editor to set up tables
+3. Run `supabase/schema.sql` in the Supabase SQL editor to set up tables, the `avatars` storage bucket, and its RLS policies
+
+## 💳 Stripe Setup (optional)
+
+The pricing page, checkout, and webhook are opt-in — the app runs fine without Stripe configured.
+
+1. Create a [Stripe](https://stripe.com) account and a recurring Price for your plan
+2. Add `STRIPE_SECRET_KEY` and `NEXT_PUBLIC_STRIPE_PRICE_ID` to `.env.local`
+3. Add `SUPABASE_SERVICE_ROLE_KEY` (Project Settings → API in Supabase) — needed by the webhook to write subscription status
+4. Forward webhooks locally with the [Stripe CLI](https://stripe.com/docs/stripe-cli): `stripe listen --forward-to localhost:3000/api/webhooks/stripe`, then copy the printed signing secret into `STRIPE_WEBHOOK_SECRET`
+5. In production, add a webhook endpoint in the Stripe Dashboard pointing at `https://your-domain.com/api/webhooks/stripe`, listening for `checkout.session.completed`, `customer.subscription.updated`, and `customer.subscription.deleted`
 
 ## 🤝 Contributing
 
@@ -79,10 +91,10 @@ Ways to help:
 
 - [x] Add Google OAuth login
 - [ ] Add GitHub OAuth login
-- [ ] Add Stripe billing example
+- [x] Add Stripe billing example
 - [x] Add unit tests (Vitest)
-- [ ] Add i18n support
-- [ ] Add user profile page with avatar upload
+- [x] Add i18n support
+- [x] Add user profile page with avatar upload
 - [ ] Add rate limiting on API routes
 - [ ] Improve accessibility (a11y audit)
 - [ ] Add Storybook for components
