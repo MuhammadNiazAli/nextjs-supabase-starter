@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import { stripe } from "@/lib/stripe";
-import { supabaseAdmin } from "@/lib/supabaseAdmin";
+import { getStripe } from "@/lib/stripe";
+import { getSupabaseAdmin } from "@/lib/supabaseAdmin";
 
 // POST /api/checkout
 // Body: { priceId: string, userId: string, email: string }
@@ -18,6 +18,8 @@ export async function POST(request: Request) {
     }
 
     const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+    const stripe = getStripe();
+    const supabaseAdmin = getSupabaseAdmin();
 
     // Reuse an existing Stripe customer for this user if we already have
     // one on file, otherwise let Checkout create one.

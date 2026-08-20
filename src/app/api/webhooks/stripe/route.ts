@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import type Stripe from "stripe";
-import { stripe } from "@/lib/stripe";
-import { supabaseAdmin } from "@/lib/supabaseAdmin";
+import { getStripe } from "@/lib/stripe";
+import { getSupabaseAdmin } from "@/lib/supabaseAdmin";
 
 // Stripe needs the raw request body to verify the webhook signature, so
 // this route must not run through any body-parsing middleware.
@@ -11,7 +11,7 @@ async function syncSubscription(subscription: Stripe.Subscription) {
   const userId = subscription.metadata?.userId;
   if (!userId) return;
 
-  await supabaseAdmin
+  await getSupabaseAdmin()
     .from("profiles")
     .update({
       stripe_customer_id: subscription.customer as string,
@@ -34,6 +34,7 @@ export async function POST(request: Request) {
   }
 
   const rawBody = await request.text();
+  const stripe = getStripe();
 
   let event: Stripe.Event;
   try {
