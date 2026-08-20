@@ -30,6 +30,7 @@ It is also built with open source contribution in mind. The codebase is intentio
 - [TypeScript](https://www.typescriptlang.org/)
 - [Tailwind CSS](https://tailwindcss.com/)
 - [Supabase](https://supabase.com/) for authentication and the Postgres database
+- [Stripe](https://stripe.com/) for billing and subscriptions
 - [Vitest](https://vitest.dev/) and [Testing Library](https://testing-library.com/) for unit tests
 - [Storybook](https://storybook.js.org/) for isolated component development
 
@@ -38,6 +39,8 @@ It is also built with open source contribution in mind. The codebase is intentio
 - Email and password authentication through Supabase Auth
 - Google OAuth login
 - Protected dashboard route with a live user profile card
+- User profile page with avatar upload (Supabase Storage)
+- Stripe billing example (pricing page, Checkout, webhook)
 - Password reset flow
 - Dark mode toggle with saved preference
 - Built in internationalization with English and Urdu support
@@ -75,8 +78,18 @@ The app will be running at [http://localhost:3000](http://localhost:3000).
 
 1. Create a free project at [supabase.com](https://supabase.com)
 2. Copy your project URL and anon key into `.env.local`
-3. Open the Supabase SQL editor and run the contents of `supabase/schema.sql` to create the required tables and policies
+3. Open the Supabase SQL editor and run the contents of `supabase/schema.sql` to create the required tables, the `avatars` storage bucket, and all row level security policies
 4. If you plan to use Google login enable the Google provider from the Supabase Auth settings
+
+## Stripe setup (optional)
+
+The pricing page, checkout, and webhook are opt-in — the app runs fine without Stripe configured.
+
+1. Create a [Stripe](https://stripe.com) account and a recurring Price for your plan
+2. Add `STRIPE_SECRET_KEY` and `NEXT_PUBLIC_STRIPE_PRICE_ID` to `.env.local`
+3. Add `SUPABASE_SERVICE_ROLE_KEY` (Project Settings → API in Supabase) — needed by the webhook to write subscription status
+4. Forward webhooks locally with the [Stripe CLI](https://stripe.com/docs/stripe-cli): `stripe listen --forward-to localhost:3000/api/webhooks/stripe`, then copy the printed signing secret into `STRIPE_WEBHOOK_SECRET`
+5. In production, add a webhook endpoint in the Stripe Dashboard pointing at `https://your-domain.com/api/webhooks/stripe`, listening for `checkout.session.completed`, `customer.subscription.updated`, and `customer.subscription.deleted`
 
 ## Available scripts
 
@@ -94,13 +107,13 @@ The app will be running at [http://localhost:3000](http://localhost:3000).
 
 ```
 src/
-  app/            App Router pages including auth dashboard and layout
+  app/            App Router pages including auth dashboard profile pricing and API routes
   components/     Reusable UI components and their tests and stories
-  lib/            Supabase client and internationalization logic
+  lib/            Supabase client, Supabase admin client, Stripe client, and internationalization logic
   messages/       Translation files for each supported language
   stories/        Storybook design system assets
 supabase/
-  schema.sql      Database schema and row level security policies
+  schema.sql      Database schema, storage policies, and row level security policies
 ```
 
 ## Contributing
@@ -124,9 +137,9 @@ There are many ways to contribute beyond writing code.
 - [x] Unit tests with Vitest
 - [x] i18n support with English and Urdu
 - [x] Storybook setup for components
+- [x] Stripe billing example
+- [x] User profile page with avatar upload
 - [ ] GitHub OAuth login
-- [ ] Stripe billing example
-- [ ] User profile page with avatar upload
 - [ ] Rate limiting on API routes
 - [ ] Accessibility audit
 
