@@ -2,7 +2,10 @@
   "navbar": {
     "brand": "FullStack Starter",
     "login": "Login",
-    "signup": "Sign up"
+    "signup": "Sign up",
+    "pricing": "Pricing",
+    "profile": "Profile",
+    "logout": "Logout"
   },
   "footer": {
     "text": "Built with Next.js + Supabase — MIT Licensed. Contributions welcome."
