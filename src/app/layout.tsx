@@ -37,8 +37,16 @@ export default function RootLayout({
       </head>
       <body>
         <Providers>
+          <a
+            href="#main-content"
+            className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:bg-primary focus:text-white focus:px-4 focus:py-2 focus:rounded-md"
+          >
+            Skip to main content
+          </a>
           <Navbar />
-          <main className="min-h-[80vh]">{children}</main>
+          <main id="main-content" className="min-h-[80vh]">
+            {children}
+          </main>
           <Footer />
         </Providers>
       </body>

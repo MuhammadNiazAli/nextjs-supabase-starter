@@ -28,7 +28,10 @@ export default function UpdatePasswordPage() {
           Enter a new password for your account.
         </p>
         {success ? (
-          <p className="text-green-600 text-sm bg-green-50 dark:bg-green-950/40 border border-green-200 dark:border-green-900 rounded-lg px-3 py-3">
+          <p
+            role="status"
+            className="text-green-600 text-sm bg-green-50 dark:bg-green-950/40 border border-green-200 dark:border-green-900 rounded-lg px-3 py-3"
+          >
             Password updated. You can now log in with your new password.
           </p>
         ) : (
@@ -45,7 +48,10 @@ export default function UpdatePasswordPage() {
               />
             </div>
             {error && (
-              <p className="text-red-500 text-sm bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900 rounded-lg px-3 py-2">
+              <p
+                role="alert"
+                className="text-red-500 text-sm bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900 rounded-lg px-3 py-2"
+              >
                 {error}
               </p>
             )}

@@ -30,7 +30,12 @@ export default function DashboardPage() {
     else setResetSent(true);
   };
 
-  if (loading) return <p className="text-center py-16">Loading...</p>;
+  if (loading)
+    return (
+      <p role="status" className="text-center py-16">
+        Loading...
+      </p>
+    );
 
   if (!user)
     return (
@@ -67,7 +72,10 @@ export default function DashboardPage() {
         </div>
 
         {resetSent ? (
-          <p className="text-green-600 text-sm bg-green-50 dark:bg-green-950/40 border border-green-200 dark:border-green-900 rounded-lg px-3 py-2 text-center">
+          <p
+            role="status"
+            className="text-green-600 text-sm bg-green-50 dark:bg-green-950/40 border border-green-200 dark:border-green-900 rounded-lg px-3 py-2 text-center"
+          >
             Password reset email sent — check your inbox.
           </p>
         ) : (
@@ -80,7 +88,9 @@ export default function DashboardPage() {
           </button>
         )}
         {resetError && (
-          <p className="text-red-500 text-sm mt-3 text-center">{resetError}</p>
+          <p role="alert" className="text-red-500 text-sm mt-3 text-center">
+            {resetError}
+          </p>
         )}
       </div>
     </div>

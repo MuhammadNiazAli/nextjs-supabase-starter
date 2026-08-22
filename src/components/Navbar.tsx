@@ -30,7 +30,10 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="flex items-center justify-between px-6 py-4 border-b border-gray-200 dark:border-gray-800">
+    <nav
+      aria-label="Main navigation"
+      className="flex items-center justify-between px-6 py-4 border-b border-gray-200 dark:border-gray-800"
+    >
       <Link href="/" className="font-bold text-lg text-primary">
         {t("navbar.brand")}
       </Link>
