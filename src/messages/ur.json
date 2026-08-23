@@ -9,7 +9,23 @@
     "toggleMenu": "مینو کھولیں"
   },
   "footer": {
-    "text": "Next.js + Supabase کے ساتھ بنایا گیا — MIT لائسنس یافتہ۔ تعاون کا خیرمقدم ہے۔"
+    "text": "Next.js + Supabase کے ساتھ بنایا گیا — MIT لائسنس یافتہ۔ تعاون کا خیرمقدم ہے۔",
+    "tagline": "ایک اوپن سورس Next.js + Supabase سٹارٹر کٹ — سیکھیں، حصہ لیں، اور حقیقی فیچرز بنائیں۔",
+    "columns": {
+      "product": "پروڈکٹ",
+      "resources": "وسائل",
+      "community": "کمیونٹی"
+    },
+    "links": {
+      "docs": "دستاویزات",
+      "license": "لائسنس",
+      "codeOfConduct": "ضابطہ اخلاق",
+      "contribute": "تعاون کرنے کا رہنما",
+      "issues": "کھلے ایشوز",
+      "discussions": "مباحثے"
+    },
+    "starOnGithub": "گٹ ہب پر سٹار دیں",
+    "backToTop": "اوپر جائیں"
   },
   "home": {
     "titlePrefix": "خوش آمدید",
