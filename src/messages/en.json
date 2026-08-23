@@ -5,7 +5,8 @@
     "signup": "Sign up",
     "pricing": "Pricing",
     "profile": "Profile",
-    "logout": "Logout"
+    "logout": "Logout",
+    "toggleMenu": "Toggle menu"
   },
   "footer": {
     "text": "Built with Next.js + Supabase — MIT Licensed. Contributions welcome."
