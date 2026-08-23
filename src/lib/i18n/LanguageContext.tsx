@@ -76,8 +76,10 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   const [locale, setLocale] = useState<Locale>(getInitialLocale);
 
   useEffect(() => {
+    // Only the `lang` attribute changes with the locale. `dir` is kept fixed
+    // at "ltr" on purpose so switching languages never reflows/shifts the
+    // layout (navbar, cards, etc. must stay exactly where they are).
     document.documentElement.lang = locale;
-    document.documentElement.dir = locale === "ur" ? "rtl" : "ltr";
 
     try {
       window.localStorage.setItem(STORAGE_KEY, locale);

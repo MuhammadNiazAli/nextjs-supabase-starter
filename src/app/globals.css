@@ -5,3 +5,16 @@
 body {
   @apply bg-white text-gray-900 dark:bg-gray-950 dark:text-gray-100;
 }
+
+/* Tells the browser which palette to use for native UI it renders itself
+   (select dropdown popups, scrollbars, checkboxes, date pickers, etc.).
+   Without this, a <select>'s open option list stays browser-default white
+   with light gray text even while the rest of the page is in dark mode -
+   which is why "اردو" was almost unreadable in the dark dropdown. */
+:root {
+  color-scheme: light;
+}
+
+.dark {
+  color-scheme: dark;
+}

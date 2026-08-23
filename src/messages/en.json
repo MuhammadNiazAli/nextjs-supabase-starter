@@ -13,7 +13,7 @@
   "home": {
     "titlePrefix": "Welcome to",
     "titleHighlight": "Next.js Supabase Starter",
-    "subtitle": "A production-ready Next.js + Supabase + Tailwind starter kit — open source and built for the community. Fork it, star it, contribute to it.",
+    "subtitle": "This starter kit exists so developers have a real, working codebase to practice on — open pull requests, do code reviews, pick up issues, and build features you have never tried before, all without the risk of touching a production app.",
     "getStarted": "Get Started",
     "viewOnGithub": "View on GitHub"
   },
