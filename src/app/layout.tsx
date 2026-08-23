@@ -7,6 +7,11 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Next.js Supabase Starter",
   description: "Next.js + Supabase + Tailwind SaaS starter kit",
+  icons: {
+    icon: "/icon.svg",
+    shortcut: "/icon.svg",
+    apple: "/icon.svg",
+  },
 };
 
 // Applied before hydration so the correct theme is set on first paint and
