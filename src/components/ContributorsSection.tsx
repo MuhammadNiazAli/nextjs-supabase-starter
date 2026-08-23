@@ -6,6 +6,12 @@ import type { Contributor } from "@/app/api/contributors/route";
 
 const ADMIN_LOGIN = "MuhammadNiazAli";
 
+// Beyond this many non-admin contributors, the grid stops growing the
+// section's height and switches to an inner scroll area instead — 3
+// columns x 3 rows fits on screen without pushing the sticky reveal
+// section (and the rest of the page) taller than the viewport.
+const VISIBLE_ROWS_BEFORE_SCROLL = 9;
+
 type ApiResponse = {
   contributors: Contributor[];
   error?: string;
@@ -64,21 +70,22 @@ export default function ContributorsSection() {
 
   const admin = contributors?.find((c) => c.login === ADMIN_LOGIN) ?? null;
   const others = contributors?.filter((c) => c.login !== ADMIN_LOGIN) ?? [];
+  const needsScroll = others.length > VISIBLE_ROWS_BEFORE_SCROLL;
 
   return (
     <section
       ref={rootRef}
-      className="contributors-reveal sticky top-0 z-10 flex flex-col justify-center overflow-hidden rounded-t-[2.5rem] border-t border-primary/20 bg-gray-950 px-6 py-20 shadow-[0_-25px_60px_-25px_rgba(0,0,0,0.65)]"
+      className="contributors-reveal sticky top-0 z-10 flex flex-col justify-center overflow-hidden rounded-t-[2.5rem] border-t border-primary/20 bg-gray-950 px-6 py-16 shadow-[0_-25px_60px_-25px_rgba(0,0,0,0.65)]"
     >
       {/* Soft radial glow behind the heading, purely decorative */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 [background:radial-gradient(60%_45%_at_50%_0%,rgba(79,70,229,0.22),transparent)]"
+        className="pointer-events-none absolute inset-0 [background:radial-gradient(60%_45%_at_50%_0%,rgba(79,70,229,0.18),transparent)]"
       />
 
-      <div className="relative mx-auto w-full max-w-5xl">
+      <div className="relative mx-auto w-full max-w-3xl">
         <div
-          className={`mb-14 text-center transition-all duration-700 ease-out ${
+          className={`mb-10 text-center transition-all duration-700 ease-out ${
             visible ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"
           }`}
         >
@@ -86,22 +93,22 @@ export default function ContributorsSection() {
             {t("home.contributors.eyebrow")}
           </p>
           <div className="flex items-center justify-center gap-3">
-            <h2 className="text-3xl font-bold text-white sm:text-4xl">
+            <h2 className="text-2xl font-bold text-white sm:text-3xl">
               {t("home.contributors.title")}
             </h2>
             {contributors && (
-              <span className="inline-flex h-7 min-w-[1.75rem] items-center justify-center rounded-full bg-primary px-2 text-sm font-semibold text-white">
+              <span className="inline-flex h-6 min-w-[1.5rem] items-center justify-center rounded-full bg-primary px-2 text-xs font-semibold text-white">
                 {contributors.length}
               </span>
             )}
           </div>
-          <p className="mx-auto mt-3 max-w-xl text-gray-400">
+          <p className="mx-auto mt-3 max-w-md text-sm text-gray-400">
             {t("home.contributors.subtitle")}
           </p>
         </div>
 
         {error && (
-          <div className="mx-auto max-w-md rounded-2xl border border-gray-800 bg-gray-900/60 p-8 text-center text-gray-400">
+          <div className="mx-auto max-w-md rounded-2xl border border-gray-800 bg-gray-900/60 p-8 text-center text-sm text-gray-400">
             {t("home.contributors.error")}
           </div>
         )}
@@ -109,7 +116,7 @@ export default function ContributorsSection() {
         {!error && !contributors && <ContributorsSkeleton />}
 
         {!error && contributors && contributors.length === 0 && (
-          <div className="mx-auto max-w-md rounded-2xl border border-gray-800 bg-gray-900/60 p-8 text-center text-gray-400">
+          <div className="mx-auto max-w-md rounded-2xl border border-gray-800 bg-gray-900/60 p-8 text-center text-sm text-gray-400">
             {t("home.contributors.empty")}
           </div>
         )}
@@ -125,10 +132,18 @@ export default function ContributorsSection() {
             )}
 
             {others.length > 0 && (
-              <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
-                {others.map((c) => (
-                  <ContributorCard key={c.login} contributor={c} />
-                ))}
+              <div
+                className={
+                  needsScroll
+                    ? "contributors-scroll max-h-[300px] overflow-y-auto pr-1"
+                    : ""
+                }
+              >
+                <div className="grid grid-cols-3 gap-3">
+                  {others.map((c) => (
+                    <ContributorCard key={c.login} contributor={c} />
+                  ))}
+                </div>
               </div>
             )}
           </div>
@@ -146,30 +161,30 @@ function AdminCard({
   badge: string;
 }) {
   return (
-    <div className="mb-10 flex justify-center">
+    <div className="mb-8 flex justify-center">
       <a
         href={contributor.htmlUrl}
         target="_blank"
         rel="noopener noreferrer"
-        className="group flex flex-col items-center rounded-3xl border border-primary/40 bg-gradient-to-b from-primary/10 to-transparent px-10 py-8 text-center shadow-[0_0_45px_-10px_rgba(79,70,229,0.55)] transition-transform duration-300 hover:-translate-y-1"
+        className="group flex flex-col items-center rounded-2xl border border-primary/40 bg-gradient-to-b from-primary/10 to-transparent px-8 py-6 text-center shadow-[0_0_30px_-10px_rgba(79,70,229,0.5)] transition-transform duration-300 hover:-translate-y-1"
       >
         <div className="relative">
-          <div className="absolute -inset-1.5 rounded-full bg-primary/40 blur-md transition-opacity duration-300 group-hover:opacity-90" />
+          <div className="absolute -inset-1 rounded-full bg-primary/40 blur-md transition-opacity duration-300 group-hover:opacity-90" />
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={contributor.avatarUrl}
             alt={contributor.login}
-            className="relative h-24 w-24 rounded-full border-2 border-primary object-cover"
+            className="relative h-20 w-20 rounded-full border-2 border-primary object-cover"
             loading="lazy"
           />
         </div>
-        <span className="mt-4 inline-flex items-center rounded-full bg-primary/20 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-indigo-200">
+        <span className="mt-3 inline-flex items-center rounded-full bg-primary/20 px-3 py-1 text-[11px] font-semibold uppercase tracking-wide text-indigo-200">
           {badge}
         </span>
-        <p className="mt-2 text-lg font-semibold text-white">
+        <p className="mt-2 text-base font-semibold text-white">
           {contributor.name || contributor.login}
         </p>
-        <p className="text-sm text-gray-400">@{contributor.login}</p>
+        <p className="text-xs text-gray-400">@{contributor.login}</p>
       </a>
     </div>
   );
@@ -181,38 +196,36 @@ function ContributorCard({ contributor }: { contributor: Contributor }) {
       href={contributor.htmlUrl}
       target="_blank"
       rel="noopener noreferrer"
-      className="group flex flex-col items-center rounded-2xl border border-gray-800 bg-gray-900/60 px-4 py-6 text-center transition-all duration-300 hover:-translate-y-1 hover:border-primary/50 hover:bg-gray-900"
+      className="group flex flex-col items-center rounded-xl border border-gray-800 bg-gray-900/60 px-2 py-3 text-center transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/50 hover:bg-gray-900"
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={contributor.avatarUrl}
         alt={contributor.login}
-        className="h-14 w-14 rounded-full border border-gray-700 object-cover transition-transform duration-300 group-hover:scale-105"
+        className="h-9 w-9 rounded-full border border-gray-700 object-cover transition-transform duration-300 group-hover:scale-105"
         loading="lazy"
       />
-      <p className="mt-3 w-full truncate text-sm font-semibold text-white">
+      <p className="mt-1.5 w-full truncate text-xs font-semibold text-white">
         {contributor.name || contributor.login}
       </p>
-      <p className="w-full truncate text-xs text-gray-500">@{contributor.login}</p>
+      <p className="w-full truncate text-[10px] text-gray-500">
+        @{contributor.login}
+      </p>
     </a>
   );
 }
 
 function ContributorsSkeleton() {
   return (
-    <div
-      className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4"
-      role="status"
-      aria-live="polite"
-    >
-      {Array.from({ length: 4 }).map((_, i) => (
+    <div className="grid grid-cols-3 gap-3" role="status" aria-live="polite">
+      {Array.from({ length: 6 }).map((_, i) => (
         <div
           key={i}
-          className="flex animate-pulse flex-col items-center rounded-2xl border border-gray-800 bg-gray-900/60 px-4 py-6"
+          className="flex animate-pulse flex-col items-center rounded-xl border border-gray-800 bg-gray-900/60 px-2 py-3"
         >
-          <div className="h-14 w-14 rounded-full bg-gray-800" />
-          <div className="mt-3 h-3 w-16 rounded bg-gray-800" />
-          <div className="mt-2 h-2 w-12 rounded bg-gray-800" />
+          <div className="h-9 w-9 rounded-full bg-gray-800" />
+          <div className="mt-1.5 h-2.5 w-12 rounded bg-gray-800" />
+          <div className="mt-1.5 h-2 w-9 rounded bg-gray-800" />
         </div>
       ))}
     </div>

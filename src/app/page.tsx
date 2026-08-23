@@ -144,16 +144,8 @@ export default function Home() {
             const isRight = idx % 2 === 1;
 
             const card = (
-              <div
-                className={`rounded-2xl border border-gray-200 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-primary/40 hover:shadow-lg hover:shadow-primary/5 dark:border-gray-800 dark:bg-gray-900 dark:shadow-black/20 ${
-                  isRight ? "md:text-right" : ""
-                }`}
-              >
-                <div
-                  className={`mb-3 inline-flex h-9 w-9 items-center justify-center rounded-lg bg-primary/10 text-primary ${
-                    isRight ? "md:ml-auto" : ""
-                  }`}
-                >
+              <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-primary/40 hover:shadow-lg hover:shadow-primary/5 dark:border-gray-800 dark:bg-gray-900 dark:shadow-black/20">
+                <div className="mb-3 inline-flex h-9 w-9 items-center justify-center rounded-lg bg-primary/10 text-primary">
                   {STEP_ICONS[step]}
                 </div>
                 <h3 className="font-semibold mb-1.5 text-gray-900 dark:text-white">
