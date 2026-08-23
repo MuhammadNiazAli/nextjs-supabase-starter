@@ -19,35 +19,10 @@ body {
   color-scheme: dark;
 }
 
-/* Brand scrollbar — matches primary indigo (#4f46e5), light + dark mode */
-
-/* Firefox */
-html {
-  scrollbar-width: thin;
-  scrollbar-color: #4f46e5 transparent;
-}
-
-html.dark {
-  scrollbar-color: #6366f1 rgba(255, 255, 255, 0.06);
-}
-
-/* Chrome, Edge, Safari (WebKit) */
-::-webkit-scrollbar {
-  width: 0px;
-  height: 0px;
-}
-
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-::-webkit-scrollbar-thumb {
-  border-radius: 9999px;
-  border: 0px solid #ffffff00; /* creates the "padding" look around the thumb */
-}
-
-
-
-::-webkit-scrollbar-corner {
-  background: transparent;
+/* Full-viewport height with a safe fallback: browsers that don't
+   understand `dvh` simply ignore that line and keep the `vh` one, so
+   this never collapses to 0 height on older mobile browsers. */
+.contributors-reveal {
+  min-height: 100vh;
+  min-height: 100dvh;
 }

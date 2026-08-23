@@ -4,6 +4,79 @@ import { useLanguage } from "@/lib/i18n/LanguageContext";
 
 const STEP_KEYS = [1, 2, 3, 4, 5, 6] as const;
 
+// One small hand-drawn icon per step so the timeline reads at a glance
+// instead of being six identical numbered circles.
+const STEP_ICONS: Record<(typeof STEP_KEYS)[number], JSX.Element> = {
+  1: (
+    <svg viewBox="0 0 24 24" fill="none" className="h-5 w-5" aria-hidden="true">
+      <circle cx="12" cy="12" r="8.5" stroke="currentColor" strokeWidth="1.7" />
+      <path d="M12 8v4.5" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" />
+      <circle cx="12" cy="15.3" r="0.9" fill="currentColor" />
+    </svg>
+  ),
+  2: (
+    <svg viewBox="0 0 24 24" fill="none" className="h-5 w-5" aria-hidden="true">
+      <circle cx="7" cy="6" r="2.1" stroke="currentColor" strokeWidth="1.7" />
+      <circle cx="17" cy="6" r="2.1" stroke="currentColor" strokeWidth="1.7" />
+      <circle cx="12" cy="17.5" r="2.1" stroke="currentColor" strokeWidth="1.7" />
+      <path
+        d="M7 8.1v2.4a2 2 0 0 0 2 2h1.5m6.5-4.4v2.4a2 2 0 0 1-2 2h-1.5m0 0v3"
+        stroke="currentColor"
+        strokeWidth="1.7"
+        strokeLinecap="round"
+      />
+    </svg>
+  ),
+  3: (
+    <svg viewBox="0 0 24 24" fill="none" className="h-5 w-5" aria-hidden="true">
+      <path
+        d="M4 15.5v2.3A2.2 2.2 0 0 0 6.2 20h11.6a2.2 2.2 0 0 0 2.2-2.2v-2.3M12 4v10.2m0 0-3.6-3.6M12 14.2l3.6-3.6"
+        stroke="currentColor"
+        strokeWidth="1.7"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  ),
+  4: (
+    <svg viewBox="0 0 24 24" fill="none" className="h-5 w-5" aria-hidden="true">
+      <path
+        d="m9 8-4 4 4 4m6-8 4 4-4 4M13.5 6l-3 12"
+        stroke="currentColor"
+        strokeWidth="1.7"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  ),
+  5: (
+    <svg viewBox="0 0 24 24" fill="none" className="h-5 w-5" aria-hidden="true">
+      <circle cx="6.5" cy="6" r="2" stroke="currentColor" strokeWidth="1.7" />
+      <circle cx="6.5" cy="18" r="2" stroke="currentColor" strokeWidth="1.7" />
+      <circle cx="17.5" cy="6" r="2" stroke="currentColor" strokeWidth="1.7" />
+      <path
+        d="M6.5 8v8M6.5 8a5 5 0 0 0 5 5H15m0 0-2-2m2 2-2 2"
+        stroke="currentColor"
+        strokeWidth="1.7"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  ),
+  6: (
+    <svg viewBox="0 0 24 24" fill="none" className="h-5 w-5" aria-hidden="true">
+      <circle cx="12" cy="12" r="8.5" stroke="currentColor" strokeWidth="1.7" />
+      <path
+        d="m8.3 12.3 2.4 2.4 5-5.2"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  ),
+};
+
 export default function Home() {
   const { t } = useLanguage();
   const repoUrl = "https://github.com/MuhammadNiazAli/nextjs-supabase-starter";
@@ -45,10 +118,14 @@ export default function Home() {
         </div>
       </div>
 
-      {/* How to contribute */}
-      <section className="px-6 py-20 max-w-5xl mx-auto">
-        <div className="text-center mb-12">
-          <h2 className="text-2xl sm:text-3xl font-bold mb-3">
+      {/* How to contribute — premium alternating timeline, capped at 1000px
+          so the content stays readable on wide screens. */}
+      <section className="px-6 py-24">
+        <div className="mx-auto mb-16 max-w-[1000px] text-center">
+          <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-primary">
+            {t("home.contribute.eyebrow")}
+          </p>
+          <h2 className="text-3xl sm:text-4xl font-bold mb-4">
             {t("home.contribute.title")}
           </h2>
           <p className="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
@@ -56,53 +133,70 @@ export default function Home() {
           </p>
         </div>
 
-        <div className="relative max-w-2xl mx-auto">
-          {STEP_KEYS.map((step, idx) => (
-            <div key={step}>
-              <div className="flex items-start gap-5">
-                <div className="flex-shrink-0 w-11 h-11 rounded-full bg-primary text-white flex items-center justify-center text-sm font-semibold shadow-sm shadow-primary/40">
-                  {step}
+        <ol className="relative mx-auto max-w-[1000px]">
+          {/* Center timeline rail. Left-aligned on mobile, centered on md+. */}
+          <div
+            aria-hidden="true"
+            className="absolute left-6 top-1 bottom-1 w-px bg-gradient-to-b from-primary/50 via-primary/20 to-transparent md:left-1/2 md:-translate-x-1/2"
+          />
+
+          {STEP_KEYS.map((step, idx) => {
+            const isRight = idx % 2 === 1;
+
+            const card = (
+              <div
+                className={`rounded-2xl border border-gray-200 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-primary/40 hover:shadow-lg hover:shadow-primary/5 dark:border-gray-800 dark:bg-gray-900 dark:shadow-black/20 ${
+                  isRight ? "md:text-right" : ""
+                }`}
+              >
+                <div
+                  className={`mb-3 inline-flex h-9 w-9 items-center justify-center rounded-lg bg-primary/10 text-primary ${
+                    isRight ? "md:ml-auto" : ""
+                  }`}
+                >
+                  {STEP_ICONS[step]}
                 </div>
-                <div className="flex-1 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-2xl shadow-sm shadow-gray-200/50 dark:shadow-black/30 p-6">
-                  <h3 className="font-semibold mb-2">
-                    {t(`home.contribute.step${step}Title`)}
-                  </h3>
-                  <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
-                    {t(`home.contribute.step${step}Desc`)}
-                  </p>
-                </div>
+                <h3 className="font-semibold mb-1.5 text-gray-900 dark:text-white">
+                  {t(`home.contribute.step${step}Title`)}
+                </h3>
+                <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                  {t(`home.contribute.step${step}Desc`)}
+                </p>
               </div>
+            );
 
-              {idx < STEP_KEYS.length - 1 && (
-                <div className="flex flex-col items-center w-11">
-                  <div className="w-px h-3 bg-primary/30" />
-                  <svg
-                    width="16"
-                    height="16"
-                    viewBox="0 0 16 16"
-                    fill="none"
-                    aria-hidden="true"
-                    className="text-primary/50 dark:text-primary/60"
-                  >
-                    <path
-                      d="M8 2v10.5M8 12.5l-4-4M8 12.5l4-4"
-                      stroke="currentColor"
-                      strokeWidth="1.6"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                  <div className="w-px h-3 bg-primary/30" />
+            return (
+              <li key={step} className="relative mb-10 last:mb-0 md:mb-14">
+                <div className="grid grid-cols-[3rem_1fr] items-start gap-x-5 md:grid-cols-[1fr_3rem_1fr] md:items-center md:gap-x-10">
+                  {/* Desktop left slot */}
+                  <div className="hidden md:col-start-1 md:row-start-1 md:block">
+                    {!isRight && card}
+                  </div>
+
+                  {/* Number badge — mobile col 1, desktop col 2 (on the rail) */}
+                  <div className="col-start-1 row-start-1 flex justify-center md:col-start-2">
+                    <div className="relative z-10 flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-primary text-base font-bold text-white shadow-md shadow-primary/40 ring-4 ring-white dark:ring-gray-950">
+                      {step}
+                    </div>
+                  </div>
+
+                  {/* Desktop right slot */}
+                  <div className="hidden md:col-start-3 md:row-start-1 md:block">
+                    {isRight && card}
+                  </div>
+
+                  {/* Mobile content — single column next to the badge */}
+                  <div className="col-start-2 row-start-1 md:hidden">{card}</div>
                 </div>
-              )}
-            </div>
-          ))}
-        </div>
+              </li>
+            );
+          })}
+        </ol>
 
-        <div className="text-center mt-10">
+        <div className="text-center mt-14">
           <a
             href={`${repoUrl}/issues`}
-            className="inline-block bg-primary text-white px-5 py-2 rounded-md hover:bg-primary/90 transition shadow-sm shadow-primary/30"
+            className="inline-block bg-primary text-white px-6 py-2.5 rounded-md hover:bg-primary/90 transition shadow-sm shadow-primary/30 font-medium"
           >
             {t("home.contribute.cta")}
           </a>
