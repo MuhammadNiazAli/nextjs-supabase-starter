@@ -14,6 +14,8 @@ export default function ForgotPasswordPage() {
     e.preventDefault();
     setError(null);
     setLoading(true);
+    // same redirect target as the dashboard reset flow, supabase sends the user
+    // straight to update-password once they click the email link
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
       redirectTo: `${window.location.origin}/update-password`,
     });
@@ -34,7 +36,7 @@ export default function ForgotPasswordPage() {
             role="status"
             className="text-green-600 text-sm bg-green-50 dark:bg-green-950/40 border border-green-200 dark:border-green-900 rounded-lg px-3 py-3"
           >
-            Password reset email sent — check your inbox.
+            Reset link sent. Check your inbox.
           </p>
         ) : (
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">

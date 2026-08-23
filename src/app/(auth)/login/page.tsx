@@ -33,6 +33,7 @@ export default function LoginPage() {
     if (error) setError(error.message);
   };
 
+  // same oauth pattern as google, just a different provider name
   const handleGithubLogin = async () => {
     setError(null);
     const { error } = await supabase.auth.signInWithOAuth({
@@ -151,4 +152,4 @@ export default function LoginPage() {
       </div>
     </div>
   );
-}
+} 
