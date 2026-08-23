@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { supabase } from "@/lib/supabaseClient";
 import PasswordInput from "@/components/PasswordInput";
+import Spinner from "@/components/Spinner";
 
 export default function UpdatePasswordPage() {
   const [password, setPassword] = useState("");
@@ -58,9 +59,15 @@ export default function UpdatePasswordPage() {
             <button
               type="submit"
               disabled={loading}
-              className="bg-primary hover:bg-primary/90 disabled:opacity-60 disabled:cursor-not-allowed text-white rounded-lg px-3 py-2.5 text-sm font-medium transition shadow-sm shadow-primary/30"
+              className="flex items-center justify-center gap-2 bg-primary hover:bg-primary/90 disabled:opacity-60 disabled:cursor-not-allowed text-white rounded-lg px-3 py-2.5 text-sm font-medium transition shadow-sm shadow-primary/30"
             >
-              {loading ? "Updating..." : "Update Password"}
+              {loading ? (
+                <>
+                  <Spinner /> Updating...
+                </>
+              ) : (
+                "Update Password"
+              )}
             </button>
           </form>
         )}
