@@ -5,7 +5,8 @@
     "signup": "سائن اپ",
     "pricing": "قیمتیں",
     "profile": "پروفائل",
-    "logout": "لاگ آؤٹ"
+    "logout": "لاگ آؤٹ",
+    "toggleMenu": "مینو کھولیں"
   },
   "footer": {
     "text": "Next.js + Supabase کے ساتھ بنایا گیا — MIT لائسنس یافتہ۔ تعاون کا خیرمقدم ہے۔"

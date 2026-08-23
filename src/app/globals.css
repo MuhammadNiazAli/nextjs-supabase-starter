@@ -87,69 +87,49 @@ body {
 
 /* Cards are deliberately smaller than the maintainer spotlight — a
    fixed, modest width so several are visible at once instead of one
-   card filling the whole panel. */
+   card filling the whole panel. No colorful banner behind the avatar
+   any more — a plain card surface with a bigger, centered, rounded
+   avatar and the details sitting underneath. */
 .contrib-swiper .card {
-  flex: 0 0 180px;
-  width: 180px;
+  flex: 0 0 190px;
+  width: 190px;
   overflow: hidden;
-  border-radius: 8px;
+  border-radius: 16px;
   background-color: #141414;
+  border: 1px solid rgba(255, 255, 255, 0.06);
   scroll-snap-align: start;
   text-decoration: none;
+  transition: transform 0.25s ease, border-color 0.25s ease;
 }
 
-/* Short decorative gradient banner. The contributor's avatar sits on
-   top as a small circle — never stretched or cropped strangely,
-   because a circle avatar is always a 1:1 object-fit: cover. */
+.contrib-swiper .card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(245, 158, 11, 0.4);
+}
+
+/* Plain, uncolored header area — just centers the avatar with some
+   breathing room above it. */
 .contrib-swiper .card .card__image {
-  height: 76px;
+  height: auto;
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   justify-content: center;
+  padding-top: 22px;
 }
 
 .contrib-swiper .card .card__avatar {
-  width: 56px;
-  height: 56px;
+  width: 84px;
+  height: 84px;
   border-radius: 50%;
   object-fit: cover;
   object-position: center;
-  transform: translateY(28px);
-  border: 3px solid #141414;
+  border: 3px solid rgba(255, 255, 255, 0.08);
   background-color: #141414;
+  transition: transform 0.25s ease;
 }
 
-.contrib-swiper .card:nth-child(3n + 1) .card__image {
-  background-image: linear-gradient(
-    to right top,
-    #051937,
-    #004d7a,
-    #008793,
-    #00bf72,
-    #a8eb12
-  );
-}
-
-.contrib-swiper .card:nth-child(3n + 2) .card__image {
-  background-image: linear-gradient(
-    to right top,
-    #dc09a5,
-    #ce00b4,
-    #ba00c5,
-    #9c00d8,
-    #6f12eb
-  );
-}
-
-.contrib-swiper .card:nth-child(3n + 3) .card__image {
-  background-image: linear-gradient(
-    to right top,
-    #dc1009,
-    #e55f00,
-    #e49200,
-    #dac000,
-    #c7eb12
-  );
+.contrib-swiper .card:hover .card__avatar {
+  transform: scale(1.05);
 }
 
 .contrib-swiper .card .card__content {
@@ -157,7 +137,7 @@ body {
   flex-direction: column;
   align-items: center;
   gap: 4px;
-  padding: 36px 12px 16px;
+  padding: 14px 12px 18px;
   text-align: center;
 }
 
@@ -191,21 +171,20 @@ body {
   }
 
   .contrib-swiper .card {
-    flex: 0 0 150px;
-    width: 150px;
+    flex: 0 0 160px;
+    width: 160px;
   }
 
   .contrib-swiper .card .card__image {
-    height: 64px;
+    padding-top: 18px;
   }
 
   .contrib-swiper .card .card__avatar {
-    width: 46px;
-    height: 46px;
-    transform: translateY(23px);
+    width: 68px;
+    height: 68px;
   }
 
   .contrib-swiper .card .card__content {
-    padding: 30px 10px 14px;
+    padding: 12px 10px 16px;
   }
 }

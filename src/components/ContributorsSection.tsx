@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useId, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLanguage } from "@/lib/i18n/LanguageContext";
 import type { Contributor } from "@/app/api/contributors/route";
 
@@ -151,11 +151,11 @@ export default function ContributorsSection() {
 }
 
 /**
- * Left-hand maintainer spotlight: avatar clipped into a rotated,
- * three-rounded-corners / one-sharp-corner triangle, with the
+ * Left-hand maintainer spotlight: a large rounded avatar with the
  * "MAINTAINER" badge, display name and a direct GitHub profile link
- * underneath — everything here is data-driven off the repo's admin
- * contributor so it never needs to be hand-edited.
+ * underneath, styled in the maintainer's yellow/amber brand theme —
+ * everything here is data-driven off the repo's admin contributor so
+ * it never needs to be hand-edited.
  */
 function MaintainerSpotlight({
   contributor,
@@ -166,37 +166,21 @@ function MaintainerSpotlight({
   badge: string;
   viewGithubLabel: string;
 }) {
-  const rawId = useId();
-  const clipId = `maintainer-shape-${rawId.replace(/[^a-zA-Z0-9]/g, "")}`;
-
   return (
-    <div className="flex flex-col items-center justify-center gap-5 rounded-3xl border border-primary/30 bg-gradient-to-b from-primary/10 to-transparent px-6 py-10 text-center shadow-[0_0_40px_-15px_rgba(79,70,229,0.55)]">
-      <div className="relative h-48 w-48 -rotate-6 sm:h-56 sm:w-56">
-        {/* Ambient glow behind the shaped avatar */}
+    <div className="group flex flex-col items-center justify-center gap-5 rounded-3xl border border-amber-400/30 bg-gradient-to-b from-amber-400/10 to-transparent px-6 py-10 text-center shadow-[0_0_40px_-15px_rgba(245,158,11,0.55)] transition-shadow duration-300 hover:shadow-[0_0_55px_-12px_rgba(245,158,11,0.7)]">
+      <div className="relative h-52 w-52 sm:h-64 sm:w-64">
+        {/* Ambient glow behind the avatar */}
         <div
           aria-hidden="true"
-          className="absolute -inset-6 rounded-full bg-primary/30 blur-2xl"
+          className="absolute -inset-6 rounded-full bg-amber-400/30 blur-2xl transition-opacity duration-300 group-hover:opacity-80"
         />
 
-        {/* Reusable clip-path: a rounded triangle with one sharp corner,
-            defined in objectBoundingBox units so it scales with whatever
-            box it's applied to instead of being pinned to fixed pixels.
-            Rounding is kept light (r ≈ 9% of each edge) so the shape
-            reads clearly as a triangle instead of a rounded blob. */}
-        <svg width="0" height="0" className="absolute" aria-hidden="true">
-          <defs>
-            <clipPath id={clipId} clipPathUnits="objectBoundingBox">
-              <path d="M0.544,0.129 L0.906,0.771 Q0.95,0.85 0.86,0.85 L0.05,0.85 L0.456,0.129 Q0.5,0.05 0.544,0.129 Z" />
-            </clipPath>
-          </defs>
-        </svg>
-
-        {/* Colored frame, same shape, sitting just behind the photo so a
-            thin ring of color shows all the way around it */}
+        {/* Colored ring frame, sitting just behind the photo so a thin
+            band of the maintainer's amber/yellow brand color shows all
+            the way around it */}
         <div
           aria-hidden="true"
-          className="absolute inset-0 bg-gradient-to-br from-primary via-indigo-400 to-primary"
-          style={{ clipPath: `url(#${clipId})` }}
+          className="absolute inset-0 rounded-full bg-gradient-to-br from-amber-300 via-yellow-400 to-amber-500 transition-transform duration-300 group-hover:scale-[1.03]"
         />
 
         {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -204,12 +188,11 @@ function MaintainerSpotlight({
           src={contributor.avatarUrl}
           alt={contributor.login}
           loading="lazy"
-          className="absolute inset-1 h-[calc(100%-8px)] w-[calc(100%-8px)] object-cover"
-          style={{ clipPath: `url(#${clipId})` }}
+          className="absolute inset-1 h-[calc(100%-8px)] w-[calc(100%-8px)] rounded-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
         />
       </div>
 
-      <span className="inline-flex items-center rounded-full bg-primary/20 px-3 py-1 text-[11px] font-semibold uppercase tracking-wide text-indigo-200">
+      <span className="inline-flex items-center rounded-full bg-amber-400/20 px-3 py-1 text-[11px] font-semibold uppercase tracking-wide text-amber-200">
         {badge}
       </span>
 
@@ -224,7 +207,7 @@ function MaintainerSpotlight({
         href={contributor.htmlUrl}
         target="_blank"
         rel="noopener noreferrer"
-        className="inline-flex items-center gap-1.5 rounded-full border border-gray-700 bg-gray-900/70 px-3.5 py-1.5 text-xs font-medium text-gray-200 transition-colors hover:border-primary hover:text-white"
+        className="inline-flex items-center gap-1.5 rounded-full border border-gray-700 bg-gray-900/70 px-3.5 py-1.5 text-xs font-medium text-gray-200 transition-colors hover:border-amber-400 hover:text-white"
       >
         <GithubIcon className="h-4 w-4" aria-hidden="true" />
         {viewGithubLabel}
@@ -297,7 +280,7 @@ function ContributorsSkeleton() {
       aria-live="polite"
     >
       <div className="flex animate-pulse flex-col items-center gap-4 rounded-3xl border border-gray-800 bg-gray-900/60 px-6 py-8">
-        <div className="h-48 w-48 rounded-full bg-gray-800 sm:h-56 sm:w-56" />
+        <div className="h-52 w-52 rounded-full bg-gray-800 sm:h-64 sm:w-64" />
         <div className="h-4 w-20 rounded-full bg-gray-800" />
         <div className="h-4 w-32 rounded bg-gray-800" />
         <div className="h-3 w-24 rounded bg-gray-800" />
