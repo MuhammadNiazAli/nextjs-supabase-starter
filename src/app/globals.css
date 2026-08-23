@@ -54,14 +54,17 @@ body {
    own `.container` utility elsewhere on the site. Card count grows
    with the number of GitHub contributors, so this scroller simply
    keeps getting longer instead of ever running out of room. */
-.contrib-swiper.scroll-1::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+/* Scrollbar fully hidden — the strip still scrolls (drag/swipe/wheel),
+   it just never shows a scrollbar track/thumb in any browser. */
+.contrib-swiper.scroll-1 {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
-.contrib-swiper.scroll-1::-webkit-scrollbar-thumb {
-  border-radius: 20px;
-  background: #888;
+.contrib-swiper.scroll-1::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  background: transparent;
 }
 
 .contrib-swiper * {
@@ -74,16 +77,20 @@ body {
 .contrib-swiper {
   display: flex;
   overflow-x: scroll;
-  padding: 24px;
+  padding: 20px;
   width: 100%;
   scroll-snap-type: x mandatory;
-  scroll-padding-top: 24px;
+  scroll-padding-top: 20px;
   border-radius: 8px;
-  gap: 20px;
+  gap: 16px;
 }
 
+/* Cards are deliberately smaller than the maintainer spotlight — a
+   fixed, modest width so several are visible at once instead of one
+   card filling the whole panel. */
 .contrib-swiper .card {
-  flex: 0 0 100%;
+  flex: 0 0 180px;
+  width: 180px;
   overflow: hidden;
   border-radius: 8px;
   background-color: #141414;
@@ -91,11 +98,25 @@ body {
   text-decoration: none;
 }
 
+/* Short decorative gradient banner. The contributor's avatar sits on
+   top as a small circle — never stretched or cropped strangely,
+   because a circle avatar is always a 1:1 object-fit: cover. */
 .contrib-swiper .card .card__image {
-  flex: 1;
-  height: 140px;
-  background-size: cover;
-  background-position: center;
+  height: 76px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.contrib-swiper .card .card__avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center;
+  transform: translateY(28px);
+  border: 3px solid #141414;
+  background-color: #141414;
 }
 
 .contrib-swiper .card:nth-child(3n + 1) .card__image {
@@ -134,40 +155,57 @@ body {
 .contrib-swiper .card .card__content {
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  padding: 20px;
+  align-items: center;
+  gap: 4px;
+  padding: 36px 12px 16px;
+  text-align: center;
 }
 
 .contrib-swiper .card .card__content .card__title {
-  font-size: 22px;
+  font-size: 14px;
+  font-weight: 600;
   color: #fff;
   text-transform: capitalize;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .contrib-swiper .card .card__content .card__describe {
   color: #fff;
-  font-size: 13px;
-  opacity: 0.75;
+  font-size: 11px;
+  opacity: 0.65;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-/* Small screens: one card still fills the strip edge-to-edge, just
-   with slightly tighter padding so it doesn't feel oversized on a
-   narrow phone viewport. */
+/* Small screens: cards shrink a little further so two can peek at once
+   without ever stretching the avatar image. */
 @media (max-width: 480px) {
   .contrib-swiper {
-    padding: 16px;
-    gap: 14px;
+    padding: 14px;
+    gap: 12px;
+  }
+
+  .contrib-swiper .card {
+    flex: 0 0 150px;
+    width: 150px;
   }
 
   .contrib-swiper .card .card__image {
-    height: 110px;
+    height: 64px;
+  }
+
+  .contrib-swiper .card .card__avatar {
+    width: 46px;
+    height: 46px;
+    transform: translateY(23px);
   }
 
   .contrib-swiper .card .card__content {
-    padding: 14px;
-  }
-
-  .contrib-swiper .card .card__content .card__title {
-    font-size: 18px;
+    padding: 30px 10px 14px;
   }
 }
