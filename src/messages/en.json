@@ -13,9 +13,26 @@
   "home": {
     "titlePrefix": "Welcome to",
     "titleHighlight": "Next.js Supabase Starter",
-    "subtitle": "This starter kit exists so developers have a real, working codebase to practice on — open pull requests, do code reviews, pick up issues, and build features you have never tried before, all without the risk of touching a production app.",
+    "subtitle": "This starter kit gives developers a real, working codebase to practice on. Open pull requests, review code, pick up issues, and build features you have never tried before, all without touching a production app.",
     "getStarted": "Get Started",
-    "viewOnGithub": "View on GitHub"
+    "viewOnGithub": "View on GitHub",
+    "contribute": {
+      "title": "New here? Make your first contribution",
+      "subtitle": "Never sent a pull request before? Follow these steps and you will have one merged today.",
+      "step1Title": "Pick an issue",
+      "step1Desc": "Open the Issues tab on GitHub and choose one labeled \"good first issue\" that you feel confident you can solve.",
+      "step2Title": "Fork the repository",
+      "step2Desc": "Click the Fork button at the top right of the repo. This creates your own copy of the project under your account.",
+      "step3Title": "Clone your fork",
+      "step3Desc": "Copy your fork's URL and run git clone on it to bring the code down to your machine.",
+      "step4Title": "Solve the issue",
+      "step4Desc": "Create a new branch, make the code changes described in the issue, and commit your work with a clear message.",
+      "step5Title": "Push and open a pull request",
+      "step5Desc": "Push your branch to your fork, then open a pull request back to the original repository.",
+      "step6Title": "Get merged and grow",
+      "step6Desc": "Once your PR is reviewed and merged, it counts as a real contribution, shows on your GitHub activity graph, and adds hands-on practice and learning to your profile.",
+      "cta": "Browse open issues"
+    }
   },
   "theme": {
     "toggleLabel": "Toggle dark mode",
