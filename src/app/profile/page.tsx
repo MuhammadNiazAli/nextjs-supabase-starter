@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { supabase } from "@/lib/supabaseClient";
 import type { User } from "@supabase/supabase-js";
+import Spinner from "@/components/Spinner";
 
 const MAX_AVATAR_BYTES = 2 * 1024 * 1024; // 2MB
 
@@ -109,9 +110,9 @@ export default function ProfilePage() {
 
   if (loading)
     return (
-      <p role="status" className="text-center py-16">
-        Loading...
-      </p>
+      <div className="flex justify-center items-center py-16">
+        <Spinner className="h-6 w-6 text-primary" />
+      </div>
     );
 
   if (!user)
@@ -149,8 +150,8 @@ export default function ProfilePage() {
               </div>
             )}
             {uploading && (
-              <div className="absolute inset-0 rounded-full bg-black/40 flex items-center justify-center text-white text-xs">
-                ...
+              <div className="absolute inset-0 rounded-full bg-black/40 flex items-center justify-center text-white">
+                <Spinner className="h-6 w-6" />
               </div>
             )}
           </div>
@@ -159,9 +160,15 @@ export default function ProfilePage() {
             type="button"
             onClick={() => fileInputRef.current?.click()}
             disabled={uploading}
-            className="text-xs font-medium text-primary hover:underline disabled:opacity-60"
+            className="flex items-center gap-1 text-xs font-medium text-primary hover:underline disabled:opacity-60"
           >
-            {uploading ? "Uploading..." : "Change photo"}
+            {uploading ? (
+              <>
+                <Spinner className="h-3 w-3" /> Uploading...
+              </>
+            ) : (
+              "Change photo"
+            )}
           </button>
           <input
             ref={fileInputRef}
@@ -212,9 +219,15 @@ export default function ProfilePage() {
           <button
             type="submit"
             disabled={savingEmail || email === user.email}
-            className="bg-primary hover:bg-primary/90 disabled:opacity-60 disabled:cursor-not-allowed text-white rounded-lg px-3 py-2.5 text-sm font-medium transition shadow-sm shadow-primary/30"
+            className="flex items-center justify-center gap-2 bg-primary hover:bg-primary/90 disabled:opacity-60 disabled:cursor-not-allowed text-white rounded-lg px-3 py-2.5 text-sm font-medium transition shadow-sm shadow-primary/30"
           >
-            {savingEmail ? "Saving..." : "Save changes"}
+            {savingEmail ? (
+              <>
+                <Spinner /> Saving...
+              </>
+            ) : (
+              "Save changes"
+            )}
           </button>
         </form>
       </div>

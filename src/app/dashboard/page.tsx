@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabaseClient";
 import type { User } from "@supabase/supabase-js";
+import Spinner from "@/components/Spinner";
 
 export default function DashboardPage() {
   const [user, setUser] = useState<User | null>(null);
@@ -51,9 +52,9 @@ export default function DashboardPage() {
 
   if (loading)
     return (
-      <p role="status" className="text-center py-16">
-        Loading...
-      </p>
+      <div className="flex justify-center items-center py-16">
+        <Spinner className="h-6 w-6 text-primary" />
+      </div>
     );
 
   if (!user)
@@ -86,9 +87,15 @@ export default function DashboardPage() {
             <button
               onClick={handleResendVerification}
               disabled={verificationLoading}
-              className="self-start text-amber-800 dark:text-amber-300 font-medium underline underline-offset-2 disabled:opacity-60 disabled:cursor-not-allowed"
+              className="self-start flex items-center gap-2 text-amber-800 dark:text-amber-300 font-medium underline underline-offset-2 disabled:opacity-60 disabled:cursor-not-allowed"
             >
-              {verificationLoading ? "Sending..." : "Resend verification email"}
+              {verificationLoading ? (
+                <>
+                  <Spinner /> Sending...
+                </>
+              ) : (
+                "Resend verification email"
+              )}
             </button>
           )}
           {verificationError && (
@@ -129,9 +136,15 @@ export default function DashboardPage() {
           <button
             onClick={handleResetPassword}
             disabled={resetLoading}
-            className="w-full bg-primary hover:bg-primary/90 disabled:opacity-60 disabled:cursor-not-allowed text-white rounded-lg px-3 py-2.5 text-sm font-medium transition shadow-sm shadow-primary/30"
+            className="flex items-center justify-center gap-2 w-full bg-primary hover:bg-primary/90 disabled:opacity-60 disabled:cursor-not-allowed text-white rounded-lg px-3 py-2.5 text-sm font-medium transition shadow-sm shadow-primary/30"
           >
-            {resetLoading ? "Sending..." : "Reset Password"}
+            {resetLoading ? (
+              <>
+                <Spinner /> Sending...
+              </>
+            ) : (
+              "Reset Password"
+            )}
           </button>
         )}
         {resetError && (
