@@ -77,7 +77,10 @@ export default function PricingPage() {
       </div>
 
       {error && (
-        <p className="max-w-sm mx-auto mb-6 text-red-500 text-sm bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900 rounded-lg px-3 py-2 text-center">
+        <p
+          role="alert"
+          className="max-w-sm mx-auto mb-6 text-red-500 text-sm bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900 rounded-lg px-3 py-2 text-center"
+        >
           {error}
         </p>
       )}

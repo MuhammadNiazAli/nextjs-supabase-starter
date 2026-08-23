@@ -1,12 +1,31 @@
 import { NextResponse } from "next/server";
 import { getStripe } from "@/lib/stripe";
 import { getSupabaseAdmin } from "@/lib/supabaseAdmin";
+import { rateLimit, getClientIp } from "@/lib/rateLimit";
 
 // POST /api/checkout
 // Body: { priceId: string, userId: string, email: string }
 // Creates a Stripe Checkout Session for a subscription and returns the URL
 // the client should redirect to.
 export async function POST(request: Request) {
+  const ip = getClientIp(request);
+  const { success, resetAt } = rateLimit(`checkout:${ip}`, {
+    limit: 10,
+    windowMs: 60_000,
+  });
+
+  if (!success) {
+    return NextResponse.json(
+      { error: "Too many requests. Please try again shortly." },
+      {
+        status: 429,
+        headers: {
+          "Retry-After": Math.ceil((resetAt - Date.now()) / 1000).toString(),
+        },
+      }
+    );
+  }
+
   try {
     const { priceId, userId, email } = await request.json();
 
