@@ -12,7 +12,7 @@ export default function Home() {
     <>
       {/* Hero */}
       <div
-        className="relative flex flex-col items-center justify-center text-center px-6 py-32 min-h-[80vh] bg-cover bg-center bg-no-repeat bg-gray-950"
+        className="relative flex flex-col items-center justify-center text-center px-6 h-[600px] bg-cover bg-center bg-no-repeat bg-gray-950"
         style={{ backgroundImage: "url(/assets/home.png)" }}
       >
         {/* Faint bottom fade only, so the image stays fully visible and just
@@ -37,7 +37,7 @@ export default function Home() {
             </a>
             <a
               href={repoUrl}
-              className="border border-white/30 text-white px-5 py-2 rounded-md hover:bg-white/10 transition"
+              className="border border-white/30 text-white px-5 py-2 rounded-md hover:bg-white hover:text-gray-900 hover:border-white transition"
             >
               {t("home.viewOnGithub")}
             </a>
@@ -56,21 +56,45 @@ export default function Home() {
           </p>
         </div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {STEP_KEYS.map((step) => (
-            <div
-              key={step}
-              className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-2xl shadow-sm shadow-gray-200/50 dark:shadow-black/30 p-6 flex flex-col"
-            >
-              <div className="w-9 h-9 rounded-full bg-primary text-white flex items-center justify-center text-sm font-semibold mb-4">
-                {step}
+        <div className="relative max-w-2xl mx-auto">
+          {STEP_KEYS.map((step, idx) => (
+            <div key={step}>
+              <div className="flex items-start gap-5">
+                <div className="flex-shrink-0 w-11 h-11 rounded-full bg-primary text-white flex items-center justify-center text-sm font-semibold shadow-sm shadow-primary/40">
+                  {step}
+                </div>
+                <div className="flex-1 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-2xl shadow-sm shadow-gray-200/50 dark:shadow-black/30 p-6">
+                  <h3 className="font-semibold mb-2">
+                    {t(`home.contribute.step${step}Title`)}
+                  </h3>
+                  <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                    {t(`home.contribute.step${step}Desc`)}
+                  </p>
+                </div>
               </div>
-              <h3 className="font-semibold mb-2">
-                {t(`home.contribute.step${step}Title`)}
-              </h3>
-              <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
-                {t(`home.contribute.step${step}Desc`)}
-              </p>
+
+              {idx < STEP_KEYS.length - 1 && (
+                <div className="flex flex-col items-center w-11">
+                  <div className="w-px h-3 bg-primary/30" />
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="none"
+                    aria-hidden="true"
+                    className="text-primary/50 dark:text-primary/60"
+                  >
+                    <path
+                      d="M8 2v10.5M8 12.5l-4-4M8 12.5l4-4"
+                      stroke="currentColor"
+                      strokeWidth="1.6"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                  <div className="w-px h-3 bg-primary/30" />
+                </div>
+              )}
             </div>
           ))}
         </div>
