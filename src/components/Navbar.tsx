@@ -32,12 +32,12 @@ export default function Navbar() {
   return (
     <nav
       aria-label="Main navigation"
-      className="flex items-center justify-between px-6 py-4 border-b border-gray-200 dark:border-gray-800"
+      className="flex flex-wrap items-center justify-between gap-y-3 px-4 py-3 sm:px-6 sm:py-4 border-b border-gray-200 dark:border-gray-800"
     >
       <Link href="/" className="font-bold text-lg text-primary">
         {t("navbar.brand")}
       </Link>
-      <div className="flex items-center gap-4">
+      <div className="flex flex-wrap items-center justify-end gap-3 sm:gap-4">
         <Link href="/pricing" className="text-sm hover:underline">
           {t("navbar.pricing")}
         </Link>
