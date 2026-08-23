@@ -11,6 +11,12 @@ export default function DashboardPage() {
   const [resetLoading, setResetLoading] = useState(false);
   const [resetError, setResetError] = useState<string | null>(null);
 
+  const [verificationSent, setVerificationSent] = useState(false);
+  const [verificationLoading, setVerificationLoading] = useState(false);
+  const [verificationError, setVerificationError] = useState<string | null>(
+    null
+  );
+
   useEffect(() => {
     supabase.auth.getUser().then(({ data }) => {
       setUser(data.user);
@@ -28,6 +34,19 @@ export default function DashboardPage() {
     setResetLoading(false);
     if (error) setResetError(error.message);
     else setResetSent(true);
+  };
+
+  const handleResendVerification = async () => {
+    if (!user?.email) return;
+    setVerificationLoading(true);
+    setVerificationError(null);
+    const { error } = await supabase.auth.resend({
+      type: "signup",
+      email: user.email,
+    });
+    setVerificationLoading(false);
+    if (error) setVerificationError(error.message);
+    else setVerificationSent(true);
   };
 
   if (loading)
@@ -49,8 +68,36 @@ export default function DashboardPage() {
     .charAt(0)
     .toUpperCase();
 
+  const isEmailVerified = Boolean(user.email_confirmed_at);
+
   return (
-    <div className="flex items-center justify-center px-4 py-16 min-h-[80vh]">
+    <div className="flex flex-col items-center justify-center px-4 py-16 min-h-[80vh]">
+      {!isEmailVerified && (
+        <div
+          role="alert"
+          className="w-full max-w-sm mb-4 flex flex-col gap-2 bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-900 rounded-xl px-4 py-3 text-sm"
+        >
+          <p className="text-amber-800 dark:text-amber-300">
+            {verificationSent
+              ? "Verification email sent — check your inbox."
+              : "Please verify your email address to unlock all features."}
+          </p>
+          {!verificationSent && (
+            <button
+              onClick={handleResendVerification}
+              disabled={verificationLoading}
+              className="self-start text-amber-800 dark:text-amber-300 font-medium underline underline-offset-2 disabled:opacity-60 disabled:cursor-not-allowed"
+            >
+              {verificationLoading ? "Sending..." : "Resend verification email"}
+            </button>
+          )}
+          {verificationError && (
+            <p role="alert" className="text-red-500">
+              {verificationError}
+            </p>
+          )}
+        </div>
+      )}
       <div className="w-full max-w-sm bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-2xl shadow-xl shadow-gray-200/50 dark:shadow-black/30 p-8">
         <div className="flex flex-col items-center text-center mb-6">
           <div className="w-16 h-16 rounded-full bg-primary text-white flex items-center justify-center text-2xl font-semibold mb-4">
