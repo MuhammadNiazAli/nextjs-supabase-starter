@@ -46,3 +46,128 @@ body {
   background-color: rgba(99, 102, 241, 0.5);
   border-radius: 9999px;
 }
+
+/* Contributors swiper — adapted from the Uiverse.io "scroll-1" snap
+   card carousel by edu-amr. Kept in the same shape/format as the
+   original snippet; the only rename is the outer `.container` class,
+   swapped for `.contrib-swiper` so it can never collide with Tailwind's
+   own `.container` utility elsewhere on the site. Card count grows
+   with the number of GitHub contributors, so this scroller simply
+   keeps getting longer instead of ever running out of room. */
+.contrib-swiper.scroll-1::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.contrib-swiper.scroll-1::-webkit-scrollbar-thumb {
+  border-radius: 20px;
+  background: #888;
+}
+
+.contrib-swiper * {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  color: #fff;
+}
+
+.contrib-swiper {
+  display: flex;
+  overflow-x: scroll;
+  padding: 24px;
+  width: 100%;
+  scroll-snap-type: x mandatory;
+  scroll-padding-top: 24px;
+  border-radius: 8px;
+  gap: 20px;
+}
+
+.contrib-swiper .card {
+  flex: 0 0 100%;
+  overflow: hidden;
+  border-radius: 8px;
+  background-color: #141414;
+  scroll-snap-align: start;
+  text-decoration: none;
+}
+
+.contrib-swiper .card .card__image {
+  flex: 1;
+  height: 140px;
+  background-size: cover;
+  background-position: center;
+}
+
+.contrib-swiper .card:nth-child(3n + 1) .card__image {
+  background-image: linear-gradient(
+    to right top,
+    #051937,
+    #004d7a,
+    #008793,
+    #00bf72,
+    #a8eb12
+  );
+}
+
+.contrib-swiper .card:nth-child(3n + 2) .card__image {
+  background-image: linear-gradient(
+    to right top,
+    #dc09a5,
+    #ce00b4,
+    #ba00c5,
+    #9c00d8,
+    #6f12eb
+  );
+}
+
+.contrib-swiper .card:nth-child(3n + 3) .card__image {
+  background-image: linear-gradient(
+    to right top,
+    #dc1009,
+    #e55f00,
+    #e49200,
+    #dac000,
+    #c7eb12
+  );
+}
+
+.contrib-swiper .card .card__content {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 20px;
+}
+
+.contrib-swiper .card .card__content .card__title {
+  font-size: 22px;
+  color: #fff;
+  text-transform: capitalize;
+}
+
+.contrib-swiper .card .card__content .card__describe {
+  color: #fff;
+  font-size: 13px;
+  opacity: 0.75;
+}
+
+/* Small screens: one card still fills the strip edge-to-edge, just
+   with slightly tighter padding so it doesn't feel oversized on a
+   narrow phone viewport. */
+@media (max-width: 480px) {
+  .contrib-swiper {
+    padding: 16px;
+    gap: 14px;
+  }
+
+  .contrib-swiper .card .card__image {
+    height: 110px;
+  }
+
+  .contrib-swiper .card .card__content {
+    padding: 14px;
+  }
+
+  .contrib-swiper .card .card__content .card__title {
+    font-size: 18px;
+  }
+}

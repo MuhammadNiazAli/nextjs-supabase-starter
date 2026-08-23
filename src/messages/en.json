@@ -40,7 +40,8 @@
       "subtitle": "The people who have opened issues, sent pull requests, and helped shape this project.",
       "adminBadge": "Maintainer",
       "error": "Couldn't load contributors from GitHub right now. Please try again in a bit.",
-      "empty": "No contributors to show yet."
+      "empty": "No contributors to show yet.",
+      "viewGithub": "GitHub profile"
     }
   },
   "theme": {
