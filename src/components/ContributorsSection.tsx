@@ -120,7 +120,7 @@ export default function ContributorsSection() {
               visible ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"
             } ${
               admin
-                ? "grid grid-cols-1 items-stretch gap-6 md:grid-cols-[minmax(0,300px)_1fr] md:gap-8"
+                ? "grid grid-cols-1 items-stretch gap-6 md:grid-cols-[minmax(0,380px)_1fr] md:gap-8"
                 : ""
             }`}
           >
@@ -170,26 +170,29 @@ function MaintainerSpotlight({
   const clipId = `maintainer-shape-${rawId.replace(/[^a-zA-Z0-9]/g, "")}`;
 
   return (
-    <div className="flex flex-col items-center justify-center gap-4 rounded-3xl border border-primary/30 bg-gradient-to-b from-primary/10 to-transparent px-6 py-8 text-center shadow-[0_0_40px_-15px_rgba(79,70,229,0.55)]">
-      <div className="relative h-32 w-32 -rotate-6 sm:h-36 sm:w-36">
+    <div className="flex flex-col items-center justify-center gap-5 rounded-3xl border border-primary/30 bg-gradient-to-b from-primary/10 to-transparent px-6 py-10 text-center shadow-[0_0_40px_-15px_rgba(79,70,229,0.55)]">
+      <div className="relative h-48 w-48 -rotate-6 sm:h-56 sm:w-56">
         {/* Ambient glow behind the shaped avatar */}
         <div
           aria-hidden="true"
-          className="absolute -inset-4 rounded-full bg-primary/30 blur-2xl"
+          className="absolute -inset-6 rounded-full bg-primary/30 blur-2xl"
         />
 
         {/* Reusable clip-path: a rounded triangle with one sharp corner,
             defined in objectBoundingBox units so it scales with whatever
-            box it's applied to instead of being pinned to fixed pixels. */}
+            box it's applied to instead of being pinned to fixed pixels.
+            Rounding is kept light (r ≈ 9% of each edge) so the shape
+            reads clearly as a triangle instead of a rounded blob. */}
         <svg width="0" height="0" className="absolute" aria-hidden="true">
           <defs>
             <clipPath id={clipId} clipPathUnits="objectBoundingBox">
-              <path d="M0.586,0.227 L0.839,0.673 Q0.925,0.825 0.75,0.825 L0.075,0.825 L0.414,0.227 Q0.5,0.075 0.586,0.227 Z" />
+              <path d="M0.544,0.129 L0.906,0.771 Q0.95,0.85 0.86,0.85 L0.05,0.85 L0.456,0.129 Q0.5,0.05 0.544,0.129 Z" />
             </clipPath>
           </defs>
         </svg>
 
-        {/* Colored frame, same shape, sitting just behind the photo */}
+        {/* Colored frame, same shape, sitting just behind the photo so a
+            thin ring of color shows all the way around it */}
         <div
           aria-hidden="true"
           className="absolute inset-0 bg-gradient-to-br from-primary via-indigo-400 to-primary"
@@ -201,7 +204,7 @@ function MaintainerSpotlight({
           src={contributor.avatarUrl}
           alt={contributor.login}
           loading="lazy"
-          className="absolute inset-[3px] h-[calc(100%-6px)] w-[calc(100%-6px)] object-cover"
+          className="absolute inset-1 h-[calc(100%-8px)] w-[calc(100%-8px)] object-cover"
           style={{ clipPath: `url(#${clipId})` }}
         />
       </div>
@@ -253,10 +256,15 @@ function ContributorsSwiper({ contributors }: { contributors: Contributor[] }) {
             role="listitem"
             className="card"
           >
-            <div
-              className="card__image"
-              style={{ backgroundImage: `url(${c.avatarUrl})` }}
-            />
+            <div className="card__image">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={c.avatarUrl}
+                alt={c.login}
+                loading="lazy"
+                className="card__avatar"
+              />
+            </div>
             <div className="card__content">
               <span className="card__title">{c.name || c.login}</span>
               <p className="card__describe">
@@ -284,12 +292,12 @@ function GithubIcon(props: React.SVGProps<SVGSVGElement>) {
 function ContributorsSkeleton() {
   return (
     <div
-      className="grid grid-cols-1 gap-6 md:grid-cols-[minmax(0,300px)_1fr] md:gap-8"
+      className="grid grid-cols-1 gap-6 md:grid-cols-[minmax(0,380px)_1fr] md:gap-8"
       role="status"
       aria-live="polite"
     >
       <div className="flex animate-pulse flex-col items-center gap-4 rounded-3xl border border-gray-800 bg-gray-900/60 px-6 py-8">
-        <div className="h-32 w-32 rounded-full bg-gray-800 sm:h-36 sm:w-36" />
+        <div className="h-48 w-48 rounded-full bg-gray-800 sm:h-56 sm:w-56" />
         <div className="h-4 w-20 rounded-full bg-gray-800" />
         <div className="h-4 w-32 rounded bg-gray-800" />
         <div className="h-3 w-24 rounded bg-gray-800" />
