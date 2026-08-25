@@ -15,8 +15,6 @@ export default function ContributorsSection() {
   const { t } = useLanguage();
   const [contributors, setContributors] = useState<Contributor[] | null>(null);
   const [error, setError] = useState(false);
-  const [visible, setVisible] = useState(false);
-  const rootRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -38,55 +36,24 @@ export default function ContributorsSection() {
     };
   }, []);
 
-  // Fades/slides the content in the moment the reveal section scrolls
-  // into view, instead of showing everything already-visible on load.
-  useEffect(() => {
-    const el = rootRef.current;
-    if (!el) return;
-
-    if (typeof IntersectionObserver === "undefined") {
-      setVisible(true);
-      return;
-    }
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setVisible(true);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.15 },
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
-
   const admin = contributors?.find((c) => c.login === ADMIN_LOGIN) ?? null;
   const others = contributors?.filter((c) => c.login !== ADMIN_LOGIN) ?? [];
 
   return (
-    <section
-      ref={rootRef}
-      className="contributors-reveal sticky top-0 z-10 flex flex-col justify-center overflow-hidden rounded-t-[2.5rem] border-t border-primary/20 bg-gray-950 px-4 py-16 sm:px-6"
-    >
+    <section className="contributors-reveal relative flex flex-col justify-center overflow-hidden rounded-t-[2.5rem] border-t border-primary/20 bg-white px-4 py-16 dark:bg-gray-950 sm:px-6">
       {/* Soft radial glow behind the heading, purely decorative */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 [background:radial-gradient(60%_45%_at_50%_0%,rgba(79,70,229,0.18),transparent)]"
+        className="pointer-events-none absolute inset-0 [background:radial-gradient(60%_45%_at_50%_0%,rgba(79,70,229,0.14),transparent)] dark:[background:radial-gradient(60%_45%_at_50%_0%,rgba(79,70,229,0.18),transparent)]"
       />
 
-      <div className="relative mx-auto w-full max-w-4xl">
-        <div
-          className={`mb-10 text-center transition-all duration-700 ease-out ${
-            visible ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"
-          }`}
-        >
-          <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-indigo-300/80">
+      <div className="contrib-fade-in relative mx-auto w-full max-w-4xl">
+        <div className="mb-10 text-center">
+          <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-primary dark:text-indigo-300/80">
             {t("home.contributors.eyebrow")}
           </p>
           <div className="flex items-center justify-center gap-3">
-            <h2 className="text-2xl font-bold text-white sm:text-3xl">
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white sm:text-3xl">
               {t("home.contributors.title")}
             </h2>
             {contributors && (
@@ -95,13 +62,13 @@ export default function ContributorsSection() {
               </span>
             )}
           </div>
-          <p className="mx-auto mt-3 max-w-md text-sm text-gray-400">
+          <p className="mx-auto mt-3 max-w-md text-sm text-gray-600 dark:text-gray-400">
             {t("home.contributors.subtitle")}
           </p>
         </div>
 
         {error && (
-          <div className="mx-auto max-w-md rounded-2xl border border-gray-800 bg-gray-900/60 p-8 text-center text-sm text-gray-400">
+          <div className="mx-auto max-w-md rounded-2xl border border-gray-200 bg-gray-50 p-8 text-center text-sm text-gray-600 dark:border-gray-800 dark:bg-gray-900/60 dark:text-gray-400">
             {t("home.contributors.error")}
           </div>
         )}
@@ -109,23 +76,14 @@ export default function ContributorsSection() {
         {!error && !contributors && <ContributorsSkeleton />}
 
         {!error && contributors && contributors.length === 0 && (
-          <div className="mx-auto max-w-md rounded-2xl border border-gray-800 bg-gray-900/60 p-8 text-center text-sm text-gray-400">
+          <div className="mx-auto max-w-md rounded-2xl border border-gray-200 bg-gray-50 p-8 text-center text-sm text-gray-600 dark:border-gray-800 dark:bg-gray-900/60 dark:text-gray-400">
             {t("home.contributors.empty")}
           </div>
         )}
 
         {!error && contributors && contributors.length > 0 && (
-          <div
-            className={`transition-all delay-100 duration-700 ease-out ${
-              visible ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"
-            } ${
-              admin
-                ? "grid grid-cols-1 items-stretch gap-6 md:grid-cols-[minmax(0,380px)_1fr] md:gap-8"
-                : ""
-            }`}
-          >
-            {/* Maintainer, shown first so it's on top on mobile and on
-                the left on md+ screens. */}
+          <div className="flex flex-col items-center gap-8">
+            {/* Maintainer — a single, perfectly centered card on top. */}
             {admin && (
               <MaintainerSpotlight
                 contributor={admin}
@@ -134,11 +92,12 @@ export default function ContributorsSection() {
               />
             )}
 
+            {/* Everyone else — a horizontal swipeable slider underneath. */}
             {others.length > 0 ? (
               <ContributorsSwiper contributors={others} />
             ) : (
               admin && (
-                <div className="flex items-center justify-center rounded-3xl border border-dashed border-gray-800 p-8 text-center text-sm text-gray-500">
+                <div className="w-full rounded-3xl border border-dashed border-gray-300 p-8 text-center text-sm text-gray-500 dark:border-gray-800 dark:text-gray-500">
                   {t("home.contributors.empty")}
                 </div>
               )
@@ -151,11 +110,10 @@ export default function ContributorsSection() {
 }
 
 /**
- * Left-hand maintainer spotlight: a large rounded avatar with the
+ * Centered maintainer spotlight card: a large rounded avatar with the
  * "MAINTAINER" badge, display name and a direct GitHub profile link
- * underneath, styled in the maintainer's yellow/amber brand theme —
- * everything here is data-driven off the repo's admin contributor so
- * it never needs to be hand-edited.
+ * underneath. Styled in the site's own primary color, on a fixed
+ * #141414 card surface — no yellow glow, no yellow hover border.
  */
 function MaintainerSpotlight({
   contributor,
@@ -167,20 +125,20 @@ function MaintainerSpotlight({
   viewGithubLabel: string;
 }) {
   return (
-    <div className="group flex flex-col items-center justify-center gap-5 rounded-3xl border border-amber-400/30 bg-gradient-to-b from-amber-400/10 to-transparent px-6 py-10 text-center shadow-[0_0_40px_-15px_rgba(245,158,11,0.55)] transition-shadow duration-300 hover:shadow-[0_0_55px_-12px_rgba(245,158,11,0.7)]">
+    <div className="group flex w-full max-w-[380px] flex-col items-center justify-center gap-5 rounded-3xl border border-white/10 bg-[#141414] px-6 py-10 text-center transition-colors duration-300 hover:border-white/20">
       <div className="relative h-52 w-52 sm:h-64 sm:w-64">
-        {/* Ambient glow behind the avatar */}
+        {/* Ambient glow behind the avatar — neutral/primary tinted, not yellow */}
         <div
           aria-hidden="true"
-          className="absolute -inset-6 rounded-full bg-amber-400/30 blur-2xl transition-opacity duration-300 group-hover:opacity-80"
+          className="absolute -inset-6 rounded-full bg-primary/25 blur-2xl transition-opacity duration-300 group-hover:opacity-80"
         />
 
-        {/* Colored ring frame, sitting just behind the photo so a thin
-            band of the maintainer's amber/yellow brand color shows all
-            the way around it */}
+        {/* Ring frame in the site's primary color, sitting just behind
+            the photo so a thin band of brand color shows all the way
+            around it */}
         <div
           aria-hidden="true"
-          className="absolute inset-0 rounded-full bg-gradient-to-br from-amber-300 via-yellow-400 to-amber-500 transition-transform duration-300 group-hover:scale-[1.03]"
+          className="absolute inset-0 rounded-full bg-gradient-to-br from-indigo-400 via-primary to-indigo-600 transition-transform duration-300 group-hover:scale-[1.03]"
         />
 
         {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -192,7 +150,7 @@ function MaintainerSpotlight({
         />
       </div>
 
-      <span className="inline-flex items-center rounded-full bg-amber-400/20 px-3 py-1 text-[11px] font-semibold uppercase tracking-wide text-amber-200">
+      <span className="inline-flex items-center rounded-full bg-primary/15 px-3 py-1 text-[11px] font-semibold uppercase tracking-wide text-indigo-300">
         {badge}
       </span>
 
@@ -207,7 +165,7 @@ function MaintainerSpotlight({
         href={contributor.htmlUrl}
         target="_blank"
         rel="noopener noreferrer"
-        className="inline-flex items-center gap-1.5 rounded-full border border-gray-700 bg-gray-900/70 px-3.5 py-1.5 text-xs font-medium text-gray-200 transition-colors hover:border-amber-400 hover:text-white"
+        className="inline-flex items-center gap-1.5 rounded-full border border-gray-700 bg-black/30 px-3.5 py-1.5 text-xs font-medium text-gray-200 transition-colors hover:border-primary hover:text-white"
       >
         <GithubIcon className="h-4 w-4" aria-hidden="true" />
         {viewGithubLabel}
@@ -217,16 +175,27 @@ function MaintainerSpotlight({
 }
 
 /**
- * Right-hand side: an Uiverse-style (by edu-amr) snap-scrolling card
- * swiper. It renders one card per remaining contributor, so the strip
- * simply keeps growing — never running out of room — as the repo gains
- * more contributors. Styling lives in globals.css under .contrib-swiper.
+ * Horizontal, snap-scrolling swiper strip. One card per remaining
+ * contributor — swipe/drag on touch and trackpads, or use the arrow
+ * buttons on desktop. Grows however many contributors there are; it
+ * never runs out of room since it just keeps scrolling sideways.
  */
 function ContributorsSwiper({ contributors }: { contributors: Contributor[] }) {
+  const trackRef = useRef<HTMLDivElement>(null);
+
+  const scrollByCards = (direction: 1 | -1) => {
+    const el = trackRef.current;
+    if (!el) return;
+    const card = el.querySelector<HTMLElement>("[data-card]");
+    const step = (card?.offsetWidth ?? 170) + 16;
+    el.scrollBy({ left: step * 2 * direction, behavior: "smooth" });
+  };
+
   return (
-    <div className="contrib-swiper-panel rounded-3xl border border-gray-800 bg-gray-900/40 p-2 sm:p-3">
+    <div className="contrib-swiper-panel relative w-full rounded-3xl border border-gray-200 bg-gray-50 p-2 dark:border-gray-800 dark:bg-gray-900/40 sm:p-3">
       <div
-        className="contrib-swiper scroll-1"
+        ref={trackRef}
+        className="contrib-swiper"
         role="list"
         aria-label="Contributors"
       >
@@ -237,6 +206,7 @@ function ContributorsSwiper({ contributors }: { contributors: Contributor[] }) {
             target="_blank"
             rel="noopener noreferrer"
             role="listitem"
+            data-card
             className="card"
           >
             <div className="card__image">
@@ -260,7 +230,44 @@ function ContributorsSwiper({ contributors }: { contributors: Contributor[] }) {
           </a>
         ))}
       </div>
+
+      {/* Desktop swipe controls — hidden on touch-first small screens
+          where the drag-to-swipe gesture is the primary interaction. */}
+      {contributors.length > 2 && (
+        <>
+          <button
+            type="button"
+            onClick={() => scrollByCards(-1)}
+            aria-label="Scroll contributors left"
+            className="absolute left-1 top-1/2 z-10 hidden -translate-y-1/2 items-center justify-center rounded-full border border-gray-200 bg-white/90 p-2 text-gray-700 shadow-sm transition hover:scale-105 hover:border-primary hover:text-primary dark:border-gray-700 dark:bg-black/60 dark:text-gray-200 dark:hover:text-white sm:flex"
+          >
+            <ChevronIcon className="h-4 w-4 rotate-180" aria-hidden="true" />
+          </button>
+          <button
+            type="button"
+            onClick={() => scrollByCards(1)}
+            aria-label="Scroll contributors right"
+            className="absolute right-1 top-1/2 z-10 hidden -translate-y-1/2 items-center justify-center rounded-full border border-gray-200 bg-white/90 p-2 text-gray-700 shadow-sm transition hover:scale-105 hover:border-primary hover:text-primary dark:border-gray-700 dark:bg-black/60 dark:text-gray-200 dark:hover:text-white sm:flex"
+          >
+            <ChevronIcon className="h-4 w-4" aria-hidden="true" />
+          </button>
+        </>
+      )}
     </div>
+  );
+}
+
+function ChevronIcon(props: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" {...props}>
+      <path
+        d="m9 6 6 6-6 6"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
   );
 }
 
@@ -274,23 +281,19 @@ function GithubIcon(props: React.SVGProps<SVGSVGElement>) {
 
 function ContributorsSkeleton() {
   return (
-    <div
-      className="grid grid-cols-1 gap-6 md:grid-cols-[minmax(0,380px)_1fr] md:gap-8"
-      role="status"
-      aria-live="polite"
-    >
-      <div className="flex animate-pulse flex-col items-center gap-4 rounded-3xl border border-gray-800 bg-gray-900/60 px-6 py-8">
-        <div className="h-52 w-52 rounded-full bg-gray-800 sm:h-64 sm:w-64" />
-        <div className="h-4 w-20 rounded-full bg-gray-800" />
-        <div className="h-4 w-32 rounded bg-gray-800" />
-        <div className="h-3 w-24 rounded bg-gray-800" />
-        <div className="h-7 w-28 rounded-full bg-gray-800" />
+    <div className="flex w-full flex-col items-center gap-8">
+      <div className="flex w-full max-w-[380px] animate-pulse flex-col items-center gap-4 rounded-3xl border border-gray-200 bg-gray-50 px-6 py-8 dark:border-gray-800 dark:bg-gray-900/60">
+        <div className="h-52 w-52 rounded-full bg-gray-200 dark:bg-gray-800 sm:h-64 sm:w-64" />
+        <div className="h-4 w-20 rounded-full bg-gray-200 dark:bg-gray-800" />
+        <div className="h-4 w-32 rounded bg-gray-200 dark:bg-gray-800" />
+        <div className="h-3 w-24 rounded bg-gray-200 dark:bg-gray-800" />
+        <div className="h-7 w-28 rounded-full bg-gray-200 dark:bg-gray-800" />
       </div>
-      <div className="flex animate-pulse gap-5 overflow-hidden rounded-3xl border border-gray-800 bg-gray-900/40 p-6">
-        {Array.from({ length: 3 }).map((_, i) => (
+      <div className="flex w-full animate-pulse gap-5 overflow-hidden rounded-3xl border border-gray-200 bg-gray-50 p-6 dark:border-gray-800 dark:bg-gray-900/40">
+        {Array.from({ length: 4 }).map((_, i) => (
           <div
             key={i}
-            className="h-48 w-full flex-shrink-0 rounded-lg bg-gray-800"
+            className="h-48 w-full flex-shrink-0 rounded-lg bg-gray-200 dark:bg-gray-800"
           />
         ))}
       </div>
