@@ -147,14 +147,14 @@ export default function Home() {
             const isRight = idx % 2 === 1;
 
             const card = (
-              <div className="rounded-2xl border border-gray-200 bg-white p-8 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-primary/40 hover:shadow-lg hover:shadow-primary/5 dark:border-gray-800 dark:bg-gray-900 dark:shadow-black/20">
-                <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary">
+              <div className="rounded-2xl border border-gray-200 bg-white p-8 shadow-md shadow-gray-200/60 transition-all duration-300 hover:-translate-y-1 hover:border-primary/50 hover:shadow-lg hover:shadow-primary/10 dark:border-gray-700 dark:bg-gray-900 dark:shadow-lg dark:shadow-black/30 dark:hover:border-primary/50">
+                <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary dark:bg-primary/20 dark:text-indigo-300">
                   {STEP_ICONS[step]}
                 </div>
                 <h3 className="text-lg font-semibold mb-2 text-gray-900 dark:text-white">
                   {t(`home.contribute.step${step}Title`)}
                 </h3>
-                <p className="text-base text-gray-600 dark:text-gray-400 leading-relaxed">
+                <p className="text-base text-gray-600 dark:text-gray-300 leading-relaxed">
                   {t(`home.contribute.step${step}Desc`)}
                 </p>
               </div>

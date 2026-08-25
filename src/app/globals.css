@@ -50,6 +50,31 @@ body {
   min-height: 100dvh;
 }
 
+/* One-time fade/rise on mount — NOT tied to scroll position. Runs as
+   soon as the section paints, the same way .footer-col does above, so
+   there's still a bit of life to the section without re-triggering or
+   scaling to 0 as the user scrolls past it. */
+@keyframes contribFadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.contrib-fade-in {
+  animation: contribFadeInUp 0.7s ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .contrib-fade-in {
+    animation: none;
+  }
+}
+
 /* Thin, on-brand scrollbar for the inner-scrolling contributors grid
    once there are more than 9 non-admin contributors to show. */
 .contributors-scroll {
@@ -70,10 +95,10 @@ body {
   border-radius: 9999px;
 }
 
-/* Contributors panel — a fluid grid instead of a fixed-width scroller,
-   so a handful of cards stretch to fill the panel width with no dead
-   space on the right, and it simply wraps onto extra rows once there
-   are enough contributors to need them. */
+/* Contributors panel — a real horizontal swiper: one row of fixed-width
+   cards in a snap-scrolling track. Swipe/drag on touch and trackpads,
+   or use the arrow buttons rendered next to it. Never runs out of
+   room — it just keeps scrolling sideways as more contributors join. */
 .contrib-swiper * {
   box-sizing: border-box;
   margin: 0;
@@ -82,20 +107,29 @@ body {
 }
 
 .contrib-swiper {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
-  align-content: start;
+  display: flex;
+  align-items: stretch;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x proximity;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
   padding: 20px;
   width: 100%;
   border-radius: 8px;
   gap: 16px;
 }
 
+.contrib-swiper::-webkit-scrollbar {
+  display: none;
+}
+
 /* Plain card surface with a bigger, centered, rounded avatar and the
-   details sitting underneath — stretches to fill its grid cell instead
-   of a fixed width, so the row never leaves empty space. */
+   details sitting underneath — a fixed width so the strip actually
+   scrolls sideways instead of wrapping. */
 .contrib-swiper .card {
-  width: 100%;
+  flex: 0 0 auto;
+  width: 190px;
   overflow: hidden;
   border-radius: 16px;
   background-color: #141414;
@@ -107,7 +141,7 @@ body {
 
 .contrib-swiper .card:hover {
   transform: translateY(-4px);
-  border-color: rgba(245, 158, 11, 0.4);
+  border-color: rgba(99, 102, 241, 0.45);
 }
 
 /* Plain, uncolored header area — just centers the avatar with some
@@ -165,13 +199,16 @@ body {
   white-space: nowrap;
 }
 
-/* Small screens: cards shrink a little further so two can peek at once
-   without ever stretching the avatar image. */
+/* Small screens: cards shrink a little further so more of the next
+   card peeks in, hinting that the strip is swipeable. */
 @media (max-width: 480px) {
   .contrib-swiper {
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
     padding: 14px;
     gap: 12px;
+  }
+
+  .contrib-swiper .card {
+    width: 150px;
   }
 
   .contrib-swiper .card .card__image {
