@@ -70,26 +70,10 @@ body {
   border-radius: 9999px;
 }
 
-/* Contributors swiper — adapted from the Uiverse.io "scroll-1" snap
-   card carousel by edu-amr. Kept in the same shape/format as the
-   original snippet; the only rename is the outer `.container` class,
-   swapped for `.contrib-swiper` so it can never collide with Tailwind's
-   own `.container` utility elsewhere on the site. Card count grows
-   with the number of GitHub contributors, so this scroller simply
-   keeps getting longer instead of ever running out of room. */
-/* Scrollbar fully hidden — the strip still scrolls (drag/swipe/wheel),
-   it just never shows a scrollbar track/thumb in any browser. */
-.contrib-swiper.scroll-1 {
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-}
-
-.contrib-swiper.scroll-1::-webkit-scrollbar {
-  width: 0;
-  height: 0;
-  background: transparent;
-}
-
+/* Contributors panel — a fluid grid instead of a fixed-width scroller,
+   so a handful of cards stretch to fill the panel width with no dead
+   space on the right, and it simply wraps onto extra rows once there
+   are enough contributors to need them. */
 .contrib-swiper * {
   box-sizing: border-box;
   margin: 0;
@@ -98,24 +82,20 @@ body {
 }
 
 .contrib-swiper {
-  display: flex;
-  overflow-x: scroll;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  align-content: start;
   padding: 20px;
   width: 100%;
-  scroll-snap-type: x mandatory;
-  scroll-padding-top: 20px;
   border-radius: 8px;
   gap: 16px;
 }
 
-/* Cards are deliberately smaller than the maintainer spotlight — a
-   fixed, modest width so several are visible at once instead of one
-   card filling the whole panel. No colorful banner behind the avatar
-   any more — a plain card surface with a bigger, centered, rounded
-   avatar and the details sitting underneath. */
+/* Plain card surface with a bigger, centered, rounded avatar and the
+   details sitting underneath — stretches to fill its grid cell instead
+   of a fixed width, so the row never leaves empty space. */
 .contrib-swiper .card {
-  flex: 0 0 190px;
-  width: 190px;
+  width: 100%;
   overflow: hidden;
   border-radius: 16px;
   background-color: #141414;
@@ -189,13 +169,9 @@ body {
    without ever stretching the avatar image. */
 @media (max-width: 480px) {
   .contrib-swiper {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
     padding: 14px;
     gap: 12px;
-  }
-
-  .contrib-swiper .card {
-    flex: 0 0 160px;
-    width: 160px;
   }
 
   .contrib-swiper .card .card__image {
