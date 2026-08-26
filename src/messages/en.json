@@ -9,8 +9,8 @@
     "toggleMenu": "Toggle menu"
   },
   "footer": {
-    "text": "Built with Next.js + Supabase — MIT Licensed. Contributions welcome.",
-    "tagline": "An open-source Next.js + Supabase SaaS starter kit — learn, contribute, and ship real features.",
+    "text": "Built with Next.js and Supabase. MIT licensed and open for contributions.",
+    "tagline": "An open-source Next.js and Supabase starter kit built for learning. Practice on real features, send real pull requests, and grow as a developer.",
     "columns": {
       "product": "Product",
       "resources": "Resources",
