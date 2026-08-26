@@ -118,10 +118,28 @@ body {
   width: 100%;
   border-radius: 8px;
   gap: 16px;
+  cursor: grab;
+  user-select: none;
 }
 
 .contrib-swiper::-webkit-scrollbar {
   display: none;
+}
+
+/* Few contributors (no horizontal overflow): center the row instead of
+   letting it hug the left edge with a big empty gap on the right. */
+.contrib-swiper--centered {
+  justify-content: center;
+}
+
+/* Applied while the user is actively dragging the strip with a mouse. */
+.contrib-swiper.is-dragging {
+  cursor: grabbing;
+  scroll-snap-type: none;
+}
+
+.contrib-swiper.is-dragging * {
+  pointer-events: none;
 }
 
 /* Plain card surface with a bigger, centered, rounded avatar and the
@@ -142,6 +160,7 @@ body {
 .contrib-swiper .card:hover {
   transform: translateY(-4px);
   border-color: rgba(99, 102, 241, 0.45);
+  box-shadow: 0 12px 24px -12px rgba(0, 0, 0, 0.45);
 }
 
 /* Plain, uncolored header area — just centers the avatar with some
