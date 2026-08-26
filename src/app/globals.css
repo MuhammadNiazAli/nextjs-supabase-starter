@@ -19,6 +19,21 @@ body {
   color-scheme: dark;
 }
 
+/* Applied to <html> for exactly one animation frame while the theme
+   toggle flips the `dark` class (see ThemeToggle.tsx). It forces every
+   element's transition to length 0, so the light/dark swap always
+   happens instantly and identically across the whole page instead of
+   riding on whatever hover-transition duration each component happens
+   to carry (200ms here, 300ms there, none somewhere else). Normal
+   hover/interaction transitions are restored the instant this class
+   is removed on the next frame. */
+.theme-transition-off,
+.theme-transition-off * ,
+.theme-transition-off *::before,
+.theme-transition-off *::after {
+  transition: none !important;
+}
+
 /* Gentle staggered fade/rise used by the footer's columns so they settle
    into place instead of appearing instantly. Respects reduced-motion. */
 @keyframes footerFadeInUp {
