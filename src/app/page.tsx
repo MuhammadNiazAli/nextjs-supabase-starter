@@ -1,6 +1,7 @@
 "use client";
 
 import { useLanguage } from "@/lib/i18n/LanguageContext";
+import { useReveal } from "@/lib/useReveal";
 
 const STEP_KEYS = [1, 2, 3, 4, 5, 6] as const;
 
@@ -138,27 +139,8 @@ export default function Home() {
         </div>
 
         <ol className="relative mx-auto grid max-w-[1120px] grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {STEP_KEYS.map((step) => (
-            <li
-              key={step}
-              className="group relative flex flex-col rounded-xl border border-gray-200 bg-white p-7 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-primary hover:shadow-lg hover:shadow-primary/10 dark:border-gray-800 dark:bg-gray-900 dark:hover:border-primary/60"
-            >
-              <span
-                aria-hidden="true"
-                className="absolute right-6 top-6 text-4xl font-black text-gray-100 transition-colors duration-300 group-hover:text-primary/10 dark:text-gray-800"
-              >
-                {String(step).padStart(2, "0")}
-              </span>
-              <div className="relative mb-5 inline-flex h-11 w-11 items-center justify-center rounded-lg bg-primary text-white">
-                {STEP_ICONS[step]}
-              </div>
-              <h3 className="relative text-lg font-bold mb-2 text-gray-900 dark:text-white">
-                {t(`home.contribute.step${step}Title`)}
-              </h3>
-              <p className="relative text-[15px] text-gray-600 dark:text-gray-300 leading-relaxed">
-                {t(`home.contribute.step${step}Desc`)}
-              </p>
-            </li>
+          {STEP_KEYS.map((step, idx) => (
+            <StepCard key={step} step={step} index={idx} title={t(`home.contribute.step${step}Title`)} desc={t(`home.contribute.step${step}Desc`)} />
           ))}
         </ol>
 
@@ -172,5 +154,45 @@ export default function Home() {
         </div>
       </section>
     </>
+  );
+}
+
+function StepCard({
+  step,
+  index,
+  title,
+  desc,
+}: {
+  step: (typeof STEP_KEYS)[number];
+  index: number;
+  title: string;
+  desc: string;
+}) {
+  const { ref, visible } = useReveal<HTMLLIElement>();
+
+  return (
+    <li
+      ref={ref}
+      style={{ transitionDelay: visible ? `${index * 80}ms` : "0ms" }}
+      className={`reveal group relative flex flex-col rounded-xl border border-gray-200 bg-white p-7 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-primary hover:shadow-lg hover:shadow-primary/10 dark:border-gray-800 dark:bg-gray-900 dark:hover:border-primary/60 ${
+        visible ? "reveal-visible" : ""
+      }`}
+    >
+      <span
+        aria-hidden="true"
+        className="absolute right-6 top-6 text-4xl font-black text-gray-100 transition-colors duration-300 group-hover:text-primary/10 dark:text-gray-800"
+      >
+        {String(step).padStart(2, "0")}
+      </span>
+      <div className="relative mb-5 inline-flex h-11 w-11 items-center justify-center rounded-lg bg-primary text-white transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3">
+        {STEP_ICONS[step]}
+      </div>
+      <h3 className="relative text-lg font-bold mb-2 text-gray-900 dark:text-white">
+        {title}
+      </h3>
+      <p className="relative text-[15px] text-gray-600 dark:text-gray-300 leading-relaxed">
+        {desc}
+      </p>
+    </li>
   );
 }
