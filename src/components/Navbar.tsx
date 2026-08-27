@@ -26,8 +26,6 @@ export default function Navbar() {
     return () => listener.subscription.unsubscribe();
   }, []);
 
-  // Close the mobile drawer on resize back to desktop so it never gets
-  // stuck open if the viewport crosses the breakpoint while it's open.
   useEffect(() => {
     const mql = window.matchMedia("(min-width: 640px)");
     const handleChange = () => setMenuOpen(false);
@@ -35,8 +33,6 @@ export default function Navbar() {
     return () => mql.removeEventListener("change", handleChange);
   }, []);
 
-  // Small elevation once the page scrolls under the sticky navbar, so it
-  // reads as floating above the content instead of always looking flat.
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 4);
     onScroll();
@@ -44,7 +40,6 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // While the drawer is open: lock page scroll and let Escape close it.
   useEffect(() => {
     if (!menuOpen) return;
 
@@ -68,37 +63,36 @@ export default function Navbar() {
   };
 
   const linkClass =
-    "relative py-1 text-sm font-medium text-gray-700 transition-colors duration-200 after:absolute after:-bottom-0.5 after:left-0 after:h-[2px] after:w-0 after:rounded-full after:bg-primary after:transition-all after:duration-300 hover:text-primary hover:after:w-full dark:text-gray-300 dark:hover:text-white";
+    "relative py-1 text-[13px] font-semibold uppercase tracking-wide text-gray-600 transition-colors duration-200 after:absolute after:-bottom-1 after:left-0 after:h-[2px] after:w-0 after:rounded-full after:bg-primary after:transition-all after:duration-300 hover:text-gray-900 hover:after:w-full dark:text-gray-400 dark:hover:text-white";
 
   const drawerLinkClass =
-    "w-full rounded-xl px-4 py-3 text-[15px] font-medium text-gray-700 transition-colors duration-200 hover:bg-primary/10 hover:text-primary dark:text-gray-200 dark:hover:bg-primary/15";
+    "w-full rounded-xl px-4 py-3 text-[15px] font-semibold text-gray-700 transition-colors duration-200 hover:bg-primary/10 hover:text-primary dark:text-gray-200 dark:hover:bg-primary/15";
 
   return (
     <>
       <nav
         aria-label="Main navigation"
-        className={`sticky top-0 z-40 border-b backdrop-blur-md transition-all duration-300 ${
+        className={`sticky top-0 z-40 border-b bg-white transition-shadow duration-300 dark:bg-gray-950 ${
           scrolled
-            ? "border-gray-200 bg-white/85 shadow-sm shadow-black/5 dark:border-gray-800 dark:bg-gray-950/85"
-            : "border-transparent bg-white/70 dark:bg-gray-950/70"
+            ? "border-gray-200 shadow-sm shadow-black/5 dark:border-gray-800"
+            : "border-gray-100 dark:border-gray-900"
         }`}
       >
-        <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3 sm:px-6 sm:py-3.5">
+        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-3 px-4 sm:px-6">
           <Link
             href="/"
-            className="flex shrink-0 items-center gap-2 text-base font-bold tracking-tight text-gray-900 transition-transform duration-200 hover:scale-[1.02] dark:text-white sm:text-lg"
+            className="flex shrink-0 items-center gap-2.5 text-base font-extrabold tracking-tight text-gray-900 dark:text-white sm:text-lg"
           >
             <span
               aria-hidden="true"
-              className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-indigo-400 to-primary text-sm font-black text-white shadow-sm shadow-primary/30"
+              className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary text-base font-black text-white"
             >
               {t("navbar.brand").trim().charAt(0)}
             </span>
             <span className="truncate">{t("navbar.brand")}</span>
           </Link>
 
-          {/* Desktop / tablet links, hidden below sm */}
-          <div className="hidden sm:flex sm:flex-wrap sm:items-center sm:justify-end sm:gap-5">
+          <div className="hidden sm:flex sm:flex-wrap sm:items-center sm:justify-end sm:gap-6">
             <Link href="/pricing" className={linkClass}>
               {t("navbar.pricing")}
             </Link>
@@ -112,31 +106,30 @@ export default function Navbar() {
                 </button>
               </>
             ) : (
-              <>
-                <Link href="/login" className={linkClass}>
-                  {t("navbar.login")}
-                </Link>
-                <Link
-                  href="/signup"
-                  className="rounded-full bg-primary px-4 py-1.5 text-sm font-semibold text-white shadow-sm shadow-primary/30 transition-all duration-200 hover:-translate-y-0.5 hover:bg-indigo-600 hover:shadow-md hover:shadow-primary/40"
-                >
-                  {t("navbar.signup")}
-                </Link>
-              </>
+              <Link href="/login" className={linkClass}>
+                {t("navbar.login")}
+              </Link>
             )}
             <span aria-hidden="true" className="h-5 w-px bg-gray-200 dark:bg-gray-800" />
             <LanguageSwitcher />
             <ThemeToggle />
+            {!user && (
+              <Link
+                href="/signup"
+                className="rounded-md bg-primary px-5 py-2.5 text-[13px] font-bold uppercase tracking-wide text-white shadow-[0_4px_0_0_rgba(0,0,0,0.15)] transition-all duration-150 hover:-translate-y-0.5 hover:bg-indigo-600 hover:shadow-[0_6px_0_0_rgba(0,0,0,0.15)] active:translate-y-0 active:shadow-[0_2px_0_0_rgba(0,0,0,0.15)]"
+              >
+                {t("navbar.signup")}
+              </Link>
+            )}
           </div>
 
-          {/* Hamburger toggle, shown only below sm */}
           <button
             type="button"
             onClick={() => setMenuOpen((prev) => !prev)}
             aria-expanded={menuOpen}
             aria-controls="mobile-nav-drawer"
             aria-label={t("navbar.toggleMenu")}
-            className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-md border border-gray-300 text-gray-700 transition-colors hover:border-primary hover:text-primary dark:border-gray-700 dark:text-gray-200 sm:hidden"
+            className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-md border border-gray-300 text-gray-700 transition-colors hover:border-primary hover:text-primary dark:border-gray-700 dark:text-gray-200 sm:hidden"
           >
             <span className="relative block h-3.5 w-4">
               <span
@@ -159,8 +152,6 @@ export default function Navbar() {
         </div>
       </nav>
 
-      {/* Backdrop behind the off-canvas drawer — fades in/out and closes
-          the drawer on tap, sitting under the drawer but above content. */}
       <div
         aria-hidden="true"
         onClick={() => setMenuOpen(false)}
@@ -169,8 +160,6 @@ export default function Navbar() {
         }`}
       />
 
-      {/* Off-canvas mobile drawer — slides in from the right, independent
-          of document flow so it always sits above everything else. */}
       <div
         id="mobile-nav-drawer"
         role="dialog"
@@ -184,7 +173,7 @@ export default function Navbar() {
           <span className="flex items-center gap-2 text-sm font-bold text-gray-900 dark:text-white">
             <span
               aria-hidden="true"
-              className="flex h-7 w-7 items-center justify-center rounded-lg bg-gradient-to-br from-indigo-400 to-primary text-xs font-black text-white"
+              className="flex h-7 w-7 items-center justify-center rounded-lg bg-primary text-xs font-black text-white"
             >
               {t("navbar.brand").trim().charAt(0)}
             </span>
@@ -228,7 +217,7 @@ export default function Navbar() {
               <Link
                 href="/signup"
                 onClick={() => setMenuOpen(false)}
-                className="mt-1 w-full rounded-xl bg-primary px-4 py-3 text-center text-[15px] font-semibold text-white shadow-sm shadow-primary/30 transition-colors hover:bg-indigo-600"
+                className="mt-1 w-full rounded-xl bg-primary px-4 py-3 text-center text-[15px] font-bold uppercase tracking-wide text-white shadow-sm shadow-primary/30 transition-colors hover:bg-indigo-600"
               >
                 {t("navbar.signup")}
               </Link>

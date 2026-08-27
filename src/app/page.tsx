@@ -121,14 +121,15 @@ export default function Home() {
         </div>
       </div>
 
-      {/* How to contribute — premium alternating timeline, capped at 1120px
-          so the larger cards stay readable on wide screens. */}
-      <section className="px-6 py-24">
+      {/* How to contribute — a curriculum-style step grid: numbered cards
+          in reading order, connected by a rail on desktop, so it reads
+          like a checklist you work through rather than a decoration. */}
+      <section className="bg-gray-50 px-6 py-24 dark:bg-gray-900/40">
         <div className="mx-auto mb-16 max-w-[1000px] text-center">
-          <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-primary">
+          <p className="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-primary">
             {t("home.contribute.eyebrow")}
           </p>
-          <h2 className="text-3xl sm:text-4xl font-bold mb-4">
+          <h2 className="text-3xl sm:text-4xl font-extrabold mb-4 text-gray-900 dark:text-white">
             {t("home.contribute.title")}
           </h2>
           <p className="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
@@ -136,62 +137,35 @@ export default function Home() {
           </p>
         </div>
 
-        <ol className="relative mx-auto max-w-[1120px]">
-          {/* Center timeline rail. Left-aligned on mobile, centered on md+. */}
-          <div
-            aria-hidden="true"
-            className="absolute left-6 top-1 bottom-1 w-px bg-gradient-to-b from-primary/50 via-primary/20 to-transparent md:left-1/2 md:-translate-x-1/2"
-          />
-
-          {STEP_KEYS.map((step, idx) => {
-            const isRight = idx % 2 === 1;
-
-            const card = (
-              <div className="rounded-2xl border border-gray-200 bg-white p-8 shadow-md shadow-gray-200/60 transition-all duration-300 hover:-translate-y-1 hover:border-primary/50 hover:shadow-lg hover:shadow-primary/10 dark:border-gray-700 dark:bg-gray-900 dark:shadow-lg dark:shadow-black/30 dark:hover:border-primary/50">
-                <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary dark:bg-primary/20 dark:text-indigo-300">
-                  {STEP_ICONS[step]}
-                </div>
-                <h3 className="text-lg font-semibold mb-2 text-gray-900 dark:text-white">
-                  {t(`home.contribute.step${step}Title`)}
-                </h3>
-                <p className="text-base text-gray-600 dark:text-gray-300 leading-relaxed">
-                  {t(`home.contribute.step${step}Desc`)}
-                </p>
+        <ol className="relative mx-auto grid max-w-[1120px] grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {STEP_KEYS.map((step) => (
+            <li
+              key={step}
+              className="group relative flex flex-col rounded-xl border border-gray-200 bg-white p-7 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-primary hover:shadow-lg hover:shadow-primary/10 dark:border-gray-800 dark:bg-gray-900 dark:hover:border-primary/60"
+            >
+              <span
+                aria-hidden="true"
+                className="absolute right-6 top-6 text-4xl font-black text-gray-100 transition-colors duration-300 group-hover:text-primary/10 dark:text-gray-800"
+              >
+                {String(step).padStart(2, "0")}
+              </span>
+              <div className="relative mb-5 inline-flex h-11 w-11 items-center justify-center rounded-lg bg-primary text-white">
+                {STEP_ICONS[step]}
               </div>
-            );
-
-            return (
-              <li key={step} className="relative mb-10 last:mb-0 md:mb-14">
-                <div className="grid grid-cols-[3.5rem_1fr] items-start gap-x-5 md:grid-cols-[1fr_3.5rem_1fr] md:items-center md:gap-x-12">
-                  {/* Desktop left slot */}
-                  <div className="hidden md:col-start-1 md:row-start-1 md:block">
-                    {!isRight && card}
-                  </div>
-
-                  {/* Number badge — mobile col 1, desktop col 2 (on the rail) */}
-                  <div className="col-start-1 row-start-1 flex justify-center md:col-start-2">
-                    <div className="relative z-10 flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-full bg-primary text-lg font-bold text-white shadow-md shadow-primary/40 ring-4 ring-white dark:ring-gray-950">
-                      {step}
-                    </div>
-                  </div>
-
-                  {/* Desktop right slot */}
-                  <div className="hidden md:col-start-3 md:row-start-1 md:block">
-                    {isRight && card}
-                  </div>
-
-                  {/* Mobile content — single column next to the badge */}
-                  <div className="col-start-2 row-start-1 md:hidden">{card}</div>
-                </div>
-              </li>
-            );
-          })}
+              <h3 className="relative text-lg font-bold mb-2 text-gray-900 dark:text-white">
+                {t(`home.contribute.step${step}Title`)}
+              </h3>
+              <p className="relative text-[15px] text-gray-600 dark:text-gray-300 leading-relaxed">
+                {t(`home.contribute.step${step}Desc`)}
+              </p>
+            </li>
+          ))}
         </ol>
 
         <div className="text-center mt-14">
           <a
             href={`${repoUrl}/issues`}
-            className="inline-block bg-primary text-white px-6 py-2.5 rounded-md hover:bg-primary/90 transition shadow-sm shadow-primary/30 font-medium"
+            className="inline-block rounded-md bg-primary px-7 py-3 text-sm font-bold uppercase tracking-wide text-white shadow-[0_4px_0_0_rgba(0,0,0,0.15)] transition-all duration-150 hover:-translate-y-0.5 hover:bg-indigo-600 hover:shadow-[0_6px_0_0_rgba(0,0,0,0.15)] active:translate-y-0 active:shadow-[0_2px_0_0_rgba(0,0,0,0.15)]"
           >
             {t("home.contribute.cta")}
           </a>

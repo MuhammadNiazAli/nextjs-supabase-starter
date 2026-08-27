@@ -46,29 +46,14 @@ export default function Footer() {
   };
 
   return (
-    <footer className="relative overflow-hidden border-t border-gray-200 bg-gray-50 dark:border-gray-800 dark:bg-gray-950">
-      {/* Soft on-brand accent line across the very top edge of the footer */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/60 to-transparent"
-      />
-      {/* Faint ambient glow, purely decorative */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute -top-24 left-1/2 h-56 w-[36rem] -translate-x-1/2 rounded-full bg-primary/10 blur-3xl dark:bg-primary/10"
-      />
-
-      <div className="relative mx-auto max-w-6xl px-6 py-14 sm:px-8">
-        <div className="grid grid-cols-2 gap-x-6 gap-y-10 md:grid-cols-[1.3fr_1fr_1fr_1fr] md:gap-x-10">
-          {/* Brand */}
+    <footer className="relative border-t-4 border-primary bg-gray-950 text-gray-300">
+      <div className="mx-auto max-w-6xl px-6 py-16 sm:px-8">
+        <div className="grid grid-cols-2 gap-x-6 gap-y-10 md:grid-cols-[1.4fr_1fr_1fr_1fr] md:gap-x-10">
           <div className="footer-col col-span-2 md:col-span-1" style={{ animationDelay: "0ms" }}>
-            <Link
-              href="/"
-              className="inline-flex items-center gap-2 text-lg font-bold text-primary transition-transform duration-200 hover:translate-x-0.5"
-            >
+            <Link href="/" className="inline-flex items-center gap-2 text-xl font-extrabold text-white">
               {t("navbar.brand")}
             </Link>
-            <p className="mt-3 max-w-xs text-sm leading-relaxed text-gray-500 dark:text-gray-400">
+            <p className="mt-3 max-w-xs text-sm leading-relaxed text-gray-400">
               {t("footer.tagline")}
             </p>
             <div className="mt-5 flex items-center gap-2.5">
@@ -89,8 +74,11 @@ export default function Footer() {
           <FooterColumn title={t("footer.columns.community")} links={communityLinks} delay={200} />
         </div>
 
-        <div className="footer-col mt-12 flex flex-col items-center gap-5 border-t border-gray-200 pt-6 text-center dark:border-gray-800 sm:flex-row sm:justify-between sm:text-left" style={{ animationDelay: "240ms" }}>
-          <p className="text-xs text-gray-500 dark:text-gray-400">
+        <div
+          className="footer-col mt-12 flex flex-col items-center gap-5 border-t border-white/10 pt-6 text-center sm:flex-row sm:justify-between sm:text-left"
+          style={{ animationDelay: "240ms" }}
+        >
+          <p className="text-xs text-gray-500">
             &copy; {year} {t("navbar.brand")}. {t("footer.text")}
           </p>
 
@@ -99,7 +87,7 @@ export default function Footer() {
               href={REPO_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="group inline-flex items-center gap-1.5 rounded-full border border-gray-200 px-3 py-1.5 text-xs font-medium text-gray-600 transition-all duration-200 hover:-translate-y-0.5 hover:border-primary hover:text-primary hover:shadow-sm hover:shadow-primary/20 dark:border-gray-800 dark:text-gray-300"
+              className="group inline-flex items-center gap-1.5 rounded-full border border-white/15 px-3 py-1.5 text-xs font-semibold text-gray-300 transition-all duration-200 hover:-translate-y-0.5 hover:border-primary hover:text-white"
             >
               <GithubIcon className="h-3.5 w-3.5 transition-transform duration-300 group-hover:rotate-12" />
               {t("footer.starOnGithub")}
@@ -108,7 +96,7 @@ export default function Footer() {
               type="button"
               onClick={scrollToTop}
               aria-label={t("footer.backToTop")}
-              className="group inline-flex h-8 w-8 items-center justify-center rounded-full border border-gray-200 text-gray-500 transition-all duration-200 hover:-translate-y-0.5 hover:border-primary hover:text-primary dark:border-gray-800 dark:text-gray-400"
+              className="group inline-flex h-8 w-8 items-center justify-center rounded-full border border-white/15 text-gray-400 transition-all duration-200 hover:-translate-y-0.5 hover:border-primary hover:text-white"
             >
               <ArrowUpIcon className="h-3.5 w-3.5 transition-transform duration-300 group-hover:-translate-y-0.5" />
             </button>
@@ -130,7 +118,7 @@ function FooterColumn({
 }) {
   return (
     <div className="footer-col" style={{ animationDelay: `${delay}ms` }}>
-      <h3 className="mb-4 text-xs font-semibold uppercase tracking-wider text-gray-400 dark:text-gray-500">
+      <h3 className="mb-4 text-xs font-bold uppercase tracking-wider text-gray-500">
         {title}
       </h3>
       <ul className="flex flex-col gap-3">
@@ -141,14 +129,14 @@ function FooterColumn({
                 href={link.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-sm text-gray-600 transition-colors duration-200 hover:text-primary dark:text-gray-400 dark:hover:text-primary"
+                className="text-sm text-gray-400 transition-colors duration-200 hover:text-white"
               >
                 {link.label}
               </a>
             ) : (
               <Link
                 href={link.href}
-                className="text-sm text-gray-600 transition-colors duration-200 hover:text-primary dark:text-gray-400 dark:hover:text-primary"
+                className="text-sm text-gray-400 transition-colors duration-200 hover:text-white"
               >
                 {link.label}
               </Link>
@@ -175,7 +163,7 @@ function SocialLink({
       target="_blank"
       rel="noopener noreferrer"
       aria-label={label}
-      className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-gray-200 text-gray-500 transition-all duration-200 hover:-translate-y-0.5 hover:border-primary hover:text-primary dark:border-gray-800 dark:text-gray-400"
+      className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-white/15 text-gray-400 transition-all duration-200 hover:-translate-y-0.5 hover:border-primary hover:text-white"
     >
       {children}
     </a>

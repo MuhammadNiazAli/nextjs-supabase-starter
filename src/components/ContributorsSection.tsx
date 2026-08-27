@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useLanguage } from "@/lib/i18n/LanguageContext";
 import type { Contributor } from "@/app/api/contributors/route";
 
@@ -40,24 +40,18 @@ export default function ContributorsSection() {
   const others = contributors?.filter((c) => c.login !== ADMIN_LOGIN) ?? [];
 
   return (
-    <section className="contributors-reveal relative flex flex-col justify-center overflow-hidden rounded-t-[2.5rem] border-t border-primary/20 bg-white px-4 py-16 dark:bg-gray-950 sm:px-6">
-      {/* Soft radial glow behind the heading, purely decorative */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 [background:radial-gradient(60%_45%_at_50%_0%,rgba(79,70,229,0.14),transparent)] dark:[background:radial-gradient(60%_45%_at_50%_0%,rgba(79,70,229,0.18),transparent)]"
-      />
-
-      <div className="contrib-fade-in relative mx-auto w-full max-w-4xl">
-        <div className="mb-10 text-center">
-          <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-primary dark:text-indigo-300/80">
+    <section className="border-t border-gray-200 bg-white px-4 py-20 dark:border-gray-800 dark:bg-gray-950 sm:px-6">
+      <div className="mx-auto w-full max-w-6xl">
+        <div className="mb-14 text-center">
+          <p className="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-primary">
             {t("home.contributors.eyebrow")}
           </p>
           <div className="flex items-center justify-center gap-3">
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white sm:text-3xl">
+            <h2 className="text-3xl font-extrabold text-gray-900 dark:text-white sm:text-4xl">
               {t("home.contributors.title")}
             </h2>
             {contributors && (
-              <span className="inline-flex h-6 min-w-[1.5rem] items-center justify-center rounded-full bg-primary px-2 text-xs font-semibold text-white">
+              <span className="inline-flex h-7 min-w-[1.75rem] items-center justify-center rounded-full bg-primary px-2.5 text-sm font-bold text-white">
                 {contributors.length}
               </span>
             )}
@@ -68,7 +62,7 @@ export default function ContributorsSection() {
         </div>
 
         {error && (
-          <div className="mx-auto max-w-md rounded-2xl border border-gray-200 bg-gray-50 p-8 text-center text-sm text-gray-600 dark:border-gray-800 dark:bg-gray-900/60 dark:text-gray-400">
+          <div className="mx-auto max-w-md rounded-xl border border-gray-200 bg-gray-50 p-8 text-center text-sm text-gray-600 dark:border-gray-800 dark:bg-gray-900/60 dark:text-gray-400">
             {t("home.contributors.error")}
           </div>
         )}
@@ -76,14 +70,13 @@ export default function ContributorsSection() {
         {!error && !contributors && <ContributorsSkeleton />}
 
         {!error && contributors && contributors.length === 0 && (
-          <div className="mx-auto max-w-md rounded-2xl border border-gray-200 bg-gray-50 p-8 text-center text-sm text-gray-600 dark:border-gray-800 dark:bg-gray-900/60 dark:text-gray-400">
+          <div className="mx-auto max-w-md rounded-xl border border-gray-200 bg-gray-50 p-8 text-center text-sm text-gray-600 dark:border-gray-800 dark:bg-gray-900/60 dark:text-gray-400">
             {t("home.contributors.empty")}
           </div>
         )}
 
         {!error && contributors && contributors.length > 0 && (
-          <div className="flex flex-col items-center gap-10">
-            {/* Maintainer — a single, perfectly centered spotlight card. */}
+          <div className="flex flex-col items-center gap-12">
             {admin && (
               <MaintainerSpotlight
                 contributor={admin}
@@ -92,12 +85,46 @@ export default function ContributorsSection() {
               />
             )}
 
-            {/* Everyone else — a horizontal swipeable slider underneath. */}
             {others.length > 0 ? (
-              <ContributorsSwiper contributors={others} />
+              <ul
+                role="list"
+                className="grid w-full grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5"
+              >
+                {others.map((c) => (
+                  <li key={c.login}>
+                    <a
+                      href={c.htmlUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group flex flex-col items-center gap-3 rounded-xl border border-gray-200 bg-white px-4 py-6 text-center transition-all duration-200 hover:-translate-y-1 hover:border-primary hover:shadow-lg hover:shadow-primary/10 dark:border-gray-800 dark:bg-gray-900"
+                    >
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={c.avatarUrl}
+                        alt={c.login}
+                        loading="lazy"
+                        className="h-16 w-16 rounded-full border border-gray-200 object-cover transition-transform duration-200 group-hover:scale-105 dark:border-gray-700"
+                      />
+                      <div className="min-w-0">
+                        <p className="truncate text-sm font-semibold text-gray-900 dark:text-white">
+                          {c.name || c.login}
+                        </p>
+                        <p className="mt-0.5 truncate text-xs text-gray-500 dark:text-gray-400">
+                          @{c.login}
+                        </p>
+                        <p className="mt-1 text-xs font-medium text-primary">
+                          {c.contributions === 1
+                            ? "1 commit"
+                            : `${c.contributions} commits`}
+                        </p>
+                      </div>
+                    </a>
+                  </li>
+                ))}
+              </ul>
             ) : (
               admin && (
-                <div className="w-full rounded-3xl border border-dashed border-gray-300 p-8 text-center text-sm text-gray-500 dark:border-gray-800 dark:text-gray-500">
+                <div className="w-full rounded-xl border border-dashed border-gray-300 p-8 text-center text-sm text-gray-500 dark:border-gray-800 dark:text-gray-500">
                   {t("home.contributors.empty")}
                 </div>
               )
@@ -111,7 +138,7 @@ export default function ContributorsSection() {
 
 /**
  * Maintainer spotlight — a compact, premium card that sits above the
- * contributor swiper. The avatar is shown exactly as GitHub serves it:
+ * contributor grid. The avatar is shown exactly as GitHub serves it:
  * no colored ring, no glow, no background layer injected behind or
  * around the PNG — just the image itself inside a bordered frame, so
  * whatever background the picture already has (transparent, solid,
@@ -127,22 +154,17 @@ function MaintainerSpotlight({
   viewGithubLabel: string;
 }) {
   return (
-    <div className="group relative flex w-full max-w-sm flex-col items-center gap-5 overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-b from-[#171717] to-[#0b0b0c] px-8 py-9 text-center shadow-xl shadow-black/20 transition-all duration-300 hover:-translate-y-1 hover:border-primary/40 hover:shadow-2xl hover:shadow-primary/10">
-      {/* Thin on-brand accent line across the top edge only — no fill,
-          no glow behind the photo. */}
+    <div className="group relative flex w-full max-w-sm flex-col items-center gap-5 overflow-hidden rounded-2xl border border-white/10 bg-gray-950 px-8 py-9 text-center shadow-xl shadow-black/20 transition-all duration-300 hover:-translate-y-1 hover:border-primary/40">
       <span
         aria-hidden="true"
         className="pointer-events-none absolute inset-x-10 top-0 h-[2px] rounded-full bg-gradient-to-r from-transparent via-primary to-transparent opacity-80"
       />
 
-      <span className="inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-wide text-indigo-300">
+      <span className="inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-[11px] font-bold uppercase tracking-wide text-indigo-300">
         <StarIcon className="h-3 w-3" aria-hidden="true" />
         {badge}
       </span>
 
-      {/* The avatar itself — a plain rounded-square frame with only a
-          hairline border. No background color, no ring, no blur behind
-          it; the PNG is left exactly as it is. */}
       <div className="relative h-28 w-28 sm:h-32 sm:w-32">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
@@ -153,7 +175,7 @@ function MaintainerSpotlight({
         />
         <span
           aria-hidden="true"
-          className="absolute -bottom-2 -right-2 flex h-7 w-7 items-center justify-center rounded-full border-[3px] border-[#0b0b0c] bg-primary text-white"
+          className="absolute -bottom-2 -right-2 flex h-7 w-7 items-center justify-center rounded-full border-[3px] border-gray-950 bg-primary text-white"
         >
           <CrownIcon className="h-3.5 w-3.5" />
         </span>
@@ -170,179 +192,12 @@ function MaintainerSpotlight({
         href={contributor.htmlUrl}
         target="_blank"
         rel="noopener noreferrer"
-        className="inline-flex items-center gap-1.5 rounded-full bg-white/10 px-4 py-2 text-xs font-medium text-white transition-colors duration-200 hover:bg-primary"
+        className="inline-flex items-center gap-1.5 rounded-full bg-white/10 px-4 py-2 text-xs font-semibold text-white transition-colors duration-200 hover:bg-primary"
       >
         <GithubIcon className="h-4 w-4" aria-hidden="true" />
         {viewGithubLabel}
       </a>
     </div>
-  );
-}
-
-/**
- * Horizontal, snap-scrolling swiper strip. One card per remaining
- * contributor — swipe on touch, drag with a mouse on desktop, or use
- * the arrow buttons. Arrows and drag only kick in once the row
- * actually overflows its container; a handful of contributors that
- * already fit are simply centered instead of hugging the left edge.
- * Grows however many contributors there are — it just keeps scrolling
- * sideways as more people join.
- */
-function ContributorsSwiper({ contributors }: { contributors: Contributor[] }) {
-  const trackRef = useRef<HTMLDivElement>(null);
-  const [hasOverflow, setHasOverflow] = useState(false);
-  const dragState = useRef({ active: false, startX: 0, startScroll: 0, moved: false });
-
-  useEffect(() => {
-    const el = trackRef.current;
-    if (!el) return;
-
-    const measure = () => setHasOverflow(el.scrollWidth > el.clientWidth + 4);
-    measure();
-
-    const observer = new ResizeObserver(measure);
-    observer.observe(el);
-    window.addEventListener("resize", measure);
-    return () => {
-      observer.disconnect();
-      window.removeEventListener("resize", measure);
-    };
-  }, [contributors.length]);
-
-  const scrollByCards = (direction: 1 | -1) => {
-    const el = trackRef.current;
-    if (!el) return;
-    const card = el.querySelector<HTMLElement>("[data-card]");
-    const step = (card?.offsetWidth ?? 170) + 16;
-    el.scrollBy({ left: step * 2 * direction, behavior: "smooth" });
-  };
-
-  // Mouse/trackpad drag-to-scroll — touch keeps its native scroll gesture.
-  const onPointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
-    const el = trackRef.current;
-    if (!el || e.pointerType === "touch") return;
-    dragState.current = { active: true, startX: e.clientX, startScroll: el.scrollLeft, moved: false };
-    el.setPointerCapture(e.pointerId);
-    el.classList.add("is-dragging");
-  };
-
-  const onPointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
-    const el = trackRef.current;
-    if (!el || !dragState.current.active) return;
-    const delta = e.clientX - dragState.current.startX;
-    if (Math.abs(delta) > 3) dragState.current.moved = true;
-    el.scrollLeft = dragState.current.startScroll - delta;
-  };
-
-  const endDrag = (e: React.PointerEvent<HTMLDivElement>) => {
-    const el = trackRef.current;
-    if (el && e.pointerType !== "touch") {
-      el.classList.remove("is-dragging");
-      try {
-        el.releasePointerCapture(e.pointerId);
-      } catch {
-        // Ignore — capture may already have been released.
-      }
-    }
-    dragState.current.active = false;
-  };
-
-  // Suppress the click-through to a contributor's GitHub profile if the
-  // pointer gesture was actually a drag rather than a tap.
-  const onTrackClickCapture = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (dragState.current.moved) {
-      e.preventDefault();
-      e.stopPropagation();
-      dragState.current.moved = false;
-    }
-  };
-
-  return (
-    <div className="contrib-swiper-panel relative w-full rounded-3xl border border-gray-200 bg-gray-50 p-2 dark:border-gray-800 dark:bg-gray-900/40 sm:p-3">
-      <div
-        ref={trackRef}
-        className={`contrib-swiper ${hasOverflow ? "" : "contrib-swiper--centered"}`}
-        role="list"
-        aria-label="Contributors"
-        onPointerDown={onPointerDown}
-        onPointerMove={onPointerMove}
-        onPointerUp={endDrag}
-        onPointerLeave={endDrag}
-        onClickCapture={onTrackClickCapture}
-      >
-        {contributors.map((c) => (
-          <a
-            key={c.login}
-            href={c.htmlUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            role="listitem"
-            data-card
-            draggable={false}
-            className="card"
-          >
-            <div className="card__image">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={c.avatarUrl}
-                alt={c.login}
-                loading="lazy"
-                draggable={false}
-                className="card__avatar"
-              />
-            </div>
-            <div className="card__content">
-              <span className="card__title">{c.name || c.login}</span>
-              <p className="card__describe">
-                @{c.login} ·{" "}
-                {c.contributions === 1
-                  ? "1 commit"
-                  : `${c.contributions} commits`}
-              </p>
-            </div>
-          </a>
-        ))}
-      </div>
-
-      {/* Arrow controls — only rendered once the row actually overflows,
-          and hidden on touch-first small screens where drag/swipe is
-          the primary gesture. Positioned to float just outside the
-          panel's edge for a premium carousel feel. */}
-      {hasOverflow && (
-        <>
-          <button
-            type="button"
-            onClick={() => scrollByCards(-1)}
-            aria-label="Scroll contributors left"
-            className="absolute -left-3 top-1/2 z-10 hidden -translate-y-1/2 items-center justify-center rounded-full border border-gray-200 bg-white p-2 text-gray-700 shadow-lg shadow-black/5 transition hover:scale-105 hover:border-primary hover:text-primary dark:border-gray-700 dark:bg-gray-900 dark:text-gray-200 dark:hover:text-white sm:flex"
-          >
-            <ChevronIcon className="h-4 w-4 rotate-180" aria-hidden="true" />
-          </button>
-          <button
-            type="button"
-            onClick={() => scrollByCards(1)}
-            aria-label="Scroll contributors right"
-            className="absolute -right-3 top-1/2 z-10 hidden -translate-y-1/2 items-center justify-center rounded-full border border-gray-200 bg-white p-2 text-gray-700 shadow-lg shadow-black/5 transition hover:scale-105 hover:border-primary hover:text-primary dark:border-gray-700 dark:bg-gray-900 dark:text-gray-200 dark:hover:text-white sm:flex"
-          >
-            <ChevronIcon className="h-4 w-4" aria-hidden="true" />
-          </button>
-        </>
-      )}
-    </div>
-  );
-}
-
-function ChevronIcon(props: React.SVGProps<SVGSVGElement>) {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" {...props}>
-      <path
-        d="m9 6 6 6-6 6"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
   );
 }
 
@@ -372,19 +227,19 @@ function CrownIcon(props: React.SVGProps<SVGSVGElement>) {
 
 function ContributorsSkeleton() {
   return (
-    <div className="flex w-full flex-col items-center gap-10">
-      <div className="flex w-full max-w-sm animate-pulse flex-col items-center gap-4 rounded-3xl border border-gray-200 bg-gray-50 px-8 py-9 dark:border-gray-800 dark:bg-gray-900/60">
+    <div className="flex w-full flex-col items-center gap-12">
+      <div className="flex w-full max-w-sm animate-pulse flex-col items-center gap-4 rounded-2xl border border-gray-200 bg-gray-50 px-8 py-9 dark:border-gray-800 dark:bg-gray-900/60">
         <div className="h-5 w-24 rounded-full bg-gray-200 dark:bg-gray-800" />
         <div className="h-28 w-28 rounded-2xl bg-gray-200 dark:bg-gray-800 sm:h-32 sm:w-32" />
         <div className="h-4 w-32 rounded bg-gray-200 dark:bg-gray-800" />
         <div className="h-3 w-24 rounded bg-gray-200 dark:bg-gray-800" />
         <div className="h-7 w-28 rounded-full bg-gray-200 dark:bg-gray-800" />
       </div>
-      <div className="flex w-full animate-pulse gap-5 overflow-hidden rounded-3xl border border-gray-200 bg-gray-50 p-6 dark:border-gray-800 dark:bg-gray-900/40">
-        {Array.from({ length: 4 }).map((_, i) => (
+      <div className="grid w-full animate-pulse grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+        {Array.from({ length: 10 }).map((_, i) => (
           <div
             key={i}
-            className="h-48 w-full flex-shrink-0 rounded-lg bg-gray-200 dark:bg-gray-800"
+            className="h-40 w-full rounded-xl bg-gray-200 dark:bg-gray-800"
           />
         ))}
       </div>
