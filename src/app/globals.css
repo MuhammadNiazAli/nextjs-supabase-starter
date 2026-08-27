@@ -119,4 +119,52 @@ body {
   }
 }
 
+/* Contributors panel — a horizontal swiper: one row of fixed-width cards
+   in a snap-scrolling track. Swipe/drag on touch and trackpads, or use
+   the arrow buttons rendered next to it. Keeps scrolling sideways as
+   more contributors join instead of ever wrapping or running out of room. */
+.contrib-swiper {
+  display: flex;
+  align-items: stretch;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x proximity;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  gap: 16px;
+  cursor: grab;
+  user-select: none;
+}
+
+.contrib-swiper::-webkit-scrollbar {
+  display: none;
+}
+
+/* Few contributors (no horizontal overflow): center the row instead of
+   letting it hug the left edge with a big empty gap on the right. */
+.contrib-swiper--centered {
+  justify-content: center;
+}
+
+.contrib-swiper.is-dragging {
+  cursor: grabbing;
+  scroll-snap-type: none;
+}
+
+.contrib-swiper.is-dragging * {
+  pointer-events: none;
+}
+
+.contrib-swiper .card {
+  flex: 0 0 auto;
+  width: 168px;
+  scroll-snap-align: start;
+}
+
+@media (max-width: 480px) {
+  .contrib-swiper .card {
+    width: 138px;
+  }
+}
+
 

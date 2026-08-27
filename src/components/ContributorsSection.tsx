@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { useReveal } from "@/lib/useReveal";
 import type { Contributor } from "@/app/api/contributors/route";
@@ -87,14 +87,7 @@ export default function ContributorsSection() {
             )}
 
             {others.length > 0 ? (
-              <ul
-                role="list"
-                className="grid w-full grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5"
-              >
-                {others.map((c, idx) => (
-                  <ContributorCard key={c.login} contributor={c} index={idx} />
-                ))}
-              </ul>
+              <ContributorsSwiper contributors={others} />
             ) : (
               admin && (
                 <div className="w-full rounded-xl border border-dashed border-gray-300 p-8 text-center text-sm text-gray-500 dark:border-gray-800 dark:text-gray-500">
@@ -183,49 +176,168 @@ function MaintainerSpotlight({
   );
 }
 
-function ContributorCard({
-  contributor,
-  index,
-}: {
-  contributor: Contributor;
-  index: number;
-}) {
-  const { ref, visible } = useReveal<HTMLLIElement>();
+/**
+ * Horizontal, snap-scrolling swiper strip. One card per remaining
+ * contributor — swipe on touch, drag with a mouse on desktop, or use
+ * the arrow buttons. Arrows and drag only kick in once the row
+ * actually overflows its container; a handful of contributors that
+ * already fit are simply centered instead of hugging the left edge.
+ * Grows however many contributors there are — it just keeps scrolling
+ * sideways as more people join.
+ */
+function ContributorsSwiper({ contributors }: { contributors: Contributor[] }) {
+  const { ref: revealRef, visible } = useReveal<HTMLDivElement>();
+  const trackRef = useRef<HTMLDivElement>(null);
+  const [hasOverflow, setHasOverflow] = useState(false);
+  const dragState = useRef({ active: false, startX: 0, startScroll: 0, moved: false });
+
+  useEffect(() => {
+    const el = trackRef.current;
+    if (!el) return;
+
+    const measure = () => setHasOverflow(el.scrollWidth > el.clientWidth + 4);
+    measure();
+
+    const observer = new ResizeObserver(measure);
+    observer.observe(el);
+    window.addEventListener("resize", measure);
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("resize", measure);
+    };
+  }, [contributors.length]);
+
+  const scrollByCards = (direction: 1 | -1) => {
+    const el = trackRef.current;
+    if (!el) return;
+    const card = el.querySelector<HTMLElement>("[data-card]");
+    const step = (card?.offsetWidth ?? 168) + 16;
+    el.scrollBy({ left: step * 2 * direction, behavior: "smooth" });
+  };
+
+  const onPointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+    const el = trackRef.current;
+    if (!el || e.pointerType === "touch") return;
+    dragState.current = { active: true, startX: e.clientX, startScroll: el.scrollLeft, moved: false };
+    el.setPointerCapture(e.pointerId);
+    el.classList.add("is-dragging");
+  };
+
+  const onPointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    const el = trackRef.current;
+    if (!el || !dragState.current.active) return;
+    const delta = e.clientX - dragState.current.startX;
+    if (Math.abs(delta) > 3) dragState.current.moved = true;
+    el.scrollLeft = dragState.current.startScroll - delta;
+  };
+
+  const endDrag = (e: React.PointerEvent<HTMLDivElement>) => {
+    const el = trackRef.current;
+    if (el && e.pointerType !== "touch") {
+      el.classList.remove("is-dragging");
+      try {
+        el.releasePointerCapture(e.pointerId);
+      } catch {
+        // Ignore — capture may already have been released.
+      }
+    }
+    dragState.current.active = false;
+  };
+
+  const onTrackClickCapture = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (dragState.current.moved) {
+      e.preventDefault();
+      e.stopPropagation();
+      dragState.current.moved = false;
+    }
+  };
 
   return (
-    <li
-      ref={ref}
-      style={{ transitionDelay: visible ? `${Math.min(index, 10) * 50}ms` : "0ms" }}
-      className={`reveal ${visible ? "reveal-visible" : ""}`}
+    <div
+      ref={revealRef}
+      className={`reveal relative w-full rounded-2xl border border-gray-200 bg-gray-50 p-2 dark:border-gray-800 dark:bg-gray-900/40 sm:p-3 ${
+        visible ? "reveal-visible" : ""
+      }`}
     >
-      <a
-        href={contributor.htmlUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="group flex flex-col items-center gap-3 rounded-xl border border-gray-200 bg-white px-4 py-6 text-center transition-all duration-200 hover:-translate-y-1 hover:border-primary hover:shadow-lg hover:shadow-primary/10 dark:border-gray-800 dark:bg-gray-900"
+      <div
+        ref={trackRef}
+        className={`contrib-swiper ${hasOverflow ? "" : "contrib-swiper--centered"}`}
+        role="list"
+        aria-label="Contributors"
+        onPointerDown={onPointerDown}
+        onPointerMove={onPointerMove}
+        onPointerUp={endDrag}
+        onPointerLeave={endDrag}
+        onClickCapture={onTrackClickCapture}
       >
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={contributor.avatarUrl}
-          alt={contributor.login}
-          loading="lazy"
-          className="h-16 w-16 rounded-full border border-gray-200 object-cover transition-transform duration-200 group-hover:scale-105 dark:border-gray-700"
-        />
-        <div className="min-w-0">
-          <p className="truncate text-sm font-semibold text-gray-900 dark:text-white">
-            {contributor.name || contributor.login}
-          </p>
-          <p className="mt-0.5 truncate text-xs text-gray-500 dark:text-gray-400">
-            @{contributor.login}
-          </p>
-          <p className="mt-1 text-xs font-medium text-primary">
-            {contributor.contributions === 1
-              ? "1 commit"
-              : `${contributor.contributions} commits`}
-          </p>
-        </div>
-      </a>
-    </li>
+        {contributors.map((c) => (
+          <a
+            key={c.login}
+            href={c.htmlUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            data-card
+            draggable={false}
+            className="card group flex flex-col items-center gap-3 rounded-xl border border-gray-200 bg-white px-4 py-6 text-center transition-all duration-200 hover:-translate-y-1 hover:border-primary hover:shadow-lg hover:shadow-primary/10 dark:border-gray-800 dark:bg-gray-900"
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={c.avatarUrl}
+              alt={c.login}
+              loading="lazy"
+              draggable={false}
+              className="h-16 w-16 rounded-full border border-gray-200 object-cover transition-transform duration-200 group-hover:scale-105 dark:border-gray-700"
+            />
+            <div className="min-w-0 w-full">
+              <p className="truncate text-sm font-semibold text-gray-900 dark:text-white">
+                {c.name || c.login}
+              </p>
+              <p className="mt-0.5 truncate text-xs text-gray-500 dark:text-gray-400">
+                @{c.login}
+              </p>
+              <p className="mt-1 text-xs font-medium text-primary">
+                {c.contributions === 1 ? "1 commit" : `${c.contributions} commits`}
+              </p>
+            </div>
+          </a>
+        ))}
+      </div>
+
+      {hasOverflow && (
+        <>
+          <button
+            type="button"
+            onClick={() => scrollByCards(-1)}
+            aria-label="Scroll contributors left"
+            className="absolute -left-3 top-1/2 z-10 hidden -translate-y-1/2 items-center justify-center rounded-full border border-gray-200 bg-white p-2 text-gray-700 shadow-lg shadow-black/5 transition hover:scale-105 hover:border-primary hover:text-primary dark:border-gray-700 dark:bg-gray-900 dark:text-gray-200 dark:hover:text-white sm:flex"
+          >
+            <ChevronIcon className="h-4 w-4 rotate-180" aria-hidden="true" />
+          </button>
+          <button
+            type="button"
+            onClick={() => scrollByCards(1)}
+            aria-label="Scroll contributors right"
+            className="absolute -right-3 top-1/2 z-10 hidden -translate-y-1/2 items-center justify-center rounded-full border border-gray-200 bg-white p-2 text-gray-700 shadow-lg shadow-black/5 transition hover:scale-105 hover:border-primary hover:text-primary dark:border-gray-700 dark:bg-gray-900 dark:text-gray-200 dark:hover:text-white sm:flex"
+          >
+            <ChevronIcon className="h-4 w-4" aria-hidden="true" />
+          </button>
+        </>
+      )}
+    </div>
+  );
+}
+
+function ChevronIcon(props: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" {...props}>
+      <path
+        d="m9 6 6 6-6 6"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
   );
 }
 
