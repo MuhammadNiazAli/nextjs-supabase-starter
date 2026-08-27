@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useLanguage } from "@/lib/i18n/LanguageContext";
+import { useReveal } from "@/lib/useReveal";
 import type { Contributor } from "@/app/api/contributors/route";
 
 const ADMIN_LOGIN = "MuhammadNiazAli";
@@ -90,36 +91,8 @@ export default function ContributorsSection() {
                 role="list"
                 className="grid w-full grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5"
               >
-                {others.map((c) => (
-                  <li key={c.login}>
-                    <a
-                      href={c.htmlUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="group flex flex-col items-center gap-3 rounded-xl border border-gray-200 bg-white px-4 py-6 text-center transition-all duration-200 hover:-translate-y-1 hover:border-primary hover:shadow-lg hover:shadow-primary/10 dark:border-gray-800 dark:bg-gray-900"
-                    >
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        src={c.avatarUrl}
-                        alt={c.login}
-                        loading="lazy"
-                        className="h-16 w-16 rounded-full border border-gray-200 object-cover transition-transform duration-200 group-hover:scale-105 dark:border-gray-700"
-                      />
-                      <div className="min-w-0">
-                        <p className="truncate text-sm font-semibold text-gray-900 dark:text-white">
-                          {c.name || c.login}
-                        </p>
-                        <p className="mt-0.5 truncate text-xs text-gray-500 dark:text-gray-400">
-                          @{c.login}
-                        </p>
-                        <p className="mt-1 text-xs font-medium text-primary">
-                          {c.contributions === 1
-                            ? "1 commit"
-                            : `${c.contributions} commits`}
-                        </p>
-                      </div>
-                    </a>
-                  </li>
+                {others.map((c, idx) => (
+                  <ContributorCard key={c.login} contributor={c} index={idx} />
                 ))}
               </ul>
             ) : (
@@ -137,12 +110,11 @@ export default function ContributorsSection() {
 }
 
 /**
- * Maintainer spotlight — a compact, premium card that sits above the
- * contributor grid. The avatar is shown exactly as GitHub serves it:
- * no colored ring, no glow, no background layer injected behind or
- * around the PNG — just the image itself inside a bordered frame, so
- * whatever background the picture already has (transparent, solid,
- * whatever) is what actually shows.
+ * Maintainer spotlight — the one card on the page allowed a real flourish:
+ * a slow rotating conic-gradient ring peeking out behind the avatar, a
+ * gently pulsing badge, and a one-shot light sweep across the card on
+ * hover. The avatar itself stays untouched — no glow or ring drawn over
+ * the PNG, only around it.
  */
 function MaintainerSpotlight({
   contributor,
@@ -160,22 +132,32 @@ function MaintainerSpotlight({
         className="pointer-events-none absolute inset-x-10 top-0 h-[2px] rounded-full bg-gradient-to-r from-transparent via-primary to-transparent opacity-80"
       />
 
-      <span className="inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-[11px] font-bold uppercase tracking-wide text-indigo-300">
+      {/* One-shot light sweep, triggered on hover only */}
+      <span
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/10 to-transparent transition-transform duration-700 ease-out group-hover:translate-x-full"
+      />
+
+      <span className="maintainer-badge inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-[11px] font-bold uppercase tracking-wide text-indigo-300">
         <StarIcon className="h-3 w-3" aria-hidden="true" />
         {badge}
       </span>
 
       <div className="relative h-28 w-28 sm:h-32 sm:w-32">
+        <div
+          aria-hidden="true"
+          className="maintainer-ring absolute inset-[-4px] rounded-[1.4rem] opacity-70 blur-[1.5px] transition-opacity duration-300 group-hover:opacity-100"
+        />
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={contributor.avatarUrl}
           alt={contributor.login}
           loading="lazy"
-          className="h-full w-full rounded-2xl border border-white/10 object-cover transition-transform duration-300 group-hover:scale-[1.04]"
+          className="relative h-full w-full rounded-2xl border border-white/10 object-cover transition-transform duration-300 group-hover:scale-[1.04]"
         />
         <span
           aria-hidden="true"
-          className="absolute -bottom-2 -right-2 flex h-7 w-7 items-center justify-center rounded-full border-[3px] border-gray-950 bg-primary text-white"
+          className="absolute -bottom-2 -right-2 flex h-7 w-7 items-center justify-center rounded-full border-[3px] border-gray-950 bg-primary text-white transition-transform duration-300 group-hover:scale-110 group-hover:rotate-12"
         >
           <CrownIcon className="h-3.5 w-3.5" />
         </span>
@@ -192,12 +174,58 @@ function MaintainerSpotlight({
         href={contributor.htmlUrl}
         target="_blank"
         rel="noopener noreferrer"
-        className="inline-flex items-center gap-1.5 rounded-full bg-white/10 px-4 py-2 text-xs font-semibold text-white transition-colors duration-200 hover:bg-primary"
+        className="inline-flex items-center gap-1.5 rounded-full bg-white/10 px-4 py-2 text-xs font-semibold text-white transition-all duration-200 hover:-translate-y-0.5 hover:bg-primary"
       >
         <GithubIcon className="h-4 w-4" aria-hidden="true" />
         {viewGithubLabel}
       </a>
     </div>
+  );
+}
+
+function ContributorCard({
+  contributor,
+  index,
+}: {
+  contributor: Contributor;
+  index: number;
+}) {
+  const { ref, visible } = useReveal<HTMLLIElement>();
+
+  return (
+    <li
+      ref={ref}
+      style={{ transitionDelay: visible ? `${Math.min(index, 10) * 50}ms` : "0ms" }}
+      className={`reveal ${visible ? "reveal-visible" : ""}`}
+    >
+      <a
+        href={contributor.htmlUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="group flex flex-col items-center gap-3 rounded-xl border border-gray-200 bg-white px-4 py-6 text-center transition-all duration-200 hover:-translate-y-1 hover:border-primary hover:shadow-lg hover:shadow-primary/10 dark:border-gray-800 dark:bg-gray-900"
+      >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={contributor.avatarUrl}
+          alt={contributor.login}
+          loading="lazy"
+          className="h-16 w-16 rounded-full border border-gray-200 object-cover transition-transform duration-200 group-hover:scale-105 dark:border-gray-700"
+        />
+        <div className="min-w-0">
+          <p className="truncate text-sm font-semibold text-gray-900 dark:text-white">
+            {contributor.name || contributor.login}
+          </p>
+          <p className="mt-0.5 truncate text-xs text-gray-500 dark:text-gray-400">
+            @{contributor.login}
+          </p>
+          <p className="mt-1 text-xs font-medium text-primary">
+            {contributor.contributions === 1
+              ? "1 commit"
+              : `${contributor.contributions} commits`}
+          </p>
+        </div>
+      </a>
+    </li>
   );
 }
 

@@ -81,11 +81,11 @@ export default function Navbar() {
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-3 px-4 sm:px-6">
           <Link
             href="/"
-            className="flex shrink-0 items-center gap-2.5 text-base font-extrabold tracking-tight text-gray-900 dark:text-white sm:text-lg"
+            className="group flex shrink-0 items-center gap-2.5 text-base font-extrabold tracking-tight text-gray-900 dark:text-white sm:text-lg"
           >
             <span
               aria-hidden="true"
-              className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary text-base font-black text-white"
+              className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary text-base font-black text-white transition-transform duration-300 group-hover:-rotate-6 group-hover:scale-105"
             >
               {t("navbar.brand").trim().charAt(0)}
             </span>

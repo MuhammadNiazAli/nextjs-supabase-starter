@@ -57,4 +57,66 @@ body {
   }
 }
 
+/* Generic scroll-reveal used by step cards and contributor cards — fade
+   + rise once, the moment each item enters the viewport. */
+.reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.55s ease, transform 0.55s ease;
+}
+
+.reveal-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    transition: none;
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Maintainer spotlight — a slow rotating conic-gradient ring peeking out
+   from behind the avatar frame, and a gentle pulse on the badge above it. */
+@keyframes maintainerRingSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.maintainer-ring {
+  background: conic-gradient(
+    from 0deg,
+    rgba(79, 70, 229, 0.9),
+    rgba(129, 140, 248, 0.05) 30%,
+    rgba(79, 70, 229, 0.9) 60%,
+    rgba(129, 140, 248, 0.05) 90%,
+    rgba(79, 70, 229, 0.9) 100%
+  );
+  animation: maintainerRingSpin 7s linear infinite;
+}
+
+@keyframes maintainerBadgePulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(79, 70, 229, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 6px rgba(79, 70, 229, 0);
+  }
+}
+
+.maintainer-badge {
+  animation: maintainerBadgePulse 2.4s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .maintainer-ring,
+  .maintainer-badge {
+    animation: none;
+  }
+}
+
 
