@@ -1,4 +1,4 @@
-# 🚀 Next.js Supabase Starter
+#  Next.js Supabase Starter
 
 A production-ready, open-source starter kit for building modern SaaS apps with Next.js, TypeScript, Tailwind CSS, and Supabase. Built to be simple enough for your first pull request, and solid enough to actually ship a real product on top of.
 
@@ -167,6 +167,6 @@ This project is licensed under the MIT License. See [LICENSE](./LICENSE) for det
 
 ## Maintainer
 
-Built and maintained by [Muhammad Niaz Ali](https://github.com/MuhammadNiazAli) — a full stack developer working across Next.js, React Native, Supabase, and Python automation with n8n.
+Built and maintained by [Muhammad Niaz Ali](https://github.com/MuhammadNiazAli) a full stack developer working across Next.js, React Native, Supabase, and Python automation with n8n.
 
-If this project saved you time, please consider giving it a star ⭐ — it genuinely helps more contributors find the repo.
+If this project saved you time, please consider giving it a star ⭐ it genuinely helps more contributors find the repo.
