@@ -2,45 +2,51 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { useForm, Controller } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { supabase } from "@/lib/supabaseClient";
 import PasswordInput from "@/components/PasswordInput";
+import Spinner from "@/components/Spinner";
+import { useToast } from "@/components/Toast";
+import { loginSchema, type LoginFormValues } from "@/lib/validation/authSchemas";
 
 export default function LoginPage() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const { showToast } = useToast();
 
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError(null);
+  const {
+    register,
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm<LoginFormValues>({
+    resolver: zodResolver(loginSchema),
+    defaultValues: { email: "", password: "" },
+  });
+
+  const handleLogin = async (values: LoginFormValues) => {
     setLoading(true);
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
+    const { error } = await supabase.auth.signInWithPassword(values);
     setLoading(false);
-    if (error) setError(error.message);
+    if (error) showToast(error.message, "error");
     else window.location.href = "/dashboard";
   };
 
   const handleGoogleLogin = async () => {
-    setError(null);
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
       options: { redirectTo: `${window.location.origin}/auth/callback` },
     });
-    if (error) setError(error.message);
+    if (error) showToast(error.message, "error");
   };
 
   // same oauth pattern as google, just a different provider name
   const handleGithubLogin = async () => {
-    setError(null);
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "github",
       options: { redirectTo: `${window.location.origin}/auth/callback` },
     });
-    if (error) setError(error.message);
+    if (error) showToast(error.message, "error");
   };
 
   return (
@@ -50,7 +56,7 @@ export default function LoginPage() {
         <p className="text-sm text-gray-500 mb-6">
           Log in to continue to your account.
         </p>
-        <form onSubmit={handleLogin} className="flex flex-col gap-4">
+        <form onSubmit={handleSubmit(handleLogin)} className="flex flex-col gap-4">
           <div>
             <label className="block text-xs font-medium text-gray-500 mb-1.5">
               Email
@@ -58,12 +64,16 @@ export default function LoginPage() {
             <input
               type="email"
               placeholder="you@example.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
               autoComplete="email"
+              aria-invalid={errors.email ? "true" : "false"}
               className="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm bg-white dark:bg-gray-900 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition"
-              required
+              {...register("email")}
             />
+            {errors.email && (
+              <p role="alert" className="text-red-500 text-xs mt-1.5">
+                {errors.email.message}
+              </p>
+            )}
           </div>
           <div>
             <div className="flex items-center justify-between mb-1.5">
@@ -77,27 +87,36 @@ export default function LoginPage() {
                 Forgot password?
               </Link>
             </div>
-            <PasswordInput
-              value={password}
-              onChange={setPassword}
-              placeholder="Enter your password"
-              autoComplete="current-password"
+            <Controller
+              control={control}
+              name="password"
+              render={({ field }) => (
+                <PasswordInput
+                  value={field.value}
+                  onChange={field.onChange}
+                  placeholder="Enter your password"
+                  autoComplete="current-password"
+                />
+              )}
             />
+            {errors.password && (
+              <p role="alert" className="text-red-500 text-xs mt-1.5">
+                {errors.password.message}
+              </p>
+            )}
           </div>
-          {error && (
-            <p
-              role="alert"
-              className="text-red-500 text-sm bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900 rounded-lg px-3 py-2"
-            >
-              {error}
-            </p>
-          )}
           <button
             type="submit"
             disabled={loading}
-            className="bg-primary hover:bg-primary/90 disabled:opacity-60 disabled:cursor-not-allowed text-white rounded-lg px-3 py-2.5 text-sm font-medium transition shadow-sm shadow-primary/30"
+            className="flex items-center justify-center gap-2 bg-primary hover:bg-primary/90 disabled:opacity-60 disabled:cursor-not-allowed text-white rounded-lg px-3 py-2.5 text-sm font-medium transition shadow-sm shadow-primary/30"
           >
-            {loading ? "Logging in..." : "Login"}
+            {loading ? (
+              <>
+                <Spinner /> Logging in...
+              </>
+            ) : (
+              "Login"
+            )}
           </button>
         </form>
         <div className="flex items-center gap-3 my-5">
@@ -152,4 +171,4 @@ export default function LoginPage() {
       </div>
     </div>
   );
-} 
+}

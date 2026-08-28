@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { supabase } from "@/lib/supabaseClient";
 import type { User } from "@supabase/supabase-js";
+import Spinner from "@/components/Spinner";
 
 type Plan = {
   name: string;
@@ -128,9 +129,15 @@ export default function PricingPage() {
               type="button"
               onClick={() => handleSubscribe(plan.priceId)}
               disabled={loadingPriceId === plan.priceId}
-              className="w-full bg-primary hover:bg-primary/90 disabled:opacity-60 disabled:cursor-not-allowed text-white rounded-lg px-3 py-2.5 text-sm font-medium transition shadow-sm shadow-primary/30"
+              className="flex items-center justify-center gap-2 w-full bg-primary hover:bg-primary/90 disabled:opacity-60 disabled:cursor-not-allowed text-white rounded-lg px-3 py-2.5 text-sm font-medium transition shadow-sm shadow-primary/30"
             >
-              {loadingPriceId === plan.priceId ? "Redirecting..." : "Subscribe"}
+              {loadingPriceId === plan.priceId ? (
+                <>
+                  <Spinner /> Redirecting...
+                </>
+              ) : (
+                "Subscribe"
+              )}
             </button>
           </div>
         ))}
