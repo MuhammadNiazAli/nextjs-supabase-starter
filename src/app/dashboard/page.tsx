@@ -4,19 +4,16 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabaseClient";
 import type { User } from "@supabase/supabase-js";
 import Spinner from "@/components/Spinner";
+import { useToast } from "@/components/Toast";
 
 export default function DashboardPage() {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
-  const [resetSent, setResetSent] = useState(false);
   const [resetLoading, setResetLoading] = useState(false);
-  const [resetError, setResetError] = useState<string | null>(null);
 
-  const [verificationSent, setVerificationSent] = useState(false);
   const [verificationLoading, setVerificationLoading] = useState(false);
-  const [verificationError, setVerificationError] = useState<string | null>(
-    null
-  );
+
+  const { showToast } = useToast();
 
   useEffect(() => {
     supabase.auth.getUser().then(({ data }) => {
@@ -28,26 +25,24 @@ export default function DashboardPage() {
   const handleResetPassword = async () => {
     if (!user?.email) return;
     setResetLoading(true);
-    setResetError(null);
     const { error } = await supabase.auth.resetPasswordForEmail(user.email, {
       redirectTo: `${window.location.origin}/update-password`,
     });
     setResetLoading(false);
-    if (error) setResetError(error.message);
-    else setResetSent(true);
+    if (error) showToast(error.message, "error");
+    else showToast("Password reset email sent — check your inbox.", "success");
   };
 
   const handleResendVerification = async () => {
     if (!user?.email) return;
     setVerificationLoading(true);
-    setVerificationError(null);
     const { error } = await supabase.auth.resend({
       type: "signup",
       email: user.email,
     });
     setVerificationLoading(false);
-    if (error) setVerificationError(error.message);
-    else setVerificationSent(true);
+    if (error) showToast(error.message, "error");
+    else showToast("Verification email sent — check your inbox.", "success");
   };
 
   if (loading)
@@ -79,30 +74,21 @@ export default function DashboardPage() {
           className="w-full max-w-sm mb-4 flex flex-col gap-2 bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-900 rounded-xl px-4 py-3 text-sm"
         >
           <p className="text-amber-800 dark:text-amber-300">
-            {verificationSent
-              ? "Verification email sent — check your inbox."
-              : "Please verify your email address to unlock all features."}
+            Please verify your email address to unlock all features.
           </p>
-          {!verificationSent && (
-            <button
-              onClick={handleResendVerification}
-              disabled={verificationLoading}
-              className="self-start flex items-center gap-2 text-amber-800 dark:text-amber-300 font-medium underline underline-offset-2 disabled:opacity-60 disabled:cursor-not-allowed"
-            >
-              {verificationLoading ? (
-                <>
-                  <Spinner /> Sending...
-                </>
-              ) : (
-                "Resend verification email"
-              )}
-            </button>
-          )}
-          {verificationError && (
-            <p role="alert" className="text-red-500">
-              {verificationError}
-            </p>
-          )}
+          <button
+            onClick={handleResendVerification}
+            disabled={verificationLoading}
+            className="self-start flex items-center gap-2 text-amber-800 dark:text-amber-300 font-medium underline underline-offset-2 disabled:opacity-60 disabled:cursor-not-allowed"
+          >
+            {verificationLoading ? (
+              <>
+                <Spinner /> Sending...
+              </>
+            ) : (
+              "Resend verification email"
+            )}
+          </button>
         </div>
       )}
       <div className="w-full max-w-sm bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-2xl shadow-xl shadow-gray-200/50 dark:shadow-black/30 p-8">
@@ -125,33 +111,19 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        {resetSent ? (
-          <p
-            role="status"
-            className="text-green-600 text-sm bg-green-50 dark:bg-green-950/40 border border-green-200 dark:border-green-900 rounded-lg px-3 py-2 text-center"
-          >
-            Password reset email sent — check your inbox.
-          </p>
-        ) : (
-          <button
-            onClick={handleResetPassword}
-            disabled={resetLoading}
-            className="flex items-center justify-center gap-2 w-full bg-primary hover:bg-primary/90 disabled:opacity-60 disabled:cursor-not-allowed text-white rounded-lg px-3 py-2.5 text-sm font-medium transition shadow-sm shadow-primary/30"
-          >
-            {resetLoading ? (
-              <>
-                <Spinner /> Sending...
-              </>
-            ) : (
-              "Reset Password"
-            )}
-          </button>
-        )}
-        {resetError && (
-          <p role="alert" className="text-red-500 text-sm mt-3 text-center">
-            {resetError}
-          </p>
-        )}
+        <button
+          onClick={handleResetPassword}
+          disabled={resetLoading}
+          className="flex items-center justify-center gap-2 w-full bg-primary hover:bg-primary/90 disabled:opacity-60 disabled:cursor-not-allowed text-white rounded-lg px-3 py-2.5 text-sm font-medium transition shadow-sm shadow-primary/30"
+        >
+          {resetLoading ? (
+            <>
+              <Spinner /> Sending...
+            </>
+          ) : (
+            "Reset Password"
+          )}
+        </button>
       </div>
     </div>
   );

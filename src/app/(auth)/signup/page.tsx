@@ -2,49 +2,60 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { useForm, Controller } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { supabase } from "@/lib/supabaseClient";
 import PasswordInput from "@/components/PasswordInput";
 import Spinner from "@/components/Spinner";
+import { useToast } from "@/components/Toast";
+import { signupSchema, type SignupFormValues } from "@/lib/validation/authSchemas";
 
 export default function SignupPage() {
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
+  const { showToast } = useToast();
 
-  const handleSignup = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError(null);
+  const {
+    register,
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm<SignupFormValues>({
+    resolver: zodResolver(signupSchema),
+    defaultValues: { username: "", email: "", password: "" },
+  });
+
+  const handleSignup = async (values: SignupFormValues) => {
     setLoading(true);
     const { error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: { data: { username } },
+      email: values.email,
+      password: values.password,
+      options: { data: { username: values.username } },
     });
     setLoading(false);
-    if (error) setError(error.message);
-    else setSuccess(true);
+    if (error) {
+      showToast(error.message, "error");
+    } else {
+      setSuccess(true);
+      showToast("Check your email to confirm your account.", "success");
+    }
   };
 
   const handleGoogleSignup = async () => {
-    setError(null);
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
       options: { redirectTo: `${window.location.origin}/auth/callback` },
     });
-    if (error) setError(error.message);
+    if (error) showToast(error.message, "error");
   };
 
   // same oauth pattern as google, just a different provider name
   const handleGithubSignup = async () => {
-    setError(null);
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "github",
       options: { redirectTo: `${window.location.origin}/auth/callback` },
     });
-    if (error) setError(error.message);
+    if (error) showToast(error.message, "error");
   };
 
   return (
@@ -62,7 +73,7 @@ export default function SignupPage() {
             Check your email to confirm your account.
           </p>
         ) : (
-          <form onSubmit={handleSignup} className="flex flex-col gap-4">
+          <form onSubmit={handleSubmit(handleSignup)} className="flex flex-col gap-4">
             <div>
               <label className="block text-xs font-medium text-gray-500 mb-1.5">
                 Username
@@ -70,13 +81,16 @@ export default function SignupPage() {
               <input
                 type="text"
                 placeholder="Choose a username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
                 autoComplete="username"
-                minLength={3}
+                aria-invalid={errors.username ? "true" : "false"}
                 className="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm bg-white dark:bg-gray-900 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition"
-                required
+                {...register("username")}
               />
+              {errors.username && (
+                <p role="alert" className="text-red-500 text-xs mt-1.5">
+                  {errors.username.message}
+                </p>
+              )}
             </div>
             <div>
               <label className="block text-xs font-medium text-gray-500 mb-1.5">
@@ -85,32 +99,39 @@ export default function SignupPage() {
               <input
                 type="email"
                 placeholder="you@example.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
                 autoComplete="email"
+                aria-invalid={errors.email ? "true" : "false"}
                 className="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm bg-white dark:bg-gray-900 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition"
-                required
+                {...register("email")}
               />
+              {errors.email && (
+                <p role="alert" className="text-red-500 text-xs mt-1.5">
+                  {errors.email.message}
+                </p>
+              )}
             </div>
             <div>
               <label className="block text-xs font-medium text-gray-500 mb-1.5">
                 Password
               </label>
-              <PasswordInput
-                value={password}
-                onChange={setPassword}
-                placeholder="Create a strong password"
-                autoComplete="new-password"
+              <Controller
+                control={control}
+                name="password"
+                render={({ field }) => (
+                  <PasswordInput
+                    value={field.value}
+                    onChange={field.onChange}
+                    placeholder="Create a strong password"
+                    autoComplete="new-password"
+                  />
+                )}
               />
+              {errors.password && (
+                <p role="alert" className="text-red-500 text-xs mt-1.5">
+                  {errors.password.message}
+                </p>
+              )}
             </div>
-            {error && (
-              <p
-                role="alert"
-                className="text-red-500 text-sm bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900 rounded-lg px-3 py-2"
-              >
-                {error}
-              </p>
-            )}
             <button
               type="submit"
               disabled={loading}
