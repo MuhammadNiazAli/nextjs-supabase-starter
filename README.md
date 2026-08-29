@@ -1,6 +1,6 @@
-#  Next.js Supabase Starter
+# 🚀 Next.js Supabase Starter
 
-A production-ready, open-source starter kit for building modern SaaS apps with Next.js, TypeScript, Tailwind CSS, and Supabase. Built to be simple enough for your first pull request, and solid enough to actually ship a real product on top of.
+A production ready open source starter kit for building modern SaaS apps with Next.js TypeScript Tailwind CSS and Supabase. Built to be simple enough for your first pull request and solid enough to actually ship a real product on top of.
 
 ![Next.js](https://img.shields.io/badge/Next.js-14-black)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5-blue)
@@ -8,27 +8,21 @@ A production-ready, open-source starter kit for building modern SaaS apps with N
 ![License](https://img.shields.io/badge/license-MIT-green)
 ![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen)
 
-## Table of Contents
+## Screenshots
 
-- [Why this starter](#why-this-starter)
-- [Tech stack](#tech-stack)
-- [Features](#features)
-- [Screenshots](#screenshots)
-- [Getting started](#getting-started)
-- [Supabase setup](#supabase-setup)
-- [Stripe setup (optional)](#stripe-setup-optional)
-- [Available scripts](#available-scripts)
-- [Project structure](#project-structure)
-- [Contributing](#contributing)
-- [Roadmap](#roadmap)
-- [License](#license)
-- [Maintainer](#maintainer)
+| Light Mode | Dark Mode |
+|---|---|
+| ![Homepage Light](./screenshots/homepage-light.png) | ![Homepage Dark](./screenshots/homepage-dark.png) |
+
+| Login | Sign up |
+|---|---|
+| ![Login](./screenshots/login.png) | ![Sign up](./screenshots/signup.png) |
 
 ## Why this starter
 
-Most starter kits fall into one of two camps: either they're toy examples that fall apart the moment you try to build something real, or they're bloated, paid templates locked behind a paywall. This project sits in the middle. It ships with real authentication, a real Postgres database, and a working dashboard — while staying small enough to read through in one sitting.
+Most starter kits fall into one of two camps. Either they are toy examples that fall apart the moment you try to build something real or they are bloated paid templates locked behind a paywall. This project sits in the middle. It ships with real authentication a real Postgres database and a working dashboard while staying small enough to read through in one sitting.
 
-It's also built with open-source contribution in mind. The codebase is intentionally kept clean and well-organized, so that a beginner writing their first pull request and a senior engineer looking for a weekend project can both work in it comfortably.
+It is also built with open source contribution in mind. The codebase is intentionally kept clean and well organized so that a beginner writing their first pull request and a senior engineer looking for a weekend project can both work in it comfortably.
 
 ## Tech stack
 
@@ -49,26 +43,16 @@ It's also built with open-source contribution in mind. The codebase is intention
 - Stripe billing example (pricing page, Checkout, webhook)
 - Password reset flow
 - Dark mode toggle with saved preference
-- Built-in internationalization with English and Urdu support
+- Built in internationalization with English and Urdu support
 - Responsive navbar and footer
 - Unit test suite covering core components
 - Storybook setup for building and previewing UI in isolation
 - GitHub Actions CI that lints every pull request
-- Clean and predictable folder structure that's easy to extend
-
-## Screenshots
-
-| Light Mode | Dark Mode |
-|---|---|
-| ![Homepage Light](./screenshots/homepage-light.png) | ![Homepage Dark](./screenshots/homepage-dark.png) |
-
-| Login | Sign up |
-|---|---|
-| ![Login](./screenshots/login.png) | ![Sign up](./screenshots/signup.png) |
+- Clean and predictable folder structure that is easy to extend
 
 ## Getting started
 
-Clone the repository and install the dependencies:
+Clone the repository and install the dependencies.
 
 ```bash
 git clone https://github.com/MuhammadNiazAli/nextjs-supabase-starter.git
@@ -76,13 +60,13 @@ cd nextjs-supabase-starter
 npm install
 ```
 
-Copy the example environment file and fill in your own Supabase credentials:
+Copy the example environment file and fill in your own Supabase credentials.
 
 ```bash
 cp .env.example .env.local
 ```
 
-Start the development server:
+Start the development server.
 
 ```bash
 npm run dev
@@ -94,8 +78,8 @@ The app will be running at [http://localhost:3000](http://localhost:3000).
 
 1. Create a free project at [supabase.com](https://supabase.com)
 2. Copy your project URL and anon key into `.env.local`
-3. Open the Supabase SQL editor and run the contents of `supabase/schema.sql` to create the required tables, the `avatars` storage bucket, and all row-level security policies
-4. If you plan to use Google login, enable the Google provider from the Supabase Auth settings
+3. Open the Supabase SQL editor and run the contents of `supabase/schema.sql` to create the required tables, the `avatars` storage bucket, and all row level security policies
+4. If you plan to use Google login enable the Google provider from the Supabase Auth settings
 
 ## Stripe setup (optional)
 
@@ -123,22 +107,22 @@ The pricing page, checkout, and webhook are opt-in — the app runs fine without
 
 ```
 src/
-  app/            App Router pages including auth, dashboard, profile, pricing, and API routes
+  app/            App Router pages including auth dashboard profile pricing and API routes
   components/     Reusable UI components and their tests and stories
   lib/            Supabase client, Supabase admin client, Stripe client, and internationalization logic
   messages/       Translation files for each supported language
   stories/        Storybook design system assets
 supabase/
-  schema.sql      Database schema, storage policies, and row-level security policies
+  schema.sql      Database schema, storage policies, and row level security policies
 ```
 
 ## Contributing
 
-This project is built for the community, and every contribution is welcome — no matter how small. Please read [CONTRIBUTING.md](./CONTRIBUTING.md) before opening a pull request.
+This project is built for the community and every contribution is welcome no matter how small. Please read [CONTRIBUTING.md](./CONTRIBUTING.md) before opening a pull request.
 
-If you're new to open source, start with an issue labeled [good first issue](../../issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22). If you're looking for something more involved, check the issues labeled [help wanted](../../issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22).
+If you are new to open source start with an issue labeled [good first issue](../../issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22). If you are looking for something more involved check the issues labeled [help wanted](../../issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22).
 
-There are many ways to contribute beyond writing code:
+There are many ways to contribute beyond writing code.
 
 - Star the repo so more people can discover it
 - Fork it and use it as a base for your own project
@@ -159,14 +143,14 @@ There are many ways to contribute beyond writing code:
 - [ ] Rate limiting on API routes
 - [ ] Accessibility audit
 
-Browse the [open issues](../../issues) for the full and up-to-date list of what's being worked on.
+Browse the [open issues](../../issues) for the full and up to date list of what is being worked on.
 
 ## License
 
-This project is licensed under the MIT License. See [LICENSE](./LICENSE) for details. You're free to use it for personal or commercial projects.
+This project is licensed under the MIT License. See [LICENSE](./LICENSE) for details. You are free to use it for personal or commercial projects.
 
 ## Maintainer
 
-Built and maintained by [Muhammad Niaz Ali](https://github.com/MuhammadNiazAli) a full stack developer working across Next.js, React Native, Supabase, and Python automation with n8n.
+Built and maintained by [Muhammad Niaz Ali](https://github.com/MuhammadNiazAli) full stack developer working across Next.js React Native Supabase and Python automation with n8n.
 
-If this project saved you time, please consider giving it a star ⭐ it genuinely helps more contributors find the repo.
+If this project saved you time please consider giving it a star. It genuinely helps more contributors find the repo.

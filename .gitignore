@@ -8,3 +8,7 @@ out
 
 *storybook.log
 storybook-static
+
+/playwright-report
+/test-results
+/playwright/.cache
