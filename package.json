@@ -11,6 +11,7 @@
     "format": "prettier --write .",
     "test": "vitest run --config vitest.unit.config.ts",
     "test:watch": "vitest --config vitest.unit.config.ts",
+    "test:e2e": "playwright test",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
@@ -47,6 +48,7 @@
     "eslint-plugin-storybook": "^10.5.8",
     "vitest": "latest",
     "playwright": "latest",
+    "@playwright/test": "latest",
     "@vitest/browser-playwright": "latest",
     "@vitest/coverage-v8": "latest",
     "jsdom": "latest",
