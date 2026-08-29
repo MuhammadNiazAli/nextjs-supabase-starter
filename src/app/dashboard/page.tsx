@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabaseClient";
 import type { User } from "@supabase/supabase-js";
 import Spinner from "@/components/Spinner";
@@ -13,7 +14,11 @@ export default function DashboardPage() {
 
   const [verificationLoading, setVerificationLoading] = useState(false);
 
+  const [confirmingDelete, setConfirmingDelete] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false);
+
   const { showToast } = useToast();
+  const router = useRouter();
 
   useEffect(() => {
     supabase.auth.getUser().then(({ data }) => {
@@ -43,6 +48,37 @@ export default function DashboardPage() {
     setVerificationLoading(false);
     if (error) showToast(error.message, "error");
     else showToast("Verification email sent — check your inbox.", "success");
+  };
+
+  const handleDeleteAccount = async () => {
+    setDeleteLoading(true);
+
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
+
+    if (!session) {
+      setDeleteLoading(false);
+      showToast("Your session has expired. Please log in again.", "error");
+      return;
+    }
+
+    const response = await fetch("/api/account/delete", {
+      method: "POST",
+      headers: { Authorization: `Bearer ${session.access_token}` },
+    });
+
+    const result = await response.json().catch(() => ({}));
+    setDeleteLoading(false);
+
+    if (!response.ok) {
+      showToast(result.error || "Failed to delete account.", "error");
+      return;
+    }
+
+    await supabase.auth.signOut();
+    showToast("Your account has been deleted.", "success");
+    router.push("/");
   };
 
   if (loading)
@@ -124,6 +160,50 @@ export default function DashboardPage() {
             "Reset Password"
           )}
         </button>
+
+        <div className="mt-6 pt-6 border-t border-gray-100 dark:border-gray-800">
+          {!confirmingDelete ? (
+            <button
+              onClick={() => setConfirmingDelete(true)}
+              className="w-full text-sm font-medium text-red-600 hover:text-red-700 dark:text-red-500 dark:hover:text-red-400 transition"
+            >
+              Delete Account
+            </button>
+          ) : (
+            <div
+              role="alertdialog"
+              aria-label="Confirm account deletion"
+              className="flex flex-col gap-3 bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900 rounded-xl px-4 py-3"
+            >
+              <p className="text-sm text-red-800 dark:text-red-300">
+                This will permanently delete your account and all of your
+                data. This action cannot be undone.
+              </p>
+              <div className="flex gap-3">
+                <button
+                  onClick={handleDeleteAccount}
+                  disabled={deleteLoading}
+                  className="flex items-center justify-center gap-2 flex-1 bg-red-600 hover:bg-red-700 disabled:opacity-60 disabled:cursor-not-allowed text-white rounded-lg px-3 py-2 text-sm font-medium transition"
+                >
+                  {deleteLoading ? (
+                    <>
+                      <Spinner /> Deleting...
+                    </>
+                  ) : (
+                    "Yes, delete my account"
+                  )}
+                </button>
+                <button
+                  onClick={() => setConfirmingDelete(false)}
+                  disabled={deleteLoading}
+                  className="flex-1 border border-gray-300 dark:border-gray-700 rounded-lg px-3 py-2 text-sm font-medium hover:bg-gray-50 dark:hover:bg-gray-800 disabled:opacity-60 disabled:cursor-not-allowed transition"
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
