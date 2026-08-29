@@ -2,10 +2,11 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { useForm, Controller } from "react-hook-form";
+import { useForm, useWatch, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { supabase } from "@/lib/supabaseClient";
 import PasswordInput from "@/components/PasswordInput";
+import PasswordStrengthMeter from "@/components/PasswordStrengthMeter";
 import Spinner from "@/components/Spinner";
 import { useToast } from "@/components/Toast";
 import { signupSchema, type SignupFormValues } from "@/lib/validation/authSchemas";
@@ -24,6 +25,8 @@ export default function SignupPage() {
     resolver: zodResolver(signupSchema),
     defaultValues: { username: "", email: "", password: "" },
   });
+
+  const passwordValue = useWatch({ control, name: "password" });
 
   const handleSignup = async (values: SignupFormValues) => {
     setLoading(true);
@@ -126,6 +129,7 @@ export default function SignupPage() {
                   />
                 )}
               />
+              <PasswordStrengthMeter password={passwordValue} />
               {errors.password && (
                 <p role="alert" className="text-red-500 text-xs mt-1.5">
                   {errors.password.message}
