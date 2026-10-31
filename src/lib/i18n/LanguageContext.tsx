@@ -69,7 +69,7 @@ function getInitialLocale(): Locale {
     // localStorage can be unavailable (privacy mode, SSR, etc.) - ignore.
   }
 
-  // Auto-detect browser language if no preference was previously saved
+  // auto-detect locale
   try {
     const browserLanguages =
       window.navigator.languages && window.navigator.languages.length > 0
@@ -88,7 +88,7 @@ function getInitialLocale(): Locale {
       }
     }
   } catch {
-    // navigator can be unavailable in restricted environments - ignore.
+    // ignore error
   }
 
   return defaultLocale;

@@ -38,7 +38,7 @@ describe("LanguageSwitcher", () => {
     // `dir` intentionally stays "ltr" so switching languages never shifts
     // the layout - only the text content changes.
     expect(document.documentElement.dir).toBe("ltr");
-    // Footer swaps from the English copy to the Urdu translation.
+    // footer translation
     expect(screen.queryByText(/open for contributions/i)).toBeNull();
     expect(screen.getByText(/تعاون کے لیے کھلا ہے/)).not.toBeNull();
   });
