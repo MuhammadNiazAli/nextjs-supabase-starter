@@ -69,6 +69,28 @@ function getInitialLocale(): Locale {
     // localStorage can be unavailable (privacy mode, SSR, etc.) - ignore.
   }
 
+  // Auto-detect browser language if no preference was previously saved
+  try {
+    const browserLanguages =
+      window.navigator.languages && window.navigator.languages.length > 0
+        ? window.navigator.languages
+        : [window.navigator.language];
+
+    for (const lang of browserLanguages) {
+      if (!lang) continue;
+      const normalized = lang.toLowerCase();
+      if ((locales as readonly string[]).includes(normalized)) {
+        return normalized as Locale;
+      }
+      const prefix = normalized.split("-")[0];
+      if ((locales as readonly string[]).includes(prefix)) {
+        return prefix as Locale;
+      }
+    }
+  } catch {
+    // navigator can be unavailable in restricted environments - ignore.
+  }
+
   return defaultLocale;
 }
 
@@ -80,6 +102,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     // at "ltr" on purpose so switching languages never reflows/shifts the
     // layout (navbar, cards, etc. must stay exactly where they are).
     document.documentElement.lang = locale;
+    document.documentElement.dir = "ltr";
 
     try {
       window.localStorage.setItem(STORAGE_KEY, locale);
