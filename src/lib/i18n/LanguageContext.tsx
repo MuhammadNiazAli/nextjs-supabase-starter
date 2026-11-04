@@ -27,7 +27,7 @@ type LanguageContextValue = {
   t: TranslateFn;
 };
 
-function resolve(dict: Messages, path: string): string {
+function lookup(dict: Messages, path: string): string | undefined {
   const value = path
     .split(".")
     .reduce<unknown>(
@@ -36,12 +36,39 @@ function resolve(dict: Messages, path: string): string {
       dict,
     );
 
-  return typeof value === "string" ? value : path;
+  return typeof value === "string" ? value : undefined;
 }
+
+// Warned keys are remembered so a missing translation logs once per
+// locale, instead of on every render of every component that uses it.
+const warnedMissingKeys = new Set<string>();
 
 function createTranslator(locale: Locale): TranslateFn {
   const dict = dictionaries[locale] ?? dictionaries[defaultLocale];
-  return (path: string) => resolve(dict, path);
+  const fallback = dictionaries[defaultLocale];
+  return (path: string) => {
+    const value = lookup(dict, path);
+    if (value !== undefined) {
+      return value;
+    }
+    // Development-only warning for a key that exists in the default
+    // locale but is missing in the active one — previously this silently
+    // rendered the raw key path. The rendered fallback is unchanged.
+    if (
+      process.env.NODE_ENV === "development" &&
+      lookup(fallback, path) !== undefined
+    ) {
+      const warnKey = `${locale}:${path}`;
+      if (!warnedMissingKeys.has(warnKey)) {
+        warnedMissingKeys.add(warnKey);
+        console.warn(
+          `[i18n] Missing translation for key "${path}" in locale "${locale}". ` +
+            `Add it to ${locale}.json.`,
+        );
+      }
+    }
+    return path;
+  };
 }
 
 // Sensible default so components can call useLanguage() even when they are
