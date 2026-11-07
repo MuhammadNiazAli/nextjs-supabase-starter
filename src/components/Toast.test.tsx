@@ -86,6 +86,54 @@ describe("ToastProvider i18n integration", () => {
     ).toBeInTheDocument();
   });
 
+  it("translates real dashboard em dash toast strings in Urdu", async () => {
+    window.localStorage.setItem("locale", "ur");
+    const user = userEvent.setup();
+
+    render(
+      <LanguageProvider>
+        <ToastProvider>
+          <TestComponent
+            message="Password reset email sent — check your inbox."
+            type="success"
+          />
+        </ToastProvider>
+      </LanguageProvider>
+    );
+
+    await user.click(screen.getByRole("button", { name: "Trigger Toast" }));
+
+    expect(
+      screen.getByText(
+        "پاس ورڈ ری سیٹ ای میل بھیج دی گئی ہے — اپنا ان باکس چیک کریں"
+      )
+    ).toBeInTheDocument();
+  });
+
+  it("translates verification em dash toast strings in Urdu", async () => {
+    window.localStorage.setItem("locale", "ur");
+    const user = userEvent.setup();
+
+    render(
+      <LanguageProvider>
+        <ToastProvider>
+          <TestComponent
+            message="Verification email sent — check your inbox."
+            type="success"
+          />
+        </ToastProvider>
+      </LanguageProvider>
+    );
+
+    await user.click(screen.getByRole("button", { name: "Trigger Toast" }));
+
+    expect(
+      screen.getByText(
+        "تصدیقی ای میل بھیج دی گئی ہے — اپنا ان باکس چیک کریں"
+      )
+    ).toBeInTheDocument();
+  });
+
   it("falls back to original unmapped string cleanly", async () => {
     window.localStorage.setItem("locale", "ur");
     const user = userEvent.setup();

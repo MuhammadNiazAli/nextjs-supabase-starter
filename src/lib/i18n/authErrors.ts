@@ -18,9 +18,11 @@ export const AUTH_ERROR_MAPPINGS: Record<string, string> = {
   "Your session has expired. Please log in again.": "errors.sessionExpired",
   "Failed to delete account.": "errors.accountDeleteFailed",
 
-  // Common application toasts
+  // Common application toasts (supporting both em dash '—' used in dashboard and hyphen '-')
   "Check your email to confirm your account.": "toasts.checkEmailConfirm",
+  "Password reset email sent — check your inbox.": "toasts.passwordResetSent",
   "Password reset email sent - check your inbox.": "toasts.passwordResetSent",
+  "Verification email sent — check your inbox.": "toasts.verificationSent",
   "Verification email sent - check your inbox.": "toasts.verificationSent",
   "Your account has been deleted.": "toasts.accountDeleted",
 };
@@ -44,11 +46,15 @@ export function getLocalizedMessage(
     }
   }
 
-  // 2. Pattern matching for dynamic security rate limit messages
-  if (message.includes("only request this once every")) {
+  // 2. Pattern matching for dynamic security rate limit messages (extracts interval seconds)
+  const rateLimitMatch = message.match(
+    /only request this once every\s+(\d+)\s+seconds/i
+  );
+  if (rateLimitMatch) {
+    const seconds = rateLimitMatch[1];
     const translated = t("errors.rateLimitSeconds");
     if (translated && translated !== "errors.rateLimitSeconds") {
-      return translated;
+      return translated.replace("{seconds}", seconds);
     }
   }
 

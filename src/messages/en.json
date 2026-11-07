@@ -76,15 +76,15 @@
     "passwordTooShort": "Password should be at least 6 characters",
     "invalidPassword": "Signup requires a valid password",
     "rateLimit": "Email rate limit exceeded. Please try again later.",
-    "rateLimitSeconds": "For security purposes, you can only request this once every 60 seconds.",
+    "rateLimitSeconds": "For security purposes, you can only request this once every {seconds} seconds.",
     "sessionMissing": "Auth session missing!",
     "sessionExpired": "Your session has expired. Please log in again.",
     "accountDeleteFailed": "Failed to delete account."
   },
   "toasts": {
     "checkEmailConfirm": "Check your email to confirm your account.",
-    "passwordResetSent": "Password reset email sent - check your inbox.",
-    "verificationSent": "Verification email sent - check your inbox.",
+    "passwordResetSent": "Password reset email sent — check your inbox.",
+    "verificationSent": "Verification email sent — check your inbox.",
     "accountDeleted": "Your account has been deleted."
   }
 }

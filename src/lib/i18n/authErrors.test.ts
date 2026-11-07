@@ -7,8 +7,12 @@ describe("authErrors mapping and localization", () => {
       "errors.invalidCredentials": "Invalid login credentials",
       "errors.userAlreadyRegistered": "User already registered",
       "errors.rateLimitSeconds":
-        "For security purposes, you can only request this once every 60 seconds.",
+        "For security purposes, you can only request this once every {seconds} seconds.",
       "toasts.checkEmailConfirm": "Check your email to confirm your account.",
+      "toasts.passwordResetSent":
+        "Password reset email sent — check your inbox.",
+      "toasts.verificationSent":
+        "Verification email sent — check your inbox.",
     };
     return dict[key] ?? key;
   };
@@ -18,9 +22,13 @@ describe("authErrors mapping and localization", () => {
       "errors.invalidCredentials": "لاگ ان کی تفصیلات غلط ہیں",
       "errors.userAlreadyRegistered": "یہ صارف پہلے سے رجسٹرڈ ہے",
       "errors.rateLimitSeconds":
-        "سیکیورٹی وجوہات کی بناء پر، آپ ہر 60 سیکنڈ میں صرف ایک بار درخواست کر سکتے ہیں",
+        "سیکیورٹی وجوہات کی بناء پر، آپ ہر {seconds} سیکنڈ میں صرف ایک بار درخواست کر سکتے ہیں",
       "toasts.checkEmailConfirm":
         "اپنے اکاؤنٹ کی تصدیق کے لیے اپنی ای میل چیک کریں",
+      "toasts.passwordResetSent":
+        "پاس ورڈ ری سیٹ ای میل بھیج دی گئی ہے — اپنا ان باکس چیک کریں",
+      "toasts.verificationSent":
+        "تصدیقی ای میل بھیج دی گئی ہے — اپنا ان باکس چیک کریں",
     };
     return dict[key] ?? key;
   };
@@ -49,13 +57,65 @@ describe("authErrors mapping and localization", () => {
     expect(result).toBe("اپنے اکاؤنٹ کی تصدیق کے لیے اپنی ای میل چیک کریں");
   });
 
-  it("handles dynamic Supabase 60s rate limit strings", () => {
-    const result = getLocalizedMessage(
+  it("translates real dashboard toast strings containing em dash", () => {
+    const resetResult = getLocalizedMessage(
+      "Password reset email sent — check your inbox.",
+      dummyUrTranslator
+    );
+    expect(resetResult).toBe(
+      "پاس ورڈ ری سیٹ ای میل بھیج دی گئی ہے — اپنا ان باکس چیک کریں"
+    );
+
+    const verifyResult = getLocalizedMessage(
+      "Verification email sent — check your inbox.",
+      dummyUrTranslator
+    );
+    expect(verifyResult).toBe(
+      "تصدیقی ای میل بھیج دی گئی ہے — اپنا ان باکس چیک کریں"
+    );
+  });
+
+  it("also supports legacy hyphen toast variants", () => {
+    const resetHyphen = getLocalizedMessage(
+      "Password reset email sent - check your inbox.",
+      dummyUrTranslator
+    );
+    expect(resetHyphen).toBe(
+      "پاس ورڈ ری سیٹ ای میل بھیج دی گئی ہے — اپنا ان باکس چیک کریں"
+    );
+
+    const verifyHyphen = getLocalizedMessage(
+      "Verification email sent - check your inbox.",
+      dummyUrTranslator
+    );
+    expect(verifyHyphen).toBe(
+      "تصدیقی ای میل بھیج دی گئی ہے — اپنا ان باکس چیک کریں"
+    );
+  });
+
+  it("handles dynamic Supabase rate limit strings with variable intervals", () => {
+    const result60 = getLocalizedMessage(
       "For security purposes, you can only request this once every 60 seconds",
       dummyUrTranslator
     );
-    expect(result).toBe(
+    expect(result60).toBe(
       "سیکیورٹی وجوہات کی بناء پر، آپ ہر 60 سیکنڈ میں صرف ایک بار درخواست کر سکتے ہیں"
+    );
+
+    const result30 = getLocalizedMessage(
+      "For security purposes, you can only request this once every 30 seconds",
+      dummyEnTranslator
+    );
+    expect(result30).toBe(
+      "For security purposes, you can only request this once every 30 seconds."
+    );
+
+    const result120 = getLocalizedMessage(
+      "For security purposes, you can only request this once every 120 seconds",
+      dummyUrTranslator
+    );
+    expect(result120).toBe(
+      "سیکیورٹی وجوہات کی بناء پر، آپ ہر 120 سیکنڈ میں صرف ایک بار درخواست کر سکتے ہیں"
     );
   });
 
@@ -90,5 +150,11 @@ describe("authErrors mapping and localization", () => {
     expect(AUTH_ERROR_MAPPINGS["Password should be at least 6 characters"]).toBe(
       "errors.passwordTooShort"
     );
+    expect(
+      AUTH_ERROR_MAPPINGS["Password reset email sent — check your inbox."]
+    ).toBe("toasts.passwordResetSent");
+    expect(
+      AUTH_ERROR_MAPPINGS["Verification email sent — check your inbox."]
+    ).toBe("toasts.verificationSent");
   });
 });
