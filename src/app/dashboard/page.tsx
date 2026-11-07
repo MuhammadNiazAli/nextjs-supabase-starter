@@ -8,6 +8,7 @@ import type { User } from "@supabase/supabase-js";
 import Spinner from "@/components/Spinner";
 import { useToast } from "@/components/Toast";
 import DashboardNav, { type DashboardTab } from "@/components/DashboardNav";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 
 // Subscription statuses (mirrors Stripe's Subscription.status) that count
 // as an active, paid plan. "trialing" is included so trial users also get
@@ -16,12 +17,6 @@ const PAID_SUBSCRIPTION_STATUSES = new Set(["active", "trialing"]);
 const NEW_USER_WINDOW_MS = 5 * 60 * 1000;
 
 type DashboardState = "unverified" | "free" | "pro";
-
-const FEATURES = [
-  { name: "Create projects", free: "1 project", pro: "Unlimited projects" },
-  { name: "Support", free: "Community support", pro: "Priority support" },
-  { name: "Advanced analytics", free: null, pro: "Included" },
-];
 
 function formatDateTime(value: string | null | undefined): string {
   if (!value) return "—";
@@ -60,6 +55,7 @@ export default function DashboardPage() {
   const [deleteLoading, setDeleteLoading] = useState(false);
 
   const { showToast } = useToast();
+  const { t } = useLanguage();
   const router = useRouter();
 
   useEffect(() => {
@@ -87,7 +83,7 @@ export default function DashboardPage() {
     });
     setResetLoading(false);
     if (error) showToast(error.message, "error");
-    else showToast("Password reset email sent — check your inbox.", "success");
+    else showToast(t("dashboard.toast.passwordResetSent"), "success");
   };
 
   const handleResendVerification = async () => {
@@ -99,7 +95,7 @@ export default function DashboardPage() {
     });
     setVerificationLoading(false);
     if (error) showToast(error.message, "error");
-    else showToast("Verification email sent — check your inbox.", "success");
+    else showToast(t("dashboard.toast.verificationSent"), "success");
   };
 
   const handleDeleteAccount = async () => {
@@ -111,7 +107,7 @@ export default function DashboardPage() {
 
     if (!session) {
       setDeleteLoading(false);
-      showToast("Your session has expired. Please log in again.", "error");
+      showToast(t("dashboard.toast.sessionExpired"), "error");
       return;
     }
 
@@ -124,12 +120,12 @@ export default function DashboardPage() {
     setDeleteLoading(false);
 
     if (!response.ok) {
-      showToast(result.error || "Failed to delete account.", "error");
+      showToast(result.error || t("dashboard.toast.deleteFailed"), "error");
       return;
     }
 
     await supabase.auth.signOut();
-    showToast("Your account has been deleted.", "success");
+    showToast(t("dashboard.toast.accountDeleted"), "success");
     router.push("/");
   };
 
@@ -143,7 +139,7 @@ export default function DashboardPage() {
   if (!user)
     return (
       <p className="text-center py-16">
-        You must be logged in to view this page.
+        {t("dashboard.loginRequired")}
       </p>
     );
 
@@ -164,19 +160,39 @@ export default function DashboardPage() {
     ? "pro"
     : "free";
 
+  // Feature rows on the overview tab. Names and values come from the
+  // translations so the whole list switches language with the page.
+  const features = [
+    {
+      name: t("dashboard.features.createProjects"),
+      free: t("dashboard.features.oneProject"),
+      pro: t("dashboard.features.unlimitedProjects"),
+    },
+    {
+      name: t("dashboard.features.support"),
+      free: t("dashboard.features.communitySupport"),
+      pro: t("dashboard.features.prioritySupport"),
+    },
+    {
+      name: t("dashboard.features.advancedAnalytics"),
+      free: null,
+      pro: t("dashboard.features.included"),
+    },
+  ];
+
   const badgesByState: Record<DashboardState, { label: string; className: string }> = {
     unverified: {
-      label: "Unverified",
+      label: t("dashboard.badge.unverified"),
       className:
         "bg-amber-100 text-amber-800 dark:bg-amber-950/60 dark:text-amber-300",
     },
     free: {
-      label: "Free plan",
+      label: t("dashboard.badge.free"),
       className:
         "bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300",
     },
     pro: {
-      label: "Pro",
+      label: t("dashboard.badge.pro"),
       className:
         "bg-emerald-100 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300",
     },
@@ -195,15 +211,15 @@ export default function DashboardPage() {
           className="w-full max-w-sm mb-6 rounded-2xl border border-primary/20 bg-primary/5 dark:bg-primary/10 px-5 py-5"
         >
           <p className="text-xs font-semibold uppercase tracking-wide text-primary">
-            Welcome aboard
+            {t("dashboard.welcome.eyebrow")}
           </p>
           <h1 id="welcome-heading" className="mt-1 text-xl font-bold">
-            Let&apos;s get you set up
+            {t("dashboard.welcome.title")}
           </h1>
           <div className="mt-4 flex flex-col gap-2">
             <div className="flex items-center gap-3 rounded-xl bg-white/80 dark:bg-gray-900/60 px-3 py-2.5 text-sm">
               <span aria-hidden="true" className="text-lg">{isEmailVerified ? "✓" : "○"}</span>
-              <span className="font-medium">Verify email</span>
+              <span className="font-medium">{t("dashboard.welcome.verifyEmail")}</span>
               {!isEmailVerified && (
                 <button
                   type="button"
@@ -211,7 +227,7 @@ export default function DashboardPage() {
                   disabled={verificationLoading}
                   className="ml-auto text-xs font-medium text-primary hover:underline disabled:opacity-60"
                 >
-                  {verificationLoading ? "Sending..." : "Resend"}
+                  {verificationLoading ? t("dashboard.sending") : t("dashboard.welcome.resend")}
                 </button>
               )}
             </div>
@@ -220,14 +236,14 @@ export default function DashboardPage() {
               className="flex items-center gap-3 rounded-xl bg-white/80 dark:bg-gray-900/60 px-3 py-2.5 text-sm font-medium hover:bg-white dark:hover:bg-gray-900"
             >
               <span aria-hidden="true" className="text-lg">○</span>
-              Complete your profile
+              {t("dashboard.welcome.completeProfile")}
             </Link>
             <Link
               href="/pricing"
               className="flex items-center gap-3 rounded-xl bg-white/80 dark:bg-gray-900/60 px-3 py-2.5 text-sm font-medium hover:bg-white dark:hover:bg-gray-900"
             >
               <span aria-hidden="true" className="text-lg">○</span>
-              Explore pricing
+              {t("dashboard.welcome.explorePricing")}
             </Link>
           </div>
         </section>
@@ -239,7 +255,7 @@ export default function DashboardPage() {
           className="w-full max-w-sm mb-4 flex flex-col gap-2 bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-900 rounded-xl px-4 py-3 text-sm"
         >
           <p className="text-amber-800 dark:text-amber-300">
-            Please verify your email address to unlock all features.
+            {t("dashboard.unverifiedAlert.message")}
           </p>
           <button
             onClick={handleResendVerification}
@@ -248,10 +264,10 @@ export default function DashboardPage() {
           >
             {verificationLoading ? (
               <>
-                <Spinner /> Sending...
+                <Spinner /> {t("dashboard.sending")}
               </>
             ) : (
-              "Resend verification email"
+              t("dashboard.unverifiedAlert.resend")
             )}
           </button>
         </div>
@@ -277,23 +293,23 @@ export default function DashboardPage() {
           <>
             <div className="flex flex-col gap-3 mb-6">
               <div className="flex justify-between text-sm border-b border-gray-100 dark:border-gray-800 pb-2">
-                <span className="text-gray-500">Username</span>
+                <span className="text-gray-500">{t("dashboard.overview.username")}</span>
                 <span className="font-medium">{username}</span>
               </div>
               <div className="flex justify-between text-sm border-b border-gray-100 dark:border-gray-800 pb-2">
-                <span className="text-gray-500">Email</span>
+                <span className="text-gray-500">{t("dashboard.overview.email")}</span>
                 <span className="font-medium">{user.email}</span>
               </div>
               <div className="flex justify-between text-sm border-b border-gray-100 dark:border-gray-800 pb-2">
-                <span className="text-gray-500">Account created</span>
+                <span className="text-gray-500">{t("dashboard.overview.accountCreated")}</span>
                 <span className="font-medium">{accountCreated}</span>
               </div>
               <div className="flex justify-between text-sm border-b border-gray-100 dark:border-gray-800 pb-2">
-                <span className="text-gray-500">Last sign-in</span>
+                <span className="text-gray-500">{t("dashboard.overview.lastSignIn")}</span>
                 <span className="font-medium">{lastSignIn}</span>
               </div>
               <div className="flex justify-between text-sm">
-                <span className="text-gray-500">Signed in with</span>
+                <span className="text-gray-500">{t("dashboard.overview.signedInWith")}</span>
                 <span className="font-medium">{authProvider}</span>
               </div>
             </div>
@@ -305,7 +321,7 @@ export default function DashboardPage() {
                 }`}
                 aria-hidden={dashboardState === "unverified"}
               >
-                {FEATURES.map((feature) => {
+                {features.map((feature) => {
                   const unlocked = dashboardState === "pro" || feature.free;
                   return (
                     <li key={feature.name} className="flex items-center justify-between gap-2">
@@ -321,7 +337,7 @@ export default function DashboardPage() {
                       >
                         {dashboardState === "pro"
                           ? feature.pro
-                          : feature.free ?? "Pro only"}
+                          : feature.free ?? t("dashboard.features.proOnly")}
                       </span>
                     </li>
                   );
@@ -342,7 +358,7 @@ export default function DashboardPage() {
                     <path d="M8 10V7a4 4 0 0 1 8 0v3" />
                   </svg>
                   <p className="text-xs font-medium text-gray-600 dark:text-gray-400">
-                    Verify your email to unlock features
+                    {t("dashboard.locked")}
                   </p>
                 </div>
               )}
@@ -360,7 +376,7 @@ export default function DashboardPage() {
               }`}
             >
               <div className="flex items-center justify-between mb-1">
-                <span className="text-sm font-medium">Current plan</span>
+                <span className="text-sm font-medium">{t("dashboard.billing.currentPlan")}</span>
                 <span
                   className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-medium ${badge.className}`}
                 >
@@ -369,15 +385,15 @@ export default function DashboardPage() {
               </div>
               <p className="text-xs text-gray-500 dark:text-gray-400">
                 {dashboardState === "pro"
-                  ? "You have full access to all Pro features."
-                  : "You're on the Free plan. Upgrade for unlimited projects and priority support."}
+                  ? t("dashboard.billing.proAccess")
+                  : t("dashboard.billing.freeAccess")}
               </p>
               {dashboardState !== "pro" && (
                 <Link
                   href="/pricing"
                   className="mt-3 flex items-center justify-center gap-2 w-full bg-primary hover:bg-primary/90 text-white rounded-lg px-3 py-2.5 text-sm font-medium transition shadow-sm shadow-primary/30"
                 >
-                  Upgrade
+                  {t("dashboard.billing.upgrade")}
                 </Link>
               )}
             </div>
@@ -393,10 +409,10 @@ export default function DashboardPage() {
             >
               {resetLoading ? (
                 <>
-                  <Spinner /> Sending...
+                  <Spinner /> {t("dashboard.sending")}
                 </>
               ) : (
-                "Reset Password"
+                t("dashboard.settings.resetPassword")
               )}
             </button>
 
@@ -406,7 +422,7 @@ export default function DashboardPage() {
                   onClick={() => setConfirmingDelete(true)}
                   className="w-full text-sm font-medium text-red-600 hover:text-red-700 dark:text-red-500 dark:hover:text-red-400 transition"
                 >
-                  Delete Account
+                  {t("dashboard.settings.deleteAccount")}
                 </button>
               ) : (
                 <div
@@ -415,8 +431,7 @@ export default function DashboardPage() {
                   className="flex flex-col gap-3 bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900 rounded-xl px-4 py-3"
                 >
                   <p className="text-sm text-red-800 dark:text-red-300">
-                    This will permanently delete your account and all of your
-                    data. This action cannot be undone.
+                    {t("dashboard.settings.deleteWarning")}
                   </p>
                   <div className="flex gap-3">
                     <button
@@ -426,10 +441,10 @@ export default function DashboardPage() {
                     >
                       {deleteLoading ? (
                         <>
-                          <Spinner /> Deleting...
+                          <Spinner /> {t("dashboard.settings.deleting")}
                         </>
                       ) : (
-                        "Yes, delete my account"
+                        t("dashboard.settings.confirmDelete")
                       )}
                     </button>
                     <button
@@ -437,7 +452,7 @@ export default function DashboardPage() {
                       disabled={deleteLoading}
                       className="flex-1 border border-gray-300 dark:border-gray-700 rounded-lg px-3 py-2 text-sm font-medium hover:bg-gray-50 dark:hover:bg-gray-800 disabled:opacity-60 disabled:cursor-not-allowed transition"
                     >
-                      Cancel
+                      {t("dashboard.settings.cancel")}
                     </button>
                   </div>
                 </div>
