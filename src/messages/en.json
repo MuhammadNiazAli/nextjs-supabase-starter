@@ -68,5 +68,72 @@
   },
   "language": {
     "label": "Language"
+  },
+  "dashboard": {
+    "loginRequired": "You must be logged in to view this page.",
+    "sending": "Sending...",
+    "welcome": {
+      "eyebrow": "Welcome aboard",
+      "title": "Let's get you set up",
+      "verifyEmail": "Verify email",
+      "completeProfile": "Complete your profile",
+      "explorePricing": "Explore pricing",
+      "resend": "Resend"
+    },
+    "unverifiedAlert": {
+      "message": "Please verify your email address to unlock all features.",
+      "resend": "Resend verification email"
+    },
+    "badge": {
+      "unverified": "Unverified",
+      "free": "Free plan",
+      "pro": "Pro"
+    },
+    "overview": {
+      "username": "Username",
+      "email": "Email",
+      "accountCreated": "Account created",
+      "lastSignIn": "Last sign-in",
+      "signedInWith": "Signed in with"
+    },
+    "features": {
+      "createProjects": "Create projects",
+      "oneProject": "1 project",
+      "unlimitedProjects": "Unlimited projects",
+      "support": "Support",
+      "communitySupport": "Community support",
+      "prioritySupport": "Priority support",
+      "advancedAnalytics": "Advanced analytics",
+      "included": "Included",
+      "proOnly": "Pro only"
+    },
+    "locked": "Verify your email to unlock features",
+    "tabs": {
+      "label": "Dashboard sections",
+      "overview": "Overview",
+      "billing": "Billing",
+      "settings": "Account Settings"
+    },
+    "billing": {
+      "currentPlan": "Current plan",
+      "proAccess": "You have full access to all Pro features.",
+      "freeAccess": "You're on the Free plan. Upgrade for unlimited projects and priority support.",
+      "upgrade": "Upgrade"
+    },
+    "settings": {
+      "resetPassword": "Reset Password",
+      "deleteAccount": "Delete Account",
+      "deleteWarning": "This will permanently delete your account and all of your data. This action cannot be undone.",
+      "confirmDelete": "Yes, delete my account",
+      "cancel": "Cancel",
+      "deleting": "Deleting..."
+    },
+    "toast": {
+      "passwordResetSent": "Password reset email sent — check your inbox.",
+      "verificationSent": "Verification email sent — check your inbox.",
+      "sessionExpired": "Your session has expired. Please log in again.",
+      "deleteFailed": "Failed to delete account.",
+      "accountDeleted": "Your account has been deleted."
+    }
   }
 }
