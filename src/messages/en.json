@@ -135,5 +135,19 @@
       "deleteFailed": "Failed to delete account.",
       "accountDeleted": "Your account has been deleted."
     }
+  },
+  "profile": {
+    "loginRequired": "You must be logged in to view this page.",
+    "title": "Profile",
+    "subtitle": "Manage your account details.",
+    "avatarAlt": "Profile avatar",
+    "changePhoto": "Change photo",
+    "uploading": "Uploading...",
+    "chooseImage": "Please choose an image file.",
+    "imageTooLarge": "Image must be smaller than 2MB.",
+    "emailLabel": "Email",
+    "emailConfirm": "Check your inbox to confirm the new email address.",
+    "save": "Save changes",
+    "saving": "Saving..."
   }
 }
