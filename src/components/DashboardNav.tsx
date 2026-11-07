@@ -1,11 +1,13 @@
 "use client";
 
+import { useLanguage } from "@/lib/i18n/LanguageContext";
+
 export type DashboardTab = "overview" | "billing" | "settings";
 
-const TABS: { id: DashboardTab; label: string }[] = [
-  { id: "overview", label: "Overview" },
-  { id: "billing", label: "Billing" },
-  { id: "settings", label: "Account Settings" },
+const TABS: { id: DashboardTab; key: string }[] = [
+  { id: "overview", key: "dashboard.tabs.overview" },
+  { id: "billing", key: "dashboard.tabs.billing" },
+  { id: "settings", key: "dashboard.tabs.settings" },
 ];
 
 export default function DashboardNav({
@@ -15,10 +17,12 @@ export default function DashboardNav({
   activeTab: DashboardTab;
   onChange: (tab: DashboardTab) => void;
 }) {
+  const { t } = useLanguage();
+
   return (
     <div
       role="tablist"
-      aria-label="Dashboard sections"
+      aria-label={t("dashboard.tabs.label")}
       className="w-full max-w-sm flex items-center gap-1 mb-4 bg-gray-100 dark:bg-gray-800/60 rounded-xl p-1"
     >
       {TABS.map((tab) => {
@@ -36,7 +40,7 @@ export default function DashboardNav({
                 : "text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200"
             }`}
           >
-            {tab.label}
+            {t(tab.key)}
           </button>
         );
       })}
