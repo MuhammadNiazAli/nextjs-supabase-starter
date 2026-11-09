@@ -43,6 +43,25 @@ describe("LanguageSwitcher", () => {
     expect(screen.getByText(/تعاون کے لیے کھلا ہے/)).not.toBeNull();
   });
 
+  it("switches to Spanish and shows translated text", async () => {
+    const user = userEvent.setup();
+    renderWithProvider();
+
+    const select = screen.getByRole("combobox") as HTMLSelectElement;
+    await user.selectOptions(select, "es");
+
+    expect(select.value).toBe("es");
+    expect(document.documentElement.lang).toBe("es");
+    expect(document.documentElement.dir).toBe("ltr");
+    // footer translation
+    expect(screen.queryByText(/open for contributions/i)).toBeNull();
+    expect(screen.getByText(/abierto a contribuciones/i)).not.toBeNull();
+    // the switcher lists Spanish by its own name
+    expect(
+      screen.getByRole("option", { name: "Español" }),
+    ).not.toBeNull();
+  });
+
   it("persists the selected language to localStorage", async () => {
     const user = userEvent.setup();
     renderWithProvider();
