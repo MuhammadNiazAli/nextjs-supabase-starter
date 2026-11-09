@@ -1,0 +1,72 @@
+{
+  "navbar": {
+    "brand": "FullStack Starter",
+    "login": "Iniciar sesión",
+    "signup": "Registrarse",
+    "pricing": "Precios",
+    "profile": "Perfil",
+    "logout": "Cerrar sesión",
+    "toggleMenu": "Mostrar menú"
+  },
+  "footer": {
+    "text": "Creado con Next.js y Supabase. Licencia MIT y abierto a contribuciones.",
+    "tagline": "Un kit de inicio de código abierto con Next.js y Supabase, creado para aprender. Practica con funciones reales, envía pull requests reales y crece como desarrollador.",
+    "columns": {
+      "product": "Producto",
+      "resources": "Recursos",
+      "community": "Comunidad"
+    },
+    "links": {
+      "docs": "Documentación",
+      "license": "Licencia",
+      "codeOfConduct": "Código de conducta",
+      "contribute": "Guía de contribución",
+      "issues": "Issues abiertos",
+      "discussions": "Discusiones"
+    },
+    "starOnGithub": "Danos una estrella en GitHub",
+    "backToTop": "Volver arriba"
+  },
+  "home": {
+    "titlePrefix": "Bienvenido a",
+    "titleHighlight": "Next.js Supabase Starter",
+    "subtitle": "Este kit de inicio les da a los desarrolladores una base de código real y funcional para practicar. Abre pull requests, revisa código, elige issues y crea funciones que nunca has probado, todo sin tocar una aplicación en producción.",
+    "getStarted": "Comenzar",
+    "viewOnGithub": "Ver en GitHub",
+    "contribute": {
+      "eyebrow": "Participa",
+      "title": "¿Eres nuevo? Haz tu primera contribución",
+      "subtitle": "¿Nunca has enviado un pull request? Sigue estos pasos y hoy mismo tendrás uno fusionado.",
+      "step1Title": "Elige un issue",
+      "step1Desc": "Abre la pestaña Issues en GitHub y elige uno con la etiqueta \"good first issue\" que te sientas capaz de resolver.",
+      "step2Title": "Haz un fork del repositorio",
+      "step2Desc": "Haz clic en el botón Fork en la esquina superior derecha del repositorio. Esto crea tu propia copia del proyecto en tu cuenta.",
+      "step3Title": "Clona tu fork",
+      "step3Desc": "Copia la URL de tu fork y ejecuta git clone para descargar el código en tu máquina.",
+      "step4Title": "Resuelve el issue",
+      "step4Desc": "Crea una nueva rama, haz los cambios que describe el issue y confirma tu trabajo con un mensaje claro.",
+      "step5Title": "Envía un pull request",
+      "step5Desc": "Sube tu rama a tu fork y luego abre un pull request hacia el repositorio original.",
+      "step6Title": "Consigue la fusión y sigue creciendo",
+      "step6Desc": "Una vez que tu PR se revise y se fusione, cuenta como una contribución real, aparece en tu gráfico de actividad de GitHub y suma práctica y aprendizaje a tu perfil.",
+      "cta": "Ver los issues abiertos"
+    },
+    "contributors": {
+      "eyebrow": "Comunidad",
+      "title": "Contribuidores",
+      "subtitle": "Las personas que han abierto issues, enviado pull requests y ayudado a dar forma a este proyecto.",
+      "adminBadge": "Mantenedor",
+      "error": "No se pudieron cargar los contribuidores de GitHub en este momento. Inténtalo de nuevo en un momento.",
+      "empty": "Aún no hay contribuidores para mostrar.",
+      "viewGithub": "Perfil de GitHub"
+    }
+  },
+  "theme": {
+    "toggleLabel": "Alternar modo oscuro",
+    "light": "☀️ Claro",
+    "dark": "🌙 Oscuro"
+  },
+  "language": {
+    "label": "Idioma"
+  }
+}
