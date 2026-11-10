@@ -113,19 +113,6 @@ export default function DashboardPage() {
     }, 1000);
   };
 
-  const startResendCooldown = () => {
-    setCooldownSeconds(RESEND_COOLDOWN_SECONDS);
-    cooldownTimer.current = setInterval(() => {
-      setCooldownSeconds((remaining) => {
-        if (remaining <= 1) {
-          if (cooldownTimer.current) clearInterval(cooldownTimer.current);
-          return 0;
-        }
-        return remaining - 1;
-      });
-    }, 1000);
-  };
-
   const handleResendVerification = async () => {
     if (!user?.email || cooldownSeconds > 0) return;
     setVerificationLoading(true);
