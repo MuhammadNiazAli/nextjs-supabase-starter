@@ -324,4 +324,38 @@ body {
   }
 }
 
+/* Short horizontal shake for the auth card (login + signup) when a submit
+   comes back with an error from the API, so the toast is not the only
+   signal. The class is added on the failed submit and cleared by a
+   400ms timer (matching the animation length) so a later failed submit
+   can shake the card again. */
+@keyframes authCardShake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(-8px);
+  }
+  40% {
+    transform: translateX(8px);
+  }
+  60% {
+    transform: translateX(-5px);
+  }
+  80% {
+    transform: translateX(5px);
+  }
+}
+
+.auth-card-shake {
+  animation: authCardShake 0.4s ease-in-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .auth-card-shake {
+    animation: none;
+  }
+}
+
 
