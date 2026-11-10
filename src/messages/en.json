@@ -69,6 +69,63 @@
   "language": {
     "label": "Language"
   },
+  "auth": {
+    "login": {
+      "title": "Welcome back",
+      "subtitle": "Log in to continue to your account.",
+      "emailLabel": "Email",
+      "emailPlaceholder": "you@example.com",
+      "passwordLabel": "Password",
+      "passwordPlaceholder": "Enter your password",
+      "forgotPassword": "Forgot password?",
+      "submit": "Login",
+      "submitting": "Logging in...",
+      "redirecting": "Logging you in...",
+      "divider": "or",
+      "continueWithGoogle": "Continue with Google",
+      "continueWithGithub": "Continue with GitHub",
+      "noAccount": "Don't have an account?",
+      "signupLink": "Sign up"
+    },
+    "signup": {
+      "title": "Create your account",
+      "subtitle": "Join in a few seconds — it's free.",
+      "success": "Check your email to confirm your account.",
+      "usernameLabel": "Username",
+      "usernamePlaceholder": "Choose a username",
+      "emailLabel": "Email",
+      "emailPlaceholder": "you@example.com",
+      "passwordLabel": "Password",
+      "passwordPlaceholder": "Create a strong password",
+      "submit": "Sign up",
+      "submitting": "Creating account...",
+      "divider": "or",
+      "continueWithGoogle": "Continue with Google",
+      "continueWithGithub": "Continue with GitHub",
+      "hasAccount": "Already have an account?",
+      "loginLink": "Login"
+    },
+    "forgotPassword": {
+      "title": "Forgot password?",
+      "subtitle": "Enter your email and we'll send you a reset link.",
+      "sent": "Reset link sent. Check your inbox.",
+      "emailLabel": "Email",
+      "emailPlaceholder": "you@example.com",
+      "submit": "Send reset link",
+      "submitting": "Sending...",
+      "remembered": "Remembered your password?",
+      "backToLogin": "Back to login"
+    },
+    "updatePassword": {
+      "title": "Set a new password",
+      "subtitle": "Enter a new password for your account.",
+      "success": "Password updated. You can now log in with your new password.",
+      "passwordLabel": "New Password",
+      "passwordPlaceholder": "Enter your new password",
+      "submit": "Update Password",
+      "submitting": "Updating..."
+    }
+  },
   "dashboard": {
     "loginRequired": "You must be logged in to view this page.",
     "sending": "Sending...",
