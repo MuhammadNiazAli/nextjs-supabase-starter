@@ -68,5 +68,62 @@
   },
   "language": {
     "label": "زبان"
+  },
+  "auth": {
+    "login": {
+      "title": "واپس خوش آمدید",
+      "subtitle": "اپنے اکاؤنٹ میں جاری رکھنے کے لیے لاگ ان کریں۔",
+      "emailLabel": "ای میل",
+      "emailPlaceholder": "you@example.com",
+      "passwordLabel": "پاس ورڈ",
+      "passwordPlaceholder": "اپنا پاس ورڈ درج کریں",
+      "forgotPassword": "پاس ورڈ بھول گئے؟",
+      "submit": "لاگ ان",
+      "submitting": "لاگ ان ہو رہا ہے...",
+      "redirecting": "آپ کو لاگ ان کیا جا رہا ہے...",
+      "divider": "یا",
+      "continueWithGoogle": "Google کے ساتھ جاری رکھیں",
+      "continueWithGithub": "GitHub کے ساتھ جاری رکھیں",
+      "noAccount": "اکاؤنٹ نہیں ہے؟",
+      "signupLink": "سائن اپ"
+    },
+    "signup": {
+      "title": "اپنا اکاؤنٹ بنائیں",
+      "subtitle": "چند سیکنڈ میں شامل ہوں — یہ مفت ہے۔",
+      "success": "اپنے اکاؤنٹ کی تصدیق کے لیے اپنا ای میل چیک کریں۔",
+      "usernameLabel": "صارف نام",
+      "usernamePlaceholder": "ایک صارف نام منتخب کریں",
+      "emailLabel": "ای میل",
+      "emailPlaceholder": "you@example.com",
+      "passwordLabel": "پاس ورڈ",
+      "passwordPlaceholder": "ایک مضبوط پاس ورڈ بنائیں",
+      "submit": "سائن اپ",
+      "submitting": "اکاؤنٹ بنایا جا رہا ہے...",
+      "divider": "یا",
+      "continueWithGoogle": "Google کے ساتھ جاری رکھیں",
+      "continueWithGithub": "GitHub کے ساتھ جاری رکھیں",
+      "hasAccount": "پہلے سے اکاؤنٹ ہے؟",
+      "loginLink": "لاگ ان"
+    },
+    "forgotPassword": {
+      "title": "پاس ورڈ بھول گئے؟",
+      "subtitle": "اپنا ای میل درج کریں اور ہم آپ کو ری سیٹ لنک بھیجیں گے۔",
+      "sent": "ری سیٹ لنک بھیج دیا گیا۔ اپنا ان باکس چیک کریں۔",
+      "emailLabel": "ای میل",
+      "emailPlaceholder": "you@example.com",
+      "submit": "ری سیٹ لنک بھیجیں",
+      "submitting": "بھیجا جا رہا ہے...",
+      "remembered": "پاس ورڈ یاد آ گیا؟",
+      "backToLogin": "لاگ ان پر واپس جائیں"
+    },
+    "updatePassword": {
+      "title": "نیا پاس ورڈ سیٹ کریں",
+      "subtitle": "اپنے اکاؤنٹ کے لیے نیا پاس ورڈ درج کریں۔",
+      "success": "پاس ورڈ اپ ڈیٹ ہو گیا۔ اب آپ اپنے نئے پاس ورڈ سے لاگ ان کر سکتے ہیں۔",
+      "passwordLabel": "نیا پاس ورڈ",
+      "passwordPlaceholder": "اپنا نیا پاس ورڈ درج کریں",
+      "submit": "پاس ورڈ اپ ڈیٹ کریں",
+      "submitting": "اپ ڈیٹ ہو رہا ہے..."
+    }
   }
 }
