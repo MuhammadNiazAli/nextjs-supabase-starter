@@ -5,6 +5,7 @@ import type { User } from "@supabase/supabase-js";
 import ProfilePage from "./page";
 import { supabase } from "@/lib/supabaseClient";
 import { LanguageProvider } from "@/lib/i18n/LanguageContext";
+import { ToastProvider } from "@/components/Toast";
 
 // The page talks to Supabase on mount (current user) and on save
 // (updateUser + profiles update), so the client is faked here and no
@@ -45,11 +46,15 @@ function mockSignedIn() {
   });
 }
 
+// The username form (merged from main) calls useToast, so the page
+// needs a ToastProvider around it, like the dashboard tests do.
 function renderPage() {
   return render(
-    <LanguageProvider>
-      <ProfilePage />
-    </LanguageProvider>,
+    <ToastProvider>
+      <LanguageProvider>
+        <ProfilePage />
+      </LanguageProvider>
+    </ToastProvider>,
   );
 }
 
