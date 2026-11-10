@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it } from "vitest";
 import ThemeToggle from "./ThemeToggle";
@@ -70,6 +70,45 @@ describe("ThemeToggle", () => {
 
     render(<ThemeToggle />);
     const button = screen.getByRole("button", { name: /toggle dark mode/i });
+
+    expect(button).toHaveTextContent("Dark");
+    expect(document.documentElement.classList.contains("dark")).toBe(false);
+  });
+
+  it("follows a theme change made in another tab", () => {
+    render(<ThemeToggle />);
+    const button = screen.getByRole("button", { name: /toggle dark mode/i });
+
+    expect(button).toHaveTextContent("Dark");
+
+    // A storage event is how one tab learns another tab changed the theme.
+    // fireEvent wraps the dispatch in act() so React flushes the update
+    // before the assertions run.
+    fireEvent(
+      window,
+      new StorageEvent("storage", { key: "theme", newValue: "dark" }),
+    );
+
+    expect(button).toHaveTextContent("Light");
+    expect(document.documentElement.classList.contains("dark")).toBe(true);
+
+    fireEvent(
+      window,
+      new StorageEvent("storage", { key: "theme", newValue: "light" }),
+    );
+
+    expect(button).toHaveTextContent("Dark");
+    expect(document.documentElement.classList.contains("dark")).toBe(false);
+  });
+
+  it("ignores storage events for other keys", () => {
+    render(<ThemeToggle />);
+    const button = screen.getByRole("button", { name: /toggle dark mode/i });
+
+    fireEvent(
+      window,
+      new StorageEvent("storage", { key: "locale", newValue: "dark" }),
+    );
 
     expect(button).toHaveTextContent("Dark");
     expect(document.documentElement.classList.contains("dark")).toBe(false);

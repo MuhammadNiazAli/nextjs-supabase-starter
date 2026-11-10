@@ -4,12 +4,14 @@ import { useState } from "react";
 import Link from "next/link";
 import { supabase } from "@/lib/supabaseClient";
 import Spinner from "@/components/Spinner";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [sent, setSent] = useState(false);
   const [loading, setLoading] = useState(false);
+  const { t } = useLanguage();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -28,26 +30,28 @@ export default function ForgotPasswordPage() {
   return (
     <div className="flex items-center justify-center px-4 py-16 min-h-[80vh]">
       <div className="w-full max-w-sm bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-2xl shadow-xl shadow-gray-200/50 dark:shadow-black/30 p-8">
-        <h1 className="text-2xl font-bold mb-1">Forgot password?</h1>
+        <h1 className="text-2xl font-bold mb-1">
+          {t("auth.forgotPassword.title")}
+        </h1>
         <p className="text-sm text-gray-500 mb-6">
-          Enter your email and we&apos;ll send you a reset link.
+          {t("auth.forgotPassword.subtitle")}
         </p>
         {sent ? (
           <p
             role="status"
             className="text-green-600 text-sm bg-green-50 dark:bg-green-950/40 border border-green-200 dark:border-green-900 rounded-lg px-3 py-3"
           >
-            Reset link sent. Check your inbox.
+            {t("auth.forgotPassword.sent")}
           </p>
         ) : (
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
             <div>
               <label className="block text-xs font-medium text-gray-500 mb-1.5">
-                Email
+                {t("auth.forgotPassword.emailLabel")}
               </label>
               <input
                 type="email"
-                placeholder="you@example.com"
+                placeholder={t("auth.forgotPassword.emailPlaceholder")}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 autoComplete="email"
@@ -70,18 +74,18 @@ export default function ForgotPasswordPage() {
             >
               {loading ? (
                 <>
-                  <Spinner /> Sending...
+                  <Spinner /> {t("auth.forgotPassword.submitting")}
                 </>
               ) : (
-                "Send reset link"
+                t("auth.forgotPassword.submit")
               )}
             </button>
           </form>
         )}
         <p className="text-sm text-gray-500 mt-6 text-center">
-          Remembered your password?{" "}
+          {t("auth.forgotPassword.remembered")}{" "}
           <Link href="/login" className="text-primary hover:underline">
-            Back to login
+            {t("auth.forgotPassword.backToLogin")}
           </Link>
         </p>
       </div>
