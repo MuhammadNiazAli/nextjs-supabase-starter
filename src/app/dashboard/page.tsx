@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { supabase } from "@/lib/supabaseClient";
@@ -14,6 +14,7 @@ import DashboardNav, { type DashboardTab } from "@/components/DashboardNav";
 // full access while their trial is running.
 const PAID_SUBSCRIPTION_STATUSES = new Set(["active", "trialing"]);
 const NEW_USER_WINDOW_MS = 5 * 60 * 1000;
+const RESEND_COOLDOWN_SECONDS = 60;
 
 type DashboardState = "unverified" | "free" | "pro";
 
@@ -56,6 +57,19 @@ export default function DashboardPage() {
 
   const [verificationLoading, setVerificationLoading] = useState(false);
 
+  // Seconds left before the resend button works again. Zero means no
+  // cooldown is running. One shared timer covers both resend buttons,
+  // since they send the same email.
+  const [cooldownSeconds, setCooldownSeconds] = useState(0);
+  const cooldownTimer = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  // Stop the countdown if the page unmounts mid-cooldown.
+  useEffect(() => {
+    return () => {
+      if (cooldownTimer.current) clearInterval(cooldownTimer.current);
+    };
+  }, []);
+
   const [confirmingDelete, setConfirmingDelete] = useState(false);
   const [deleteLoading, setDeleteLoading] = useState(false);
 
@@ -90,8 +104,21 @@ export default function DashboardPage() {
     else showToast("Password reset email sent — check your inbox.", "success");
   };
 
+  const startResendCooldown = () => {
+    setCooldownSeconds(RESEND_COOLDOWN_SECONDS);
+    cooldownTimer.current = setInterval(() => {
+      setCooldownSeconds((remaining) => {
+        if (remaining <= 1) {
+          if (cooldownTimer.current) clearInterval(cooldownTimer.current);
+          return 0;
+        }
+        return remaining - 1;
+      });
+    }, 1000);
+  };
+
   const handleResendVerification = async () => {
-    if (!user?.email) return;
+    if (!user?.email || cooldownSeconds > 0) return;
     setVerificationLoading(true);
     const { error } = await supabase.auth.resend({
       type: "signup",
@@ -99,7 +126,12 @@ export default function DashboardPage() {
     });
     setVerificationLoading(false);
     if (error) showToast(error.message, "error");
-    else showToast("Verification email sent — check your inbox.", "success");
+    else {
+      showToast("Verification email sent — check your inbox.", "success");
+      // Only a sent email starts the cooldown. A failed send leaves the
+      // button usable so the user can try again right away.
+      startResendCooldown();
+    }
   };
 
   const handleDeleteAccount = async () => {
@@ -208,10 +240,14 @@ export default function DashboardPage() {
                 <button
                   type="button"
                   onClick={handleResendVerification}
-                  disabled={verificationLoading}
+                  disabled={verificationLoading || cooldownSeconds > 0}
                   className="ml-auto text-xs font-medium text-primary hover:underline disabled:opacity-60"
                 >
-                  {verificationLoading ? "Sending..." : "Resend"}
+                  {verificationLoading
+                    ? "Sending..."
+                    : cooldownSeconds > 0
+                      ? `Resend in ${cooldownSeconds}s`
+                      : "Resend"}
                 </button>
               )}
             </div>
@@ -243,13 +279,15 @@ export default function DashboardPage() {
           </p>
           <button
             onClick={handleResendVerification}
-            disabled={verificationLoading}
+            disabled={verificationLoading || cooldownSeconds > 0}
             className="self-start flex items-center gap-2 text-amber-800 dark:text-amber-300 font-medium underline underline-offset-2 disabled:opacity-60 disabled:cursor-not-allowed"
           >
             {verificationLoading ? (
               <>
                 <Spinner /> Sending...
               </>
+            ) : cooldownSeconds > 0 ? (
+              `Resend verification email in ${cooldownSeconds}s`
             ) : (
               "Resend verification email"
             )}
