@@ -66,7 +66,150 @@
     "light": "☀️ لائٹ",
     "dark": "🌙 ڈارک"
   },
+  "motion": {
+    "toggleLabel": "ریڈیوس موشن تبدیل کریں",
+    "on": "🚫 موشن کم ہے",
+    "off": "🎬 موشن پوری ہے"
+  },
   "language": {
     "label": "زبان"
+  },
+  "auth": {
+    "login": {
+      "title": "واپس خوش آمدید",
+      "subtitle": "اپنے اکاؤنٹ میں جاری رکھنے کے لیے لاگ ان کریں۔",
+      "emailLabel": "ای میل",
+      "emailPlaceholder": "you@example.com",
+      "passwordLabel": "پاس ورڈ",
+      "passwordPlaceholder": "اپنا پاس ورڈ درج کریں",
+      "forgotPassword": "پاس ورڈ بھول گئے؟",
+      "submit": "لاگ ان",
+      "submitting": "لاگ ان ہو رہا ہے...",
+      "redirecting": "آپ کو لاگ ان کیا جا رہا ہے...",
+      "divider": "یا",
+      "continueWithGoogle": "Google کے ساتھ جاری رکھیں",
+      "continueWithGithub": "GitHub کے ساتھ جاری رکھیں",
+      "noAccount": "اکاؤنٹ نہیں ہے؟",
+      "signupLink": "سائن اپ"
+    },
+    "signup": {
+      "title": "اپنا اکاؤنٹ بنائیں",
+      "subtitle": "چند سیکنڈ میں شامل ہوں — یہ مفت ہے۔",
+      "success": "اپنے اکاؤنٹ کی تصدیق کے لیے اپنا ای میل چیک کریں۔",
+      "usernameLabel": "صارف نام",
+      "usernamePlaceholder": "ایک صارف نام منتخب کریں",
+      "emailLabel": "ای میل",
+      "emailPlaceholder": "you@example.com",
+      "passwordLabel": "پاس ورڈ",
+      "passwordPlaceholder": "ایک مضبوط پاس ورڈ بنائیں",
+      "submit": "سائن اپ",
+      "submitting": "اکاؤنٹ بنایا جا رہا ہے...",
+      "divider": "یا",
+      "continueWithGoogle": "Google کے ساتھ جاری رکھیں",
+      "continueWithGithub": "GitHub کے ساتھ جاری رکھیں",
+      "hasAccount": "پہلے سے اکاؤنٹ ہے؟",
+      "loginLink": "لاگ ان"
+    },
+    "forgotPassword": {
+      "title": "پاس ورڈ بھول گئے؟",
+      "subtitle": "اپنا ای میل درج کریں اور ہم آپ کو ری سیٹ لنک بھیجیں گے۔",
+      "sent": "ری سیٹ لنک بھیج دیا گیا۔ اپنا ان باکس چیک کریں۔",
+      "emailLabel": "ای میل",
+      "emailPlaceholder": "you@example.com",
+      "submit": "ری سیٹ لنک بھیجیں",
+      "submitting": "بھیجا جا رہا ہے...",
+      "remembered": "پاس ورڈ یاد آ گیا؟",
+      "backToLogin": "لاگ ان پر واپس جائیں"
+    },
+    "updatePassword": {
+      "title": "نیا پاس ورڈ سیٹ کریں",
+      "subtitle": "اپنے اکاؤنٹ کے لیے نیا پاس ورڈ درج کریں۔",
+      "success": "پاس ورڈ اپ ڈیٹ ہو گیا۔ اب آپ اپنے نئے پاس ورڈ سے لاگ ان کر سکتے ہیں۔",
+      "passwordLabel": "نیا پاس ورڈ",
+      "passwordPlaceholder": "اپنا نیا پاس ورڈ درج کریں",
+      "submit": "پاس ورڈ اپ ڈیٹ کریں",
+      "submitting": "اپ ڈیٹ ہو رہا ہے..."
+    }
+  },
+  "dashboard": {
+    "loginRequired": "یہ صفحہ دیکھنے کے لیے آپ کا لاگ ان ہونا ضروری ہے۔",
+    "sending": "بھیجا جا رہا ہے...",
+    "welcome": {
+      "eyebrow": "خوش آمدید",
+      "title": "آئیے آپ کا سیٹ اپ مکمل کریں",
+      "verifyEmail": "ای میل کی تصدیق کریں",
+      "completeProfile": "اپنی پروفائل مکمل کریں",
+      "explorePricing": "قیمتیں دیکھیں",
+      "resend": "دوبارہ بھیجیں"
+    },
+    "unverifiedAlert": {
+      "message": "تمام فیچرز استعمال کرنے کے لیے براہِ کرم اپنی ای میل کی تصدیق کریں۔",
+      "resend": "تصدیقی ای میل دوبارہ بھیجیں"
+    },
+    "badge": {
+      "unverified": "غیر تصدیق شدہ",
+      "free": "مفت پلان",
+      "pro": "پرو"
+    },
+    "overview": {
+      "username": "صارف نام",
+      "email": "ای میل",
+      "accountCreated": "اکاؤنٹ بننے کی تاریخ",
+      "lastSignIn": "آخری لاگ ان",
+      "signedInWith": "لاگ ان بذریعہ"
+    },
+    "features": {
+      "createProjects": "پروجیکٹس بنائیں",
+      "oneProject": "1 پروجیکٹ",
+      "unlimitedProjects": "لامحدود پروجیکٹس",
+      "support": "سپورٹ",
+      "communitySupport": "کمیونٹی سپورٹ",
+      "prioritySupport": "ترجیحی سپورٹ",
+      "advancedAnalytics": "جدید تجزیات",
+      "included": "شامل ہے",
+      "proOnly": "صرف پرو"
+    },
+    "locked": "فیچرز کھولنے کے لیے اپنی ای میل کی تصدیق کریں",
+    "tabs": {
+      "label": "ڈیش بورڈ کے حصے",
+      "overview": "جائزہ",
+      "billing": "بلنگ",
+      "settings": "اکاؤنٹ سیٹنگز"
+    },
+    "billing": {
+      "currentPlan": "موجودہ پلان",
+      "proAccess": "آپ کو پرو کے تمام فیچرز تک مکمل رسائی حاصل ہے۔",
+      "freeAccess": "آپ مفت پلان پر ہیں۔ لامحدود پروجیکٹس اور ترجیحی سپورٹ کے لیے اپ گریڈ کریں۔",
+      "upgrade": "اپ گریڈ کریں"
+    },
+    "settings": {
+      "resetPassword": "پاس ورڈ تبدیل کریں",
+      "deleteAccount": "اکاؤنٹ حذف کریں",
+      "deleteWarning": "اس سے آپ کا اکاؤنٹ اور آپ کا تمام ڈیٹا مستقل طور پر حذف ہو جائے گا۔ یہ عمل واپس نہیں ہو سکتا۔",
+      "confirmDelete": "جی ہاں، میرا اکاؤنٹ حذف کریں",
+      "cancel": "منسوخ کریں",
+      "deleting": "حذف ہو رہا ہے..."
+    },
+    "toast": {
+      "passwordResetSent": "پاس ورڈ تبدیل کرنے کی ای میل بھیج دی گئی ہے — اپنا ان باکس چیک کریں۔",
+      "verificationSent": "تصدیقی ای میل بھیج دی گئی ہے — اپنا ان باکس چیک کریں۔",
+      "sessionExpired": "آپ کا سیشن ختم ہو گیا ہے۔ براہِ کرم دوبارہ لاگ ان کریں۔",
+      "deleteFailed": "اکاؤنٹ حذف نہیں ہو سکا۔",
+      "accountDeleted": "آپ کا اکاؤنٹ حذف کر دیا گیا ہے۔"
+    }
+  },
+  "profile": {
+    "loginRequired": "یہ صفحہ دیکھنے کے لیے آپ کا لاگ ان ہونا ضروری ہے۔",
+    "title": "پروفائل",
+    "subtitle": "اپنے اکاؤنٹ کی تفصیلات کا انتظام کریں۔",
+    "avatarAlt": "پروفائل تصویر",
+    "changePhoto": "تصویر تبدیل کریں",
+    "uploading": "اپ لوڈ ہو رہی ہے...",
+    "chooseImage": "براہِ کرم تصویر والی فائل منتخب کریں۔",
+    "imageTooLarge": "تصویر 2MB سے چھوٹی ہونی چاہیے۔",
+    "emailLabel": "ای میل",
+    "emailConfirm": "نئے ای میل ایڈریس کی تصدیق کے لیے اپنا ان باکس چیک کریں۔",
+    "save": "تبدیلیاں محفوظ کریں",
+    "saving": "محفوظ ہو رہا ہے..."
   }
 }

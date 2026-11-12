@@ -191,6 +191,20 @@ body {
   transition: none !important;
 }
 
+/* Manual "Reduce motion" setting (see ReducedMotionToggle.tsx): the
+   toggle adds this class to <html>, and it forces every animation and
+   transition in the app to length 0. It is separate from the OS-level
+   prefers-reduced-motion setting — the stored choice wins over the OS
+   default. The prefers-reduced-motion media queries further down stay
+   as the fallback for visitors who never touch the toggle. */
+.reduce-motion,
+.reduce-motion *,
+.reduce-motion *::before,
+.reduce-motion *::after {
+  animation: none !important;
+  transition: none !important;
+}
+
 /* Gentle staggered fade/rise used by the footer's columns so they settle
    into place instead of appearing instantly. Respects reduced-motion. */
 @keyframes footerFadeInUp {
@@ -321,6 +335,40 @@ body {
 @media (max-width: 480px) {
   .contrib-swiper .card {
     width: 138px;
+  }
+}
+
+/* Short horizontal shake for the auth card (login + signup) when a submit
+   comes back with an error from the API, so the toast is not the only
+   signal. The class is added on the failed submit and cleared by a
+   400ms timer (matching the animation length) so a later failed submit
+   can shake the card again. */
+@keyframes authCardShake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(-8px);
+  }
+  40% {
+    transform: translateX(8px);
+  }
+  60% {
+    transform: translateX(-5px);
+  }
+  80% {
+    transform: translateX(5px);
+  }
+}
+
+.auth-card-shake {
+  animation: authCardShake 0.4s ease-in-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .auth-card-shake {
+    animation: none;
   }
 }
 
