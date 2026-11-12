@@ -7,6 +7,7 @@ import { supabase } from "@/lib/supabaseClient";
 import type { User } from "@supabase/supabase-js";
 import Spinner from "@/components/Spinner";
 import { useToast } from "@/components/Toast";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import {
   usernameSchema,
   type UsernameFormValues,
@@ -15,6 +16,8 @@ import {
 const MAX_AVATAR_BYTES = 2 * 1024 * 1024; // 2MB
 
 export default function ProfilePage() {
+  const { t } = useLanguage();
+
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -96,7 +99,7 @@ export default function ProfilePage() {
     }
 
     await supabase.from("profiles").update({ email }).eq("id", user.id);
-    setEmailMessage("Check your inbox to confirm the new email address.");
+    setEmailMessage(t("profile.emailConfirm"));
   };
 
   const handleAvatarChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -106,11 +109,11 @@ export default function ProfilePage() {
     setAvatarError(null);
 
     if (!file.type.startsWith("image/")) {
-      setAvatarError("Please choose an image file.");
+      setAvatarError(t("profile.chooseImage"));
       return;
     }
     if (file.size > MAX_AVATAR_BYTES) {
-      setAvatarError("Image must be smaller than 2MB.");
+      setAvatarError(t("profile.imageTooLarge"));
       return;
     }
 
@@ -167,7 +170,7 @@ export default function ProfilePage() {
   if (!user)
     return (
       <p className="text-center py-16">
-        You must be logged in to view this page.
+        {t("profile.loginRequired")}
       </p>
     );
 
@@ -180,9 +183,9 @@ export default function ProfilePage() {
   return (
     <div className="flex items-center justify-center px-4 py-16 min-h-[80vh]">
       <div className="w-full max-w-sm bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-2xl shadow-xl shadow-gray-200/50 dark:shadow-black/30 p-8">
-        <h1 className="text-2xl font-bold mb-1">Profile</h1>
+        <h1 className="text-2xl font-bold mb-1">{t("profile.title")}</h1>
         <p className="text-sm text-gray-500 mb-6">
-          Manage your account details.
+          {t("profile.subtitle")}
         </p>
 
         <div className="flex flex-col items-center text-center mb-8">
@@ -191,7 +194,7 @@ export default function ProfilePage() {
               // eslint-disable-next-line @next/next/no-img-element
               <img
                 src={avatarUrl}
-                alt="Profile avatar"
+                alt={t("profile.avatarAlt")}
                 className="w-20 h-20 rounded-full object-cover border border-gray-200 dark:border-gray-800"
               />
             ) : (
@@ -214,10 +217,10 @@ export default function ProfilePage() {
           >
             {uploading ? (
               <>
-                <Spinner className="h-3 w-3" /> Uploading...
+                <Spinner className="h-3 w-3" /> {t("profile.uploading")}
               </>
             ) : (
-              "Change photo"
+              t("profile.changePhoto")
             )}
           </button>
           <input
@@ -278,7 +281,7 @@ export default function ProfilePage() {
         <form onSubmit={handleEmailSave} className="flex flex-col gap-4">
           <div>
             <label className="block text-xs font-medium text-gray-500 mb-1.5">
-              Email
+              {t("profile.emailLabel")}
             </label>
             <input
               type="email"
@@ -314,10 +317,10 @@ export default function ProfilePage() {
           >
             {savingEmail ? (
               <>
-                <Spinner /> Saving...
+                <Spinner /> {t("profile.saving")}
               </>
             ) : (
-              "Save changes"
+              t("profile.save")
             )}
           </button>
         </form>
