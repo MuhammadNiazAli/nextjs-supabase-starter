@@ -191,6 +191,20 @@ body {
   transition: none !important;
 }
 
+/* Manual "Reduce motion" setting (see ReducedMotionToggle.tsx): the
+   toggle adds this class to <html>, and it forces every animation and
+   transition in the app to length 0. It is separate from the OS-level
+   prefers-reduced-motion setting — the stored choice wins over the OS
+   default. The prefers-reduced-motion media queries further down stay
+   as the fallback for visitors who never touch the toggle. */
+.reduce-motion,
+.reduce-motion *,
+.reduce-motion *::before,
+.reduce-motion *::after {
+  animation: none !important;
+  transition: none !important;
+}
+
 /* Gentle staggered fade/rise used by the footer's columns so they settle
    into place instead of appearing instantly. Respects reduced-motion. */
 @keyframes footerFadeInUp {
