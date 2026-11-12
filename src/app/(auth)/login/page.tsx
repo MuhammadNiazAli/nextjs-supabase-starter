@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useState } from "react";
+import { Suspense, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useForm, Controller } from "react-hook-form";
@@ -25,6 +25,25 @@ function sanitizeRedirectTo(value: string | null): string {
 function LoginPage() {
   const [loading, setLoading] = useState(false);
   const [redirecting, setRedirecting] = useState(false);
+  // True while the card is shaking after a failed submit.
+  const [shakeCard, setShakeCard] = useState(false);
+  // Holds the timer that clears the shake class once the 0.4s animation
+  // has finished, so a later failed submit can shake the card again.
+  const shakeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    // If the page unmounts mid-shake, drop the pending timer so it
+    // never tries to update state on an unmounted page.
+    return () => {
+      if (shakeTimer.current) clearTimeout(shakeTimer.current);
+    };
+  }, []);
+
+  const triggerCardShake = () => {
+    setShakeCard(true);
+    if (shakeTimer.current) clearTimeout(shakeTimer.current);
+    shakeTimer.current = setTimeout(() => setShakeCard(false), 400);
+  };
   const { showToast } = useToast();
   const { t } = useLanguage();
   const router = useRouter();
@@ -47,6 +66,7 @@ function LoginPage() {
     if (error) {
       setLoading(false);
       showToast(error.message, "error");
+      triggerCardShake();
       return;
     }
     // Use the router instead of a hard navigation so the transition to
@@ -91,7 +111,12 @@ function LoginPage() {
 
   return (
     <div className="flex items-center justify-center px-4 py-16 min-h-[80vh]">
-      <div className="w-full max-w-sm bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-2xl shadow-xl shadow-gray-200/50 dark:shadow-black/30 p-8">
+      <div
+        className={
+          "w-full max-w-sm bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-2xl shadow-xl shadow-gray-200/50 dark:shadow-black/30 p-8" +
+          (shakeCard ? " auth-card-shake" : "")
+        }
+      >
         <h1 className="text-2xl font-bold mb-1">{t("auth.login.title")}</h1>
         <p className="text-sm text-gray-500 mb-6">
           {t("auth.login.subtitle")}
