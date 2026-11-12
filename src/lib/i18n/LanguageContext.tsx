@@ -10,12 +10,13 @@ import {
 } from "react";
 
 import en from "@/messages/en.json";
+import fr from "@/messages/fr.json";
 import ur from "@/messages/ur.json";
-import { defaultLocale, locales, type Locale } from "./config";
+import { defaultLocale, isRtlLocale, locales, type Locale } from "./config";
 
 type Messages = typeof en;
 
-const dictionaries: Record<Locale, Messages> = { en, ur };
+const dictionaries: Record<Locale, Messages> = { en, ur, fr };
 
 const STORAGE_KEY = "locale";
 
@@ -125,11 +126,12 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   const [locale, setLocale] = useState<Locale>(getInitialLocale);
 
   useEffect(() => {
-    // Only the `lang` attribute changes with the locale. `dir` is kept fixed
-    // at "ltr" on purpose so switching languages never reflows/shifts the
-    // layout (navbar, cards, etc. must stay exactly where they are).
+    // Both `lang` and `dir` follow the locale, so switching to Urdu
+    // flips the whole layout to right-to-left (and back for LTR
+    // languages). Layouts are built on flexbox and logical properties,
+    // so they mirror instead of breaking.
     document.documentElement.lang = locale;
-    document.documentElement.dir = "ltr";
+    document.documentElement.dir = isRtlLocale(locale) ? "rtl" : "ltr";
 
     try {
       window.localStorage.setItem(STORAGE_KEY, locale);
