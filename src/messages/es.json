@@ -1,0 +1,210 @@
+{
+  "navbar": {
+    "brand": "FullStack Starter",
+    "login": "Iniciar sesión",
+    "signup": "Registrarse",
+    "pricing": "Precios",
+    "profile": "Perfil",
+    "logout": "Cerrar sesión",
+    "toggleMenu": "Mostrar menú"
+  },
+  "footer": {
+    "text": "Creado con Next.js y Supabase. Licencia MIT y abierto a contribuciones.",
+    "tagline": "Un kit de inicio de código abierto con Next.js y Supabase, creado para aprender. Practica con funciones reales, envía pull requests reales y crece como desarrollador.",
+    "columns": {
+      "product": "Producto",
+      "resources": "Recursos",
+      "community": "Comunidad"
+    },
+    "links": {
+      "docs": "Documentación",
+      "license": "Licencia",
+      "codeOfConduct": "Código de conducta",
+      "contribute": "Guía de contribución",
+      "issues": "Issues abiertos",
+      "discussions": "Discusiones"
+    },
+    "starOnGithub": "Danos una estrella en GitHub",
+    "backToTop": "Volver arriba"
+  },
+  "home": {
+    "titlePrefix": "Bienvenido a",
+    "titleHighlight": "Next.js Supabase Starter",
+    "subtitle": "Este kit de inicio les da a los desarrolladores una base de código real y funcional para practicar. Abre pull requests, revisa código, elige issues y crea funciones que nunca has probado, todo sin tocar una aplicación en producción.",
+    "getStarted": "Comenzar",
+    "viewOnGithub": "Ver en GitHub",
+    "contribute": {
+      "eyebrow": "Participa",
+      "title": "¿Eres nuevo? Haz tu primera contribución",
+      "subtitle": "¿Nunca has enviado un pull request? Sigue estos pasos y hoy mismo tendrás uno fusionado.",
+      "step1Title": "Elige un issue",
+      "step1Desc": "Abre la pestaña Issues en GitHub y elige uno con la etiqueta \"good first issue\" que te sientas capaz de resolver.",
+      "step2Title": "Haz un fork del repositorio",
+      "step2Desc": "Haz clic en el botón Fork en la esquina superior derecha del repositorio. Esto crea tu propia copia del proyecto en tu cuenta.",
+      "step3Title": "Clona tu fork",
+      "step3Desc": "Copia la URL de tu fork y ejecuta git clone para descargar el código en tu máquina.",
+      "step4Title": "Resuelve el issue",
+      "step4Desc": "Crea una nueva rama, haz los cambios que describe el issue y confirma tu trabajo con un mensaje claro.",
+      "step5Title": "Envía un pull request",
+      "step5Desc": "Sube tu rama a tu fork y luego abre un pull request hacia el repositorio original.",
+      "step6Title": "Consigue la fusión y sigue creciendo",
+      "step6Desc": "Una vez que tu PR se revise y se fusione, cuenta como una contribución real, aparece en tu gráfico de actividad de GitHub y suma práctica y aprendizaje a tu perfil.",
+      "cta": "Ver los issues abiertos"
+    },
+    "contributors": {
+      "eyebrow": "Comunidad",
+      "title": "Contribuidores",
+      "subtitle": "Las personas que han abierto issues, enviado pull requests y ayudado a dar forma a este proyecto.",
+      "adminBadge": "Mantenedor",
+      "error": "No se pudieron cargar los contribuidores de GitHub en este momento. Inténtalo de nuevo en un momento.",
+      "empty": "Aún no hay contribuidores para mostrar.",
+      "viewGithub": "Perfil de GitHub"
+    }
+  },
+  "theme": {
+    "toggleLabel": "Alternar modo oscuro",
+    "light": "☀️ Claro",
+    "dark": "🌙 Oscuro"
+  },
+  "language": {
+    "label": "Idioma"
+  },
+  "auth": {
+    "login": {
+      "title": "Bienvenido de nuevo",
+      "subtitle": "Inicia sesión para continuar con tu cuenta.",
+      "emailLabel": "Correo electrónico",
+      "emailPlaceholder": "tu@ejemplo.com",
+      "passwordLabel": "Contraseña",
+      "passwordPlaceholder": "Escribe tu contraseña",
+      "forgotPassword": "¿Olvidaste tu contraseña?",
+      "submit": "Iniciar sesión",
+      "submitting": "Iniciando sesión...",
+      "redirecting": "Iniciando tu sesión...",
+      "divider": "o",
+      "continueWithGoogle": "Continuar con Google",
+      "continueWithGithub": "Continuar con GitHub",
+      "noAccount": "¿No tienes cuenta?",
+      "signupLink": "Regístrate"
+    },
+    "signup": {
+      "title": "Crea tu cuenta",
+      "subtitle": "Únete en unos segundos, es gratis.",
+      "success": "Revisa tu correo para confirmar tu cuenta.",
+      "usernameLabel": "Nombre de usuario",
+      "usernamePlaceholder": "Elige un nombre de usuario",
+      "emailLabel": "Correo electrónico",
+      "emailPlaceholder": "tu@ejemplo.com",
+      "passwordLabel": "Contraseña",
+      "passwordPlaceholder": "Crea una contraseña segura",
+      "submit": "Regístrate",
+      "submitting": "Creando cuenta...",
+      "divider": "o",
+      "continueWithGoogle": "Continuar con Google",
+      "continueWithGithub": "Continuar con GitHub",
+      "hasAccount": "¿Ya tienes cuenta?",
+      "loginLink": "Iniciar sesión"
+    },
+    "forgotPassword": {
+      "title": "¿Olvidaste tu contraseña?",
+      "subtitle": "Escribe tu correo y te enviaremos un enlace para restablecerla.",
+      "sent": "Enlace enviado. Revisa tu bandeja de entrada.",
+      "emailLabel": "Correo electrónico",
+      "emailPlaceholder": "tu@ejemplo.com",
+      "submit": "Enviar enlace",
+      "submitting": "Enviando...",
+      "remembered": "¿Recordaste tu contraseña?",
+      "backToLogin": "Volver a iniciar sesión"
+    },
+    "updatePassword": {
+      "title": "Establece una nueva contraseña",
+      "subtitle": "Escribe una nueva contraseña para tu cuenta.",
+      "success": "Contraseña actualizada. Ya puedes iniciar sesión con tu nueva contraseña.",
+      "passwordLabel": "Nueva contraseña",
+      "passwordPlaceholder": "Escribe tu nueva contraseña",
+      "submit": "Actualizar contraseña",
+      "submitting": "Actualizando..."
+    }
+  },
+  "dashboard": {
+    "loginRequired": "Debes iniciar sesión para ver esta página.",
+    "sending": "Enviando...",
+    "welcome": {
+      "eyebrow": "Bienvenido a bordo",
+      "title": "Vamos a configurarlo todo",
+      "verifyEmail": "Verificar correo",
+      "completeProfile": "Completa tu perfil",
+      "explorePricing": "Ver planes",
+      "resend": "Reenviar"
+    },
+    "unverifiedAlert": {
+      "message": "Verifica tu correo electrónico para desbloquear todas las funciones.",
+      "resend": "Reenviar correo de verificación"
+    },
+    "badge": {
+      "unverified": "Sin verificar",
+      "free": "Plan gratuito",
+      "pro": "Pro"
+    },
+    "overview": {
+      "username": "Nombre de usuario",
+      "email": "Correo electrónico",
+      "accountCreated": "Cuenta creada",
+      "lastSignIn": "Último inicio de sesión",
+      "signedInWith": "Sesión iniciada con"
+    },
+    "features": {
+      "createProjects": "Crear proyectos",
+      "oneProject": "1 proyecto",
+      "unlimitedProjects": "Proyectos ilimitados",
+      "support": "Soporte",
+      "communitySupport": "Soporte de la comunidad",
+      "prioritySupport": "Soporte prioritario",
+      "advancedAnalytics": "Analíticas avanzadas",
+      "included": "Incluido",
+      "proOnly": "Solo Pro"
+    },
+    "locked": "Verifica tu correo para desbloquear las funciones",
+    "tabs": {
+      "label": "Secciones del panel",
+      "overview": "Resumen",
+      "billing": "Facturación",
+      "settings": "Configuración de la cuenta"
+    },
+    "billing": {
+      "currentPlan": "Plan actual",
+      "proAccess": "Tienes acceso completo a todas las funciones Pro.",
+      "freeAccess": "Estás en el plan gratuito. Mejora tu plan para proyectos ilimitados y soporte prioritario.",
+      "upgrade": "Mejorar plan"
+    },
+    "settings": {
+      "resetPassword": "Restablecer contraseña",
+      "deleteAccount": "Eliminar cuenta",
+      "deleteWarning": "Esto eliminará tu cuenta y todos tus datos de forma permanente. Esta acción no se puede deshacer.",
+      "confirmDelete": "Sí, eliminar mi cuenta",
+      "cancel": "Cancelar",
+      "deleting": "Eliminando..."
+    },
+    "toast": {
+      "passwordResetSent": "Correo de restablecimiento enviado, revisa tu bandeja de entrada.",
+      "verificationSent": "Correo de verificación enviado, revisa tu bandeja de entrada.",
+      "sessionExpired": "Tu sesión ha caducado. Inicia sesión de nuevo.",
+      "deleteFailed": "No se pudo eliminar la cuenta.",
+      "accountDeleted": "Tu cuenta ha sido eliminada."
+    }
+  },
+  "profile": {
+    "loginRequired": "Debes iniciar sesión para ver esta página.",
+    "title": "Perfil",
+    "subtitle": "Gestiona los datos de tu cuenta.",
+    "avatarAlt": "Avatar de perfil",
+    "changePhoto": "Cambiar foto",
+    "uploading": "Subiendo...",
+    "chooseImage": "Elige un archivo de imagen.",
+    "imageTooLarge": "La imagen debe pesar menos de 2 MB.",
+    "emailLabel": "Correo electrónico",
+    "emailConfirm": "Revisa tu bandeja de entrada para confirmar la nueva dirección de correo.",
+    "save": "Guardar cambios",
+    "saving": "Guardando..."
+  }
+}
