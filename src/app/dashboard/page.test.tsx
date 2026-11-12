@@ -138,3 +138,60 @@ describe("resend cooldown", () => {
     expect(screen.getByText("Too many requests")).not.toBeNull();
   });
 });
+
+describe("welcome banner", () => {
+  it("shows the welcome checklist for a recently created account", async () => {
+    mockSignedInUser(
+      makeUser({ createdAt: minutesAgo(1), emailConfirmedAt: minutesAgo(1) }),
+    );
+    renderDashboard();
+
+    expect(await screen.findByText("Let's get you set up")).not.toBeNull();
+    expect(screen.getByText("Welcome aboard")).not.toBeNull();
+    expect(screen.getByText("Verify email")).not.toBeNull();
+    expect(screen.getByText("Complete your profile")).not.toBeNull();
+    expect(screen.getByText("Explore pricing")).not.toBeNull();
+  });
+
+  it("hides the banner for an older account", async () => {
+    mockSignedInUser(
+      makeUser({ createdAt: minutesAgo(60), emailConfirmedAt: minutesAgo(60) }),
+    );
+    renderDashboard();
+
+    // Wait for the dashboard itself so "absent" means loaded, not loading.
+    expect(await screen.findByRole("heading", { name: "testuser" })).not.toBeNull();
+    expect(screen.queryByText("Let's get you set up")).toBeNull();
+  });
+
+  it("hides the banner once the account is older than five minutes", async () => {
+    mockSignedInUser(
+      makeUser({ createdAt: minutesAgo(6), emailConfirmedAt: minutesAgo(6) }),
+    );
+    renderDashboard();
+
+    expect(await screen.findByRole("heading", { name: "testuser" })).not.toBeNull();
+    expect(screen.queryByText("Let's get you set up")).toBeNull();
+  });
+
+  it("shows a checkmark for a verified email", async () => {
+    mockSignedInUser(
+      makeUser({ createdAt: minutesAgo(1), emailConfirmedAt: minutesAgo(1) }),
+    );
+    renderDashboard();
+
+    expect(await screen.findByText("Let's get you set up")).not.toBeNull();
+    expect(screen.getByText("✓")).not.toBeNull();
+    expect(screen.queryByText("Resend")).toBeNull();
+  });
+
+  it("offers a resend button when the email is not verified", async () => {
+    mockSignedInUser(
+      makeUser({ createdAt: minutesAgo(1), emailConfirmedAt: null }),
+    );
+    renderDashboard();
+
+    expect(await screen.findByText("Let's get you set up")).not.toBeNull();
+    expect(screen.getByRole("button", { name: "Resend" })).not.toBeNull();
+  });
+});
