@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import ThemeToggle from "./ThemeToggle";
+import ReducedMotionToggle from "./ReducedMotionToggle";
 import LanguageSwitcher from "./LanguageSwitcher";
 import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { supabase } from "@/lib/supabaseClient";
@@ -113,6 +114,7 @@ export default function Navbar() {
             <span aria-hidden="true" className="h-5 w-px bg-gray-200 dark:bg-gray-800" />
             <LanguageSwitcher />
             <ThemeToggle />
+            <ReducedMotionToggle />
             {!user && (
               <Link
                 href="/signup"
@@ -228,6 +230,7 @@ export default function Navbar() {
         <div className="flex items-center justify-between gap-3 border-t border-gray-200 pt-4 dark:border-gray-800">
           <LanguageSwitcher />
           <ThemeToggle />
+          <ReducedMotionToggle />
         </div>
       </div>
     </>
