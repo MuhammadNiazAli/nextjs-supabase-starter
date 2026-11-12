@@ -1,13 +1,23 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { supabase } from "@/lib/supabaseClient";
 import type { User } from "@supabase/supabase-js";
 import Spinner from "@/components/Spinner";
+import { useToast } from "@/components/Toast";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
+import {
+  usernameSchema,
+  type UsernameFormValues,
+} from "@/lib/validation/authSchemas";
 
 const MAX_AVATAR_BYTES = 2 * 1024 * 1024; // 2MB
 
 export default function ProfilePage() {
+  const { t } = useLanguage();
+
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -18,6 +28,23 @@ export default function ProfilePage() {
   const [emailMessage, setEmailMessage] = useState<string | null>(null);
   const [emailError, setEmailError] = useState<string | null>(null);
 
+  const [savingUsername, setSavingUsername] = useState(false);
+  const { showToast } = useToast();
+
+  // Same react-hook-form + zod setup as the signup form, so the username
+  // rule is checked the same way in both places.
+  const {
+    register: registerUsername,
+    handleSubmit: handleUsernameSubmit,
+    reset: resetUsernameForm,
+    watch: watchUsername,
+    formState: { errors: usernameErrors },
+  } = useForm<UsernameFormValues>({
+    resolver: zodResolver(usernameSchema),
+    defaultValues: { username: "" },
+  });
+  const usernameValue = watchUsername("username");
+
   const [uploading, setUploading] = useState(false);
   const [avatarError, setAvatarError] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -27,9 +54,34 @@ export default function ProfilePage() {
       setUser(data.user);
       setEmail(data.user?.email ?? "");
       setAvatarUrl((data.user?.user_metadata?.avatar_url as string) ?? null);
+      resetUsernameForm({
+        username: (data.user?.user_metadata?.username as string) ?? "",
+      });
       setLoading(false);
     });
-  }, []);
+  }, [resetUsernameForm]);
+
+  const handleUsernameSave = async (values: UsernameFormValues) => {
+    if (!user) return;
+    setSavingUsername(true);
+
+    const { error } = await supabase.auth.updateUser({
+      data: { username: values.username },
+    });
+    setSavingUsername(false);
+
+    if (error) {
+      showToast(error.message, "error");
+      return;
+    }
+
+    // Refresh the name shown on the page without a reload.
+    setUser({
+      ...user,
+      user_metadata: { ...user.user_metadata, username: values.username },
+    });
+    showToast("Username updated.", "success");
+  };
 
   const handleEmailSave = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -47,7 +99,7 @@ export default function ProfilePage() {
     }
 
     await supabase.from("profiles").update({ email }).eq("id", user.id);
-    setEmailMessage("Check your inbox to confirm the new email address.");
+    setEmailMessage(t("profile.emailConfirm"));
   };
 
   const handleAvatarChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -57,11 +109,11 @@ export default function ProfilePage() {
     setAvatarError(null);
 
     if (!file.type.startsWith("image/")) {
-      setAvatarError("Please choose an image file.");
+      setAvatarError(t("profile.chooseImage"));
       return;
     }
     if (file.size > MAX_AVATAR_BYTES) {
-      setAvatarError("Image must be smaller than 2MB.");
+      setAvatarError(t("profile.imageTooLarge"));
       return;
     }
 
@@ -118,7 +170,7 @@ export default function ProfilePage() {
   if (!user)
     return (
       <p className="text-center py-16">
-        You must be logged in to view this page.
+        {t("profile.loginRequired")}
       </p>
     );
 
@@ -126,13 +178,14 @@ export default function ProfilePage() {
   const initial = (username !== "—" ? username : user.email || "?")
     .charAt(0)
     .toUpperCase();
+  const currentUsername = username === "—" ? "" : username;
 
   return (
     <div className="flex items-center justify-center px-4 py-16 min-h-[80vh]">
       <div className="w-full max-w-sm bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-2xl shadow-xl shadow-gray-200/50 dark:shadow-black/30 p-8">
-        <h1 className="text-2xl font-bold mb-1">Profile</h1>
+        <h1 className="text-2xl font-bold mb-1">{t("profile.title")}</h1>
         <p className="text-sm text-gray-500 mb-6">
-          Manage your account details.
+          {t("profile.subtitle")}
         </p>
 
         <div className="flex flex-col items-center text-center mb-8">
@@ -141,7 +194,7 @@ export default function ProfilePage() {
               // eslint-disable-next-line @next/next/no-img-element
               <img
                 src={avatarUrl}
-                alt="Profile avatar"
+                alt={t("profile.avatarAlt")}
                 className="w-20 h-20 rounded-full object-cover border border-gray-200 dark:border-gray-800"
               />
             ) : (
@@ -164,10 +217,10 @@ export default function ProfilePage() {
           >
             {uploading ? (
               <>
-                <Spinner className="h-3 w-3" /> Uploading...
+                <Spinner className="h-3 w-3" /> {t("profile.uploading")}
               </>
             ) : (
-              "Change photo"
+              t("profile.changePhoto")
             )}
           </button>
           <input
@@ -184,10 +237,51 @@ export default function ProfilePage() {
           )}
         </div>
 
+        <form
+          onSubmit={handleUsernameSubmit(handleUsernameSave)}
+          className="flex flex-col gap-4 mb-6"
+        >
+          <div>
+            <label
+              htmlFor="username"
+              className="block text-xs font-medium text-gray-500 mb-1.5"
+            >
+              Username
+            </label>
+            <input
+              id="username"
+              type="text"
+              autoComplete="username"
+              aria-invalid={usernameErrors.username ? "true" : "false"}
+              className="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm bg-white dark:bg-gray-900 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition"
+              {...registerUsername("username")}
+            />
+            {usernameErrors.username && (
+              <p role="alert" className="text-red-500 text-xs mt-1.5">
+                {usernameErrors.username.message}
+              </p>
+            )}
+          </div>
+
+          <button
+            type="submit"
+            disabled={savingUsername || usernameValue === currentUsername}
+            className="flex items-center justify-center gap-2 bg-primary hover:bg-primary/90 disabled:opacity-60 disabled:cursor-not-allowed text-white rounded-lg px-3 py-2.5 text-sm font-medium transition shadow-sm shadow-primary/30"
+          >
+            {savingUsername ? (
+              <>
+                <Spinner /> Saving...
+              </>
+            ) : (
+              "Save username"
+            )}
+          </button>
+        </form>
+
         <form onSubmit={handleEmailSave} className="flex flex-col gap-4">
           <div>
             <label className="block text-xs font-medium text-gray-500 mb-1.5">
-              Email
+              {t("profile.emailLabel")}
             </label>
             <input
               type="email"
@@ -223,10 +317,10 @@ export default function ProfilePage() {
           >
             {savingEmail ? (
               <>
-                <Spinner /> Saving...
+                <Spinner /> {t("profile.saving")}
               </>
             ) : (
-              "Save changes"
+              t("profile.save")
             )}
           </button>
         </form>
