@@ -66,6 +66,11 @@
     "light": "☀️ Clair",
     "dark": "🌙 Sombre"
   },
+  "motion": {
+    "toggleLabel": "Basculer la réduction des animations",
+    "on": "🚫 Animations réduites",
+    "off": "🎬 Animations activées"
+  },
   "language": {
     "label": "Langue"
   }
