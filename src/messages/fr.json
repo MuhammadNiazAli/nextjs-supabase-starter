@@ -130,5 +130,86 @@
       "submit": "Mettre à jour le mot de passe",
       "submitting": "Mise à jour..."
     }
+  },
+  "dashboard": {
+    "loginRequired": "Vous devez être connecté pour voir cette page.",
+    "sending": "Envoi en cours...",
+    "welcome": {
+      "eyebrow": "Bienvenue à bord",
+      "title": "Commençons la configuration",
+      "verifyEmail": "Vérifier votre e-mail",
+      "completeProfile": "Compléter votre profil",
+      "explorePricing": "Découvrir les tarifs",
+      "resend": "Renvoyer"
+    },
+    "unverifiedAlert": {
+      "message": "Veuillez vérifier votre adresse e-mail pour débloquer toutes les fonctionnalités.",
+      "resend": "Renvoyer l'e-mail de vérification"
+    },
+    "badge": {
+      "unverified": "Non vérifié",
+      "free": "Formule gratuite",
+      "pro": "Pro"
+    },
+    "overview": {
+      "username": "Nom d'utilisateur",
+      "email": "E-mail",
+      "accountCreated": "Compte créé le",
+      "lastSignIn": "Dernière connexion",
+      "signedInWith": "Connecté avec"
+    },
+    "features": {
+      "createProjects": "Créer des projets",
+      "oneProject": "1 projet",
+      "unlimitedProjects": "Projets illimités",
+      "support": "Support",
+      "communitySupport": "Support communautaire",
+      "prioritySupport": "Support prioritaire",
+      "advancedAnalytics": "Analyses avancées",
+      "included": "Inclus",
+      "proOnly": "Pro uniquement"
+    },
+    "locked": "Vérifiez votre e-mail pour débloquer les fonctionnalités",
+    "tabs": {
+      "label": "Sections du tableau de bord",
+      "overview": "Aperçu",
+      "billing": "Facturation",
+      "settings": "Paramètres du compte"
+    },
+    "billing": {
+      "currentPlan": "Formule actuelle",
+      "proAccess": "Vous avez accès à toutes les fonctionnalités Pro.",
+      "freeAccess": "Vous êtes sur la formule gratuite. Passez à Pro pour des projets illimités et un support prioritaire.",
+      "upgrade": "Passer à Pro"
+    },
+    "settings": {
+      "resetPassword": "Réinitialiser le mot de passe",
+      "deleteAccount": "Supprimer le compte",
+      "deleteWarning": "Cette action supprimera définitivement votre compte et toutes vos données. Elle est irréversible.",
+      "confirmDelete": "Oui, supprimer mon compte",
+      "cancel": "Annuler",
+      "deleting": "Suppression en cours..."
+    },
+    "toast": {
+      "passwordResetSent": "E-mail de réinitialisation envoyé — vérifiez votre boîte de réception.",
+      "verificationSent": "E-mail de vérification envoyé — vérifiez votre boîte de réception.",
+      "sessionExpired": "Votre session a expiré. Veuillez vous reconnecter.",
+      "deleteFailed": "Échec de la suppression du compte.",
+      "accountDeleted": "Votre compte a été supprimé."
+    }
+  },
+  "profile": {
+    "loginRequired": "Vous devez être connecté pour voir cette page.",
+    "title": "Profil",
+    "subtitle": "Gérez les détails de votre compte.",
+    "avatarAlt": "Photo de profil",
+    "changePhoto": "Changer de photo",
+    "uploading": "Envoi en cours...",
+    "chooseImage": "Veuillez choisir un fichier image.",
+    "imageTooLarge": "L'image doit faire moins de 2 Mo.",
+    "emailLabel": "E-mail",
+    "emailConfirm": "Vérifiez votre boîte de réception pour confirmer la nouvelle adresse e-mail.",
+    "save": "Enregistrer les modifications",
+    "saving": "Enregistrement en cours..."
   }
 }
