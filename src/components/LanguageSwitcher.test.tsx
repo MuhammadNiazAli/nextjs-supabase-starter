@@ -35,12 +35,30 @@ describe("LanguageSwitcher", () => {
 
     expect(select.value).toBe("ur");
     expect(document.documentElement.lang).toBe("ur");
-    // `dir` intentionally stays "ltr" so switching languages never shifts
-    // the layout - only the text content changes.
-    expect(document.documentElement.dir).toBe("ltr");
+    // Urdu reads right-to-left, so the layout flips with the language.
+    expect(document.documentElement.dir).toBe("rtl");
     // footer translation
     expect(screen.queryByText(/open for contributions/i)).toBeNull();
     expect(screen.getByText(/تعاون کے لیے کھلا ہے/)).not.toBeNull();
+  });
+
+  it("switches to French and shows translated text", async () => {
+    const user = userEvent.setup();
+    renderWithProvider();
+
+    const select = screen.getByRole("combobox") as HTMLSelectElement;
+    await user.selectOptions(select, "fr");
+
+    expect(select.value).toBe("fr");
+    expect(document.documentElement.lang).toBe("fr");
+    expect(document.documentElement.dir).toBe("ltr");
+    // footer translation
+    expect(screen.queryByText(/open for contributions/i)).toBeNull();
+    expect(screen.getByText(/ouvert aux contributions/i)).not.toBeNull();
+    // the switcher lists French by its own name
+    expect(
+      screen.getByRole("option", { name: "Français" }),
+    ).not.toBeNull();
   });
 
   it("persists the selected language to localStorage", async () => {
@@ -59,7 +77,7 @@ describe("LanguageSwitcher", () => {
 
     const select = screen.getByRole("combobox") as HTMLSelectElement;
     expect(select.value).toBe("ur");
-    expect(document.documentElement.dir).toBe("ltr");
+    expect(document.documentElement.dir).toBe("rtl");
   });
 
   it("falls back to English when used without a provider", () => {
