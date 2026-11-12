@@ -73,5 +73,62 @@
   },
   "language": {
     "label": "Langue"
+  },
+  "auth": {
+    "login": {
+      "title": "Bon retour parmi nous",
+      "subtitle": "Connectez-vous pour accéder à votre compte.",
+      "emailLabel": "E-mail",
+      "emailPlaceholder": "you@example.com",
+      "passwordLabel": "Mot de passe",
+      "passwordPlaceholder": "Entrez votre mot de passe",
+      "forgotPassword": "Mot de passe oublié ?",
+      "submit": "Connexion",
+      "submitting": "Connexion en cours...",
+      "redirecting": "Nous vous connectons...",
+      "divider": "ou",
+      "continueWithGoogle": "Continuer avec Google",
+      "continueWithGithub": "Continuer avec GitHub",
+      "noAccount": "Pas encore de compte ?",
+      "signupLink": "S’inscrire"
+    },
+    "signup": {
+      "title": "Créez votre compte",
+      "subtitle": "Rejoignez-nous en quelques secondes — c’est gratuit.",
+      "success": "Vérifiez votre e-mail pour confirmer votre compte.",
+      "usernameLabel": "Nom d’utilisateur",
+      "usernamePlaceholder": "Choisissez un nom d’utilisateur",
+      "emailLabel": "E-mail",
+      "emailPlaceholder": "you@example.com",
+      "passwordLabel": "Mot de passe",
+      "passwordPlaceholder": "Créez un mot de passe fort",
+      "submit": "S’inscrire",
+      "submitting": "Création du compte...",
+      "divider": "ou",
+      "continueWithGoogle": "Continuer avec Google",
+      "continueWithGithub": "Continuer avec GitHub",
+      "hasAccount": "Vous avez déjà un compte ?",
+      "loginLink": "Connexion"
+    },
+    "forgotPassword": {
+      "title": "Mot de passe oublié ?",
+      "subtitle": "Entrez votre e-mail et nous vous enverrons un lien de réinitialisation.",
+      "sent": "Lien de réinitialisation envoyé. Vérifiez votre boîte de réception.",
+      "emailLabel": "E-mail",
+      "emailPlaceholder": "you@example.com",
+      "submit": "Envoyer le lien de réinitialisation",
+      "submitting": "Envoi en cours...",
+      "remembered": "Vous vous souvenez de votre mot de passe ?",
+      "backToLogin": "Retour à la connexion"
+    },
+    "updatePassword": {
+      "title": "Définir un nouveau mot de passe",
+      "subtitle": "Entrez un nouveau mot de passe pour votre compte.",
+      "success": "Mot de passe mis à jour. Vous pouvez maintenant vous connecter avec votre nouveau mot de passe.",
+      "passwordLabel": "Nouveau mot de passe",
+      "passwordPlaceholder": "Entrez votre nouveau mot de passe",
+      "submit": "Mettre à jour le mot de passe",
+      "submitting": "Mise à jour..."
+    }
   }
 }
