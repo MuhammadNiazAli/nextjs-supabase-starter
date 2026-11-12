@@ -61,6 +61,21 @@ export default function ThemeToggle() {
     return () => cancelAnimationFrame(raf);
   }, [dark]);
 
+  // Keep tabs in sync: the storage event fires in every OTHER tab when
+  // one tab changes the theme, so this tab follows along live. It never
+  // fires in the tab that made the change, so there is no feedback loop.
+  useEffect(() => {
+    function handleStorage(event: StorageEvent) {
+      if (event.key !== STORAGE_KEY) return;
+      if (event.newValue === "dark") setDark(true);
+      if (event.newValue === "light") setDark(false);
+      // Any other value (for example the key being cleared) is ignored.
+    }
+
+    window.addEventListener("storage", handleStorage);
+    return () => window.removeEventListener("storage", handleStorage);
+  }, []);
+
   return (
     <button
       onClick={() => setDark((prev) => !prev)}
