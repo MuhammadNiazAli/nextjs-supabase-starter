@@ -22,9 +22,19 @@ export const loginSchema = z.object({
 
 export type LoginFormValues = z.infer<typeof loginSchema>;
 
+// One rule for usernames everywhere: signup and the profile form share it,
+// so the two places can never drift apart.
+// Migrated from signup page's previous `minLength={3}` attribute.
+const usernameField = z.string().min(3, "Username must be at least 3 characters");
+
+export const usernameSchema = z.object({
+  username: usernameField,
+});
+
+export type UsernameFormValues = z.infer<typeof usernameSchema>;
+
 export const signupSchema = z.object({
-  // Migrated from signup page's previous `minLength={3}` attribute.
-  username: z.string().min(3, "Username must be at least 3 characters"),
+  username: usernameField,
   email: z
     .string()
     .min(1, "Email is required")

@@ -10,12 +10,13 @@ import {
 } from "react";
 
 import en from "@/messages/en.json";
+import fr from "@/messages/fr.json";
 import ur from "@/messages/ur.json";
 import { defaultLocale, locales, type Locale } from "./config";
 
 type Messages = typeof en;
 
-const dictionaries: Record<Locale, Messages> = { en, ur };
+const dictionaries: Record<Locale, Messages> = { en, ur, fr };
 
 const STORAGE_KEY = "locale";
 
