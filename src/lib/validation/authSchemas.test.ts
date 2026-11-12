@@ -1,7 +1,24 @@
 import { describe, it, expect } from "vitest";
-import { loginSchema, signupSchema } from "./authSchemas";
+import { loginSchema, signupSchema, usernameSchema } from "./authSchemas";
 
 describe("authSchemas validation", () => {
+  describe("usernameSchema", () => {
+    it("accepts a username of 3 or more characters", () => {
+      const result = usernameSchema.safeParse({ username: "johndoe" });
+      expect(result.success).toBe(true);
+    });
+
+    it("rejects a username shorter than 3 characters", () => {
+      const result = usernameSchema.safeParse({ username: "ab" });
+      expect(result.success).toBe(false);
+      if (!result.success) {
+        expect(result.error.issues[0].message).toBe(
+          "Username must be at least 3 characters"
+        );
+      }
+    });
+  });
+
   describe("loginSchema", () => {
     it("accepts valid email and password", () => {
       const result = loginSchema.safeParse({
