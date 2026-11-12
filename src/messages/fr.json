@@ -1,0 +1,129 @@
+{
+  "navbar": {
+    "brand": "FullStack Starter",
+    "login": "Connexion",
+    "signup": "S'inscrire",
+    "pricing": "Tarifs",
+    "profile": "Profil",
+    "logout": "Déconnexion",
+    "toggleMenu": "Afficher le menu"
+  },
+  "footer": {
+    "text": "Conçu avec Next.js et Supabase. Licence MIT, ouvert aux contributions.",
+    "tagline": "Un kit de démarrage open source avec Next.js et Supabase, conçu pour apprendre. Entraînez-vous sur de vraies fonctionnalités, envoyez de vraies pull requests et progressez en tant que développeur.",
+    "columns": {
+      "product": "Produit",
+      "resources": "Ressources",
+      "community": "Communauté"
+    },
+    "links": {
+      "docs": "Documentation",
+      "license": "Licence",
+      "codeOfConduct": "Code de conduite",
+      "contribute": "Guide de contribution",
+      "issues": "Issues ouvertes",
+      "discussions": "Discussions"
+    },
+    "starOnGithub": "Mettez une étoile sur GitHub",
+    "backToTop": "Retour en haut"
+  },
+  "home": {
+    "titlePrefix": "Bienvenue sur",
+    "titleHighlight": "Next.js Supabase Starter",
+    "subtitle": "Ce kit de démarrage donne aux développeurs une vraie base de code fonctionnelle pour s'entraîner. Ouvrez des pull requests, relisez du code, choisissez des issues et créez des fonctionnalités que vous n'avez jamais essayées, le tout sans toucher à une application en production.",
+    "getStarted": "Commencer",
+    "viewOnGithub": "Voir sur GitHub",
+    "contribute": {
+      "eyebrow": "Participez",
+      "title": "Nouveau ici ? Faites votre première contribution",
+      "subtitle": "Vous n'avez jamais envoyé de pull request ? Suivez ces étapes et vous en aurez une fusionnée aujourd'hui.",
+      "step1Title": "Choisissez une issue",
+      "step1Desc": "Ouvrez l'onglet Issues sur GitHub et choisissez une issue avec le label \"good first issue\" que vous vous sentez capable de résoudre.",
+      "step2Title": "Faites un fork du dépôt",
+      "step2Desc": "Cliquez sur le bouton Fork en haut à droite du dépôt. Cela crée votre propre copie du projet sur votre compte.",
+      "step3Title": "Clonez votre fork",
+      "step3Desc": "Copiez l'URL de votre fork et exécutez git clone pour télécharger le code sur votre machine.",
+      "step4Title": "Résolvez l'issue",
+      "step4Desc": "Créez une nouvelle branche, apportez les modifications décrites dans l'issue et validez votre travail avec un message clair.",
+      "step5Title": "Envoyez une pull request",
+      "step5Desc": "Poussez votre branche sur votre fork, puis ouvrez une pull request vers le dépôt d'origine.",
+      "step6Title": "Faites fusionner et progressez",
+      "step6Desc": "Une fois votre PR relue et fusionnée, elle compte comme une vraie contribution, apparaît sur votre graphique d'activité GitHub et ajoute de la pratique et de l'apprentissage à votre profil.",
+      "cta": "Parcourir les issues ouvertes"
+    },
+    "contributors": {
+      "eyebrow": "Communauté",
+      "title": "Contributeurs",
+      "subtitle": "Les personnes qui ont ouvert des issues, envoyé des pull requests et aidé à façonner ce projet.",
+      "adminBadge": "Mainteneur",
+      "error": "Impossible de charger les contributeurs depuis GitHub pour le moment. Veuillez réessayer dans un instant.",
+      "empty": "Aucun contributeur à afficher pour le moment.",
+      "viewGithub": "Profil GitHub"
+    }
+  },
+  "theme": {
+    "toggleLabel": "Basculer le mode sombre",
+    "light": "☀️ Clair",
+    "dark": "🌙 Sombre"
+  },
+  "language": {
+    "label": "Langue"
+  },
+  "auth": {
+    "login": {
+      "title": "Bon retour parmi nous",
+      "subtitle": "Connectez-vous pour accéder à votre compte.",
+      "emailLabel": "E-mail",
+      "emailPlaceholder": "you@example.com",
+      "passwordLabel": "Mot de passe",
+      "passwordPlaceholder": "Entrez votre mot de passe",
+      "forgotPassword": "Mot de passe oublié ?",
+      "submit": "Connexion",
+      "submitting": "Connexion en cours...",
+      "redirecting": "Nous vous connectons...",
+      "divider": "ou",
+      "continueWithGoogle": "Continuer avec Google",
+      "continueWithGithub": "Continuer avec GitHub",
+      "noAccount": "Pas encore de compte ?",
+      "signupLink": "S’inscrire"
+    },
+    "signup": {
+      "title": "Créez votre compte",
+      "subtitle": "Rejoignez-nous en quelques secondes — c’est gratuit.",
+      "success": "Vérifiez votre e-mail pour confirmer votre compte.",
+      "usernameLabel": "Nom d’utilisateur",
+      "usernamePlaceholder": "Choisissez un nom d’utilisateur",
+      "emailLabel": "E-mail",
+      "emailPlaceholder": "you@example.com",
+      "passwordLabel": "Mot de passe",
+      "passwordPlaceholder": "Créez un mot de passe fort",
+      "submit": "S’inscrire",
+      "submitting": "Création du compte...",
+      "divider": "ou",
+      "continueWithGoogle": "Continuer avec Google",
+      "continueWithGithub": "Continuer avec GitHub",
+      "hasAccount": "Vous avez déjà un compte ?",
+      "loginLink": "Connexion"
+    },
+    "forgotPassword": {
+      "title": "Mot de passe oublié ?",
+      "subtitle": "Entrez votre e-mail et nous vous enverrons un lien de réinitialisation.",
+      "sent": "Lien de réinitialisation envoyé. Vérifiez votre boîte de réception.",
+      "emailLabel": "E-mail",
+      "emailPlaceholder": "you@example.com",
+      "submit": "Envoyer le lien de réinitialisation",
+      "submitting": "Envoi en cours...",
+      "remembered": "Vous vous souvenez de votre mot de passe ?",
+      "backToLogin": "Retour à la connexion"
+    },
+    "updatePassword": {
+      "title": "Définir un nouveau mot de passe",
+      "subtitle": "Entrez un nouveau mot de passe pour votre compte.",
+      "success": "Mot de passe mis à jour. Vous pouvez maintenant vous connecter avec votre nouveau mot de passe.",
+      "passwordLabel": "Nouveau mot de passe",
+      "passwordPlaceholder": "Entrez votre nouveau mot de passe",
+      "submit": "Mettre à jour le mot de passe",
+      "submitting": "Mise à jour..."
+    }
+  }
+}
