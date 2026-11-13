@@ -205,6 +205,34 @@ body {
   transition: none !important;
 }
 
+/* Press animation for the dashboard tab key-cap badges (see
+   DashboardNav.tsx): a quick dip and return when its shortcut key
+   (1, 2 or 3) is pressed, so the keypress gets visible feedback.
+   Respects reduced-motion — the .reduce-motion class above kills
+   every animation, and the media query below is the fallback for
+   visitors who never touch the toggle. */
+@keyframes keycapPress {
+  0% {
+    transform: translateY(0) scale(1);
+  }
+  40% {
+    transform: translateY(1px) scale(0.92);
+  }
+  100% {
+    transform: translateY(0) scale(1);
+  }
+}
+
+.keycap-pressed {
+  animation: keycapPress 180ms ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .keycap-pressed {
+    animation: none;
+  }
+}
+
 /* Gentle staggered fade/rise used by the footer's columns so they settle
    into place instead of appearing instantly. Respects reduced-motion. */
 @keyframes footerFadeInUp {
