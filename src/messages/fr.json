@@ -130,5 +130,11 @@
       "submit": "Mettre à jour le mot de passe",
       "submitting": "Mise à jour..."
     }
+  },
+  "pricing": {
+    "stickyCta": {
+      "subscribe": "S'abonner",
+      "label": "Passer à Pro"
+    }
   }
 }

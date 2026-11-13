@@ -211,5 +211,11 @@
     "emailConfirm": "Check your inbox to confirm the new email address.",
     "save": "Save changes",
     "saving": "Saving..."
+  },
+  "pricing": {
+    "stickyCta": {
+      "subscribe": "Subscribe",
+      "label": "Upgrade to Pro"
+    }
   }
 }
