@@ -206,5 +206,11 @@
     "emailConfirm": "Revisa tu bandeja de entrada para confirmar la nueva dirección de correo.",
     "save": "Guardar cambios",
     "saving": "Guardando..."
+  },
+  "pricing": {
+    "stickyCta": {
+      "subscribe": "Suscribirse",
+      "label": "Actualizar a Pro"
+    }
   }
 }
