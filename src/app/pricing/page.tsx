@@ -52,12 +52,26 @@ export default function PricingPage() {
       return;
     }
 
+    // The checkout route identifies the caller from their access token,
+    // so the body only carries the price — no userId or email to forge.
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
+
+    if (!session) {
+      window.location.href = "/login";
+      return;
+    }
+
     setLoadingPriceId(priceId);
     try {
       const res = await fetch("/api/checkout", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ priceId, userId: user.id, email: user.email }),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${session.access_token}`,
+        },
+        body: JSON.stringify({ priceId }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Checkout failed");
