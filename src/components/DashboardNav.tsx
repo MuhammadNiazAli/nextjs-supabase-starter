@@ -23,7 +23,7 @@ export default function DashboardNav({
     <div
       role="tablist"
       aria-label={t("dashboard.tabs.label")}
-      className="w-full max-w-sm flex items-center gap-1 mb-4 bg-gray-100 dark:bg-gray-800/60 rounded-xl p-1"
+      className="w-full flex items-center gap-1 mb-4 bg-gray-100 dark:bg-gray-800/60 rounded-xl p-1"
     >
       {TABS.map((tab) => {
         const isActive = tab.id === activeTab;
