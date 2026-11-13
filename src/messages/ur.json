@@ -142,6 +142,22 @@
       "explorePricing": "قیمتیں دیکھیں",
       "resend": "دوبارہ بھیجیں"
     },
+    "home": {
+      "greeting": "واپسی پر خوش آمدید،",
+      "stats": {
+        "accountAge": "اکاؤنٹ کی عمر",
+        "email": "ای میل کی حیثیت",
+        "plan": "پلان",
+        "verified": "تصدیق شدہ",
+        "notVerified": "غیر تصدیق شدہ",
+        "ageDay": "{count} دن",
+        "ageDays": "{count} دن",
+        "ageMonth": "{count} مہینہ",
+        "ageMonths": "{count} مہینے",
+        "ageYear": "{count} سال",
+        "ageYears": "{count} سال"
+      }
+    },
     "unverifiedAlert": {
       "message": "تمام فیچرز استعمال کرنے کے لیے براہِ کرم اپنی ای میل کی تصدیق کریں۔",
       "resend": "تصدیقی ای میل دوبارہ بھیجیں"

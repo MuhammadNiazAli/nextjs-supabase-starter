@@ -142,6 +142,22 @@
       "explorePricing": "Explore pricing",
       "resend": "Resend"
     },
+    "home": {
+      "greeting": "Welcome back,",
+      "stats": {
+        "accountAge": "Account age",
+        "email": "Email status",
+        "plan": "Plan",
+        "verified": "Verified",
+        "notVerified": "Not verified",
+        "ageDay": "{count} day",
+        "ageDays": "{count} days",
+        "ageMonth": "{count} month",
+        "ageMonths": "{count} months",
+        "ageYear": "{count} year",
+        "ageYears": "{count} years"
+      }
+    },
     "unverifiedAlert": {
       "message": "Please verify your email address to unlock all features.",
       "resend": "Resend verification email"
