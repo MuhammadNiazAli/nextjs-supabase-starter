@@ -43,6 +43,44 @@ function isRecentlyCreated(createdAt: string | undefined): boolean {
   return accountAgeMs >= 0 && accountAgeMs <= NEW_USER_WINDOW_MS;
 }
 
+// Turns an account creation date into a short age like "12 days" or
+// "3 months". The unit words come from the translations, with the
+// count slotted into the "{count}" placeholder, so the age reads
+// right in every language. An unknown or future date reads as "—",
+// the same placeholder the page uses for other missing values.
+function formatAccountAge(
+  createdAt: string | undefined,
+  t: (path: string) => string,
+): string {
+  if (!createdAt) return "—";
+  const createdMs = new Date(createdAt).getTime();
+  if (Number.isNaN(createdMs)) return "—";
+  const ageMs = Date.now() - createdMs;
+  if (ageMs < 0) return "—";
+  const days = Math.floor(ageMs / (1000 * 60 * 60 * 24));
+  if (days < 30) {
+    const key =
+      days === 1
+        ? "dashboard.home.stats.ageDay"
+        : "dashboard.home.stats.ageDays";
+    return t(key).replace("{count}", String(days));
+  }
+  const months = Math.floor(days / 30);
+  if (months < 12) {
+    const key =
+      months === 1
+        ? "dashboard.home.stats.ageMonth"
+        : "dashboard.home.stats.ageMonths";
+    return t(key).replace("{count}", String(months));
+  }
+  const years = Math.floor(months / 12);
+  const key =
+    years === 1
+      ? "dashboard.home.stats.ageYear"
+      : "dashboard.home.stats.ageYears";
+  return t(key).replace("{count}", String(years));
+}
+
 export default function DashboardPage() {
   const [user, setUser] = useState<User | null>(null);
   const [subscriptionStatus, setSubscriptionStatus] = useState<string | null>(null);
@@ -232,15 +270,53 @@ export default function DashboardPage() {
   const badge = badgesByState[dashboardState];
 
   const accountCreated = formatDateTime(user.created_at);
+  const accountAge = formatAccountAge(user.created_at, t);
   const lastSignIn = formatDateTime(user.last_sign_in_at);
   const authProvider = formatProvider(user.app_metadata?.provider as string | undefined);
 
   return (
-    <div className="flex flex-col items-center justify-center px-4 py-16 min-h-[80vh]">
+    <div className="w-full max-w-5xl mx-auto px-4 py-8">
+      <header className="flex items-center gap-4 mb-6">
+        <div className="w-14 h-14 shrink-0 rounded-full bg-primary text-white flex items-center justify-center text-xl font-semibold">
+          {initial}
+        </div>
+        <div className="min-w-0">
+          <h1 className="text-2xl font-bold truncate">
+            {t("dashboard.home.greeting")} {username}
+          </h1>
+          <p className="text-sm text-gray-500 truncate">{user.email}</p>
+        </div>
+      </header>
+
+      <dl className="grid grid-cols-1 gap-3 sm:grid-cols-3 mb-6">
+        <div className="rounded-2xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 px-5 py-4">
+          <dt className="text-xs font-medium uppercase tracking-wide text-gray-500">
+            {t("dashboard.home.stats.accountAge")}
+          </dt>
+          <dd className="mt-1 text-lg font-semibold">{accountAge}</dd>
+        </div>
+        <div className="rounded-2xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 px-5 py-4">
+          <dt className="text-xs font-medium uppercase tracking-wide text-gray-500">
+            {t("dashboard.home.stats.email")}
+          </dt>
+          <dd className="mt-1 text-lg font-semibold">
+            {isEmailVerified
+              ? t("dashboard.home.stats.verified")
+              : t("dashboard.home.stats.notVerified")}
+          </dd>
+        </div>
+        <div className="rounded-2xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 px-5 py-4">
+          <dt className="text-xs font-medium uppercase tracking-wide text-gray-500">
+            {t("dashboard.home.stats.plan")}
+          </dt>
+          <dd className="mt-1 text-lg font-semibold">{badge.label}</dd>
+        </div>
+      </dl>
+
       {isNewUser && (
         <section
           aria-labelledby="welcome-heading"
-          className="w-full max-w-sm mb-6 rounded-2xl border border-primary/20 bg-primary/5 dark:bg-primary/10 px-5 py-5"
+          className="w-full mb-6 rounded-2xl border border-primary/20 bg-primary/5 dark:bg-primary/10 px-5 py-5"
         >
           <p className="text-xs font-semibold uppercase tracking-wide text-primary">
             {t("dashboard.welcome.eyebrow")}
@@ -288,7 +364,7 @@ export default function DashboardPage() {
       {dashboardState === "unverified" && (
         <div
           role="alert"
-          className="w-full max-w-sm mb-4 flex flex-col gap-2 bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-900 rounded-xl px-4 py-3 text-sm"
+          className="w-full mb-4 flex flex-col gap-2 bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-900 rounded-xl px-4 py-3 text-sm"
         >
           <p className="text-amber-800 dark:text-amber-300">
             {t("dashboard.unverifiedAlert.message")}
@@ -313,20 +389,7 @@ export default function DashboardPage() {
 
       <DashboardNav activeTab={activeTab} onChange={setActiveTab} />
 
-      <div className="w-full max-w-sm bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-2xl shadow-xl shadow-gray-200/50 dark:shadow-black/30 p-8">
-        <div className="flex flex-col items-center text-center mb-6">
-          <div className="w-16 h-16 rounded-full bg-primary text-white flex items-center justify-center text-2xl font-semibold mb-4">
-            {initial}
-          </div>
-          <h1 className="text-xl font-bold">{username}</h1>
-          <p className="text-sm text-gray-500">{user.email}</p>
-          <span
-            className={`mt-3 inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-medium ${badge.className}`}
-          >
-            {badge.label}
-          </span>
-        </div>
-
+      <div className="w-full bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-2xl shadow-xl shadow-gray-200/50 dark:shadow-black/30 p-8">
         {activeTab === "overview" && (
           <>
             <div className="flex flex-col gap-3 mb-6">
