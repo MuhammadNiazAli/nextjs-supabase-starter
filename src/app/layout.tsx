@@ -1,5 +1,6 @@
 import "./globals.css";
 import Navbar from "@/components/Navbar";
+import BackgroundTabAttention from "@/components/BackgroundTabAttention";
 import SiteFooter from "@/components/SiteFooter";
 import Providers from "@/components/Providers";
 import type { Metadata } from "next";
@@ -86,6 +87,7 @@ export default function RootLayout({
           >
             Skip to main content
           </a>
+          <BackgroundTabAttention />
           <Navbar />
           <main id="main-content" className="min-h-[80vh]">
             {children}
