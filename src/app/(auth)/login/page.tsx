@@ -9,6 +9,7 @@ import { supabase } from "@/lib/supabaseClient";
 import PasswordInput from "@/components/PasswordInput";
 import Spinner from "@/components/Spinner";
 import { useToast } from "@/components/Toast";
+import FormError from "@/components/FormError";
 import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { loginSchema, type LoginFormValues } from "@/lib/validation/authSchemas";
 
@@ -134,11 +135,7 @@ function LoginPage() {
               className="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm bg-white dark:bg-gray-900 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition"
               {...register("email")}
             />
-            {errors.email && (
-              <p role="alert" className="text-red-500 text-xs mt-1.5">
-                {errors.email.message}
-              </p>
-            )}
+            <FormError message={errors.email?.message} />
           </div>
           <div>
             <div className="flex items-center justify-between mb-1.5">
@@ -164,11 +161,7 @@ function LoginPage() {
                 />
               )}
             />
-            {errors.password && (
-              <p role="alert" className="text-red-500 text-xs mt-1.5">
-                {errors.password.message}
-              </p>
-            )}
+            <FormError message={errors.password?.message} />
           </div>
           <button
             type="submit"
