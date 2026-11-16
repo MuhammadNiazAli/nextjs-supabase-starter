@@ -372,4 +372,40 @@ body {
   }
 }
 
+/* Smooth height/opacity for inline form errors (login + signup, see
+   FormError.tsx). The wrapper is always in the DOM; when it has no
+   message it collapses to zero height, and when a message appears the
+   grid row grows to the message's real height so the form below slides
+   down instead of jumping. The grid-rows trick (0fr -> 1fr) is used
+   because it animates to the content's actual height — a max-height
+   transition would time the animation against a fixed guess instead.
+   The child needs overflow hidden + min-height 0 or the row cannot
+   shrink below the content. Reduced motion: the transition is removed
+   here for the OS setting, and the manual `.reduce-motion` class
+   (ReducedMotionToggle) already forces every transition to none. */
+.form-error {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition:
+    grid-template-rows 0.2s ease-out,
+    opacity 0.2s ease-out;
+}
+
+.form-error--open {
+  grid-template-rows: 1fr;
+  opacity: 1;
+}
+
+.form-error > * {
+  overflow: hidden;
+  min-height: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .form-error {
+    transition: none;
+  }
+}
+
 
