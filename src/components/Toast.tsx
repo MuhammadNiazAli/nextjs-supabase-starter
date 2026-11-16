@@ -8,6 +8,7 @@ import {
   useState,
   type ReactNode,
 } from "react";
+import { playToastSound } from "@/lib/sound";
 
 type ToastType = "success" | "error" | "info";
 
@@ -46,6 +47,11 @@ export function ToastProvider({ children }: { children: ReactNode }) {
     (message: string, type: ToastType = "info") => {
       const id = nextId.current++;
       setToasts((current) => [...current, { id, type, message }]);
+      // Only success and error toasts get a sound, and only when the
+      // user turned toast sounds on. Info toasts stay silent.
+      if (type !== "info") {
+        playToastSound(type);
+      }
       setTimeout(() => dismissToast(id), TOAST_DURATION_MS);
     },
     [dismissToast]

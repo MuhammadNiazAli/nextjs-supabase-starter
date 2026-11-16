@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import ThemeToggle from "./ThemeToggle";
 import ReducedMotionToggle from "./ReducedMotionToggle";
+import ToastSoundToggle from "./ToastSoundToggle";
 import LanguageSwitcher from "./LanguageSwitcher";
 import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { supabase } from "@/lib/supabaseClient";
@@ -115,6 +116,7 @@ export default function Navbar() {
             <LanguageSwitcher />
             <ThemeToggle />
             <ReducedMotionToggle />
+            <ToastSoundToggle />
             {!user && (
               <Link
                 href="/signup"
@@ -231,6 +233,7 @@ export default function Navbar() {
           <LanguageSwitcher />
           <ThemeToggle />
           <ReducedMotionToggle />
+          <ToastSoundToggle />
         </div>
       </div>
     </>
