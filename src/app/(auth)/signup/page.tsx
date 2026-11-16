@@ -9,6 +9,7 @@ import PasswordInput from "@/components/PasswordInput";
 import PasswordStrengthMeter from "@/components/PasswordStrengthMeter";
 import Spinner from "@/components/Spinner";
 import { useToast } from "@/components/Toast";
+import FormError from "@/components/FormError";
 import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { signupSchema, type SignupFormValues } from "@/lib/validation/authSchemas";
 
@@ -118,11 +119,7 @@ export default function SignupPage() {
                 className="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm bg-white dark:bg-gray-900 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition"
                 {...register("username")}
               />
-              {errors.username && (
-                <p role="alert" className="text-red-500 text-xs mt-1.5">
-                  {errors.username.message}
-                </p>
-              )}
+              <FormError message={errors.username?.message} />
             </div>
             <div>
               <label className="block text-xs font-medium text-gray-500 mb-1.5">
@@ -136,11 +133,7 @@ export default function SignupPage() {
                 className="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm bg-white dark:bg-gray-900 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition"
                 {...register("email")}
               />
-              {errors.email && (
-                <p role="alert" className="text-red-500 text-xs mt-1.5">
-                  {errors.email.message}
-                </p>
-              )}
+              <FormError message={errors.email?.message} />
             </div>
             <div>
               <label className="block text-xs font-medium text-gray-500 mb-1.5">
@@ -159,11 +152,7 @@ export default function SignupPage() {
                 )}
               />
               <PasswordStrengthMeter password={passwordValue} />
-              {errors.password && (
-                <p role="alert" className="text-red-500 text-xs mt-1.5">
-                  {errors.password.message}
-                </p>
-              )}
+              <FormError message={errors.password?.message} />
             </div>
             <button
               type="submit"
