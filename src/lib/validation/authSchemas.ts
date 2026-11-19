@@ -42,4 +42,18 @@ export const signupSchema = z.object({
   password: strongPassword,
 });
 
-export type SignupFormValues = z.infer<typeof signupSchema>;
+export const PASSWORDS_DO_NOT_MATCH = "Passwords do not match";
+
+// The signup form asks for the password twice. The second copy only
+// exists to catch typos, so it lives here on the form schema and is
+// never sent to Supabase — signupSchema above stays the shape the API needs.
+export const signupFormSchema = signupSchema
+  .extend({
+    confirmPassword: z.string().min(1, "Please confirm your password"),
+  })
+  .refine((values) => values.password === values.confirmPassword, {
+    message: PASSWORDS_DO_NOT_MATCH,
+    path: ["confirmPassword"],
+  });
+
+export type SignupFormValues = z.infer<typeof signupFormSchema>;

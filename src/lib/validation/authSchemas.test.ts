@@ -1,5 +1,11 @@
 import { describe, it, expect } from "vitest";
-import { loginSchema, signupSchema, usernameSchema } from "./authSchemas";
+import {
+  loginSchema,
+  PASSWORDS_DO_NOT_MATCH,
+  signupFormSchema,
+  signupSchema,
+  usernameSchema,
+} from "./authSchemas";
 
 describe("authSchemas validation", () => {
   describe("usernameSchema", () => {
@@ -159,6 +165,40 @@ describe("authSchemas validation", () => {
             (i) => i.message === "Password must include a number"
           )
         ).toBe(true);
+      }
+    });
+  });
+
+  describe("signupFormSchema", () => {
+    const validForm = {
+      username: "johndoe",
+      email: "john@example.com",
+      password: "Password123",
+      confirmPassword: "Password123",
+    };
+
+    it("accepts a form where both passwords match", () => {
+      expect(signupFormSchema.safeParse(validForm).success).toBe(true);
+    });
+
+    it("rejects a form where the passwords differ, on the confirm field", () => {
+      const result = signupFormSchema.safeParse({
+        ...validForm,
+        confirmPassword: "Password124",
+      });
+      expect(result.success).toBe(false);
+      if (!result.success) {
+        const issue = result.error.issues[0];
+        expect(issue.message).toBe(PASSWORDS_DO_NOT_MATCH);
+        expect(issue.path).toEqual(["confirmPassword"]);
+      }
+    });
+
+    it("rejects an empty confirmation", () => {
+      const result = signupFormSchema.safeParse({ ...validForm, confirmPassword: "" });
+      expect(result.success).toBe(false);
+      if (!result.success) {
+        expect(result.error.issues[0].message).toBe("Please confirm your password");
       }
     });
   });
