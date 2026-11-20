@@ -1,10 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { supabase } from "@/lib/supabaseClient";
 import type { User } from "@supabase/supabase-js";
 import Spinner from "@/components/Spinner";
+import StickyCtaBar from "@/components/StickyCtaBar";
 
 type Plan = {
   name: string;
@@ -14,6 +15,13 @@ type Plan = {
   features: string[];
   highlighted?: boolean;
 };
+
+// Which plan the sticky bottom bar sells. The bar reuses the card's
+// Subscribe flow (handleSubscribe), so change this name to point the
+// bar at a different plan — the price shown and the checkout target
+// both follow from it. The button copy lives in the pricing.stickyCta
+// i18n keys, not here.
+const STICKY_BAR_PLAN_NAME = "Pro";
 
 const plans: Plan[] = [
   {
@@ -35,9 +43,27 @@ export default function PricingPage() {
   const [user, setUser] = useState<User | null>(null);
   const [loadingPriceId, setLoadingPriceId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [showStickyBar, setShowStickyBar] = useState(false);
+  const cardsRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     supabase.auth.getUser().then(({ data }) => setUser(data.user));
+  }, []);
+
+  // The sticky bar appears once the pricing cards have scrolled out of
+  // view and slides away again when the user scrolls back up to them.
+  // A scroll listener is enough here: the page is short and the check
+  // is one getBoundingClientRect call per scroll.
+  useEffect(() => {
+    function updateBarVisibility() {
+      const cards = cardsRef.current;
+      if (!cards) return;
+      setShowStickyBar(cards.getBoundingClientRect().bottom <= 0);
+    }
+
+    updateBarVisibility();
+    window.addEventListener("scroll", updateBarVisibility, { passive: true });
+    return () => window.removeEventListener("scroll", updateBarVisibility);
   }, []);
 
   const handleSubscribe = async (priceId: string | undefined) => {
@@ -68,6 +94,8 @@ export default function PricingPage() {
     }
   };
 
+  const stickyPlan = plans.find((plan) => plan.name === STICKY_BAR_PLAN_NAME);
+
   return (
     <div className="px-4 py-16 min-h-[80vh]">
       <div className="max-w-md mx-auto text-center mb-10">
@@ -86,7 +114,7 @@ export default function PricingPage() {
         </p>
       )}
 
-      <div className="flex flex-wrap justify-center gap-6">
+      <div ref={cardsRef} className="flex flex-wrap justify-center gap-6">
         <div className="w-full max-w-sm bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-2xl shadow-lg shadow-gray-200/40 dark:shadow-black/20 p-8">
           <h2 className="text-lg font-semibold mb-1">Free</h2>
           <p className="text-3xl font-bold mb-4">
@@ -142,6 +170,17 @@ export default function PricingPage() {
           </div>
         ))}
       </div>
+
+      {stickyPlan && (
+        <StickyCtaBar
+          planName={stickyPlan.name}
+          price={stickyPlan.price}
+          interval={stickyPlan.interval}
+          visible={showStickyBar}
+          loading={loadingPriceId === stickyPlan.priceId}
+          onSubscribe={() => handleSubscribe(stickyPlan.priceId)}
+        />
+      )}
     </div>
   );
 }
