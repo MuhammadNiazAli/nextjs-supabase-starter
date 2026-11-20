@@ -71,6 +71,11 @@
     "on": "🚫 Motion reduced",
     "off": "🎬 Motion on"
   },
+  "sound": {
+    "toggleLabel": "Toggle toast sounds",
+    "on": "🔊 Toast sounds on",
+    "off": "🔇 Toast sounds off"
+  },
   "language": {
     "label": "Language"
   },
