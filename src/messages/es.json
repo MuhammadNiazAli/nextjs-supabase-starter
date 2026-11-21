@@ -66,6 +66,11 @@
     "light": "☀️ Claro",
     "dark": "🌙 Oscuro"
   },
+  "motion": {
+    "toggleLabel": "Reducir el movimiento",
+    "on": "🚫 Movimiento reducido",
+    "off": "🎬 Movimiento activado"
+  },
   "sound": {
     "toggleLabel": "Activar sonidos de notificación",
     "on": "🔊 Sonidos de notificación activados",
