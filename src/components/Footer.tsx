@@ -75,7 +75,7 @@ export default function Footer() {
         </div>
 
         <div
-          className="footer-col mt-12 flex flex-col items-center gap-5 border-t border-white/10 pt-6 text-center sm:flex-row sm:justify-between sm:text-left"
+          className="footer-col mt-12 flex flex-col items-center gap-5 border-t border-white/10 pt-6 text-center sm:flex-row sm:justify-between sm:text-start"
           style={{ animationDelay: "240ms" }}
         >
           <p className="text-xs text-gray-500">

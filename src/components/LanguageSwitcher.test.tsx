@@ -35,9 +35,8 @@ describe("LanguageSwitcher", () => {
 
     expect(select.value).toBe("ur");
     expect(document.documentElement.lang).toBe("ur");
-    // `dir` intentionally stays "ltr" so switching languages never shifts
-    // the layout - only the text content changes.
-    expect(document.documentElement.dir).toBe("ltr");
+    // Urdu reads right-to-left, so the layout flips with the language.
+    expect(document.documentElement.dir).toBe("rtl");
     // footer translation
     expect(screen.queryByText(/open for contributions/i)).toBeNull();
     expect(screen.getByText(/تعاون کے لیے کھلا ہے/)).not.toBeNull();
@@ -97,7 +96,7 @@ describe("LanguageSwitcher", () => {
 
     const select = screen.getByRole("combobox") as HTMLSelectElement;
     expect(select.value).toBe("ur");
-    expect(document.documentElement.dir).toBe("ltr");
+    expect(document.documentElement.dir).toBe("rtl");
   });
 
   it("falls back to English when used without a provider", () => {
