@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render, screen, within } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi, type Mock } from "vitest";
 import type { User } from "@supabase/supabase-js";
 import DashboardPage from "./page";
@@ -160,7 +160,9 @@ describe("welcome banner", () => {
     renderDashboard();
 
     // Wait for the dashboard itself so "absent" means loaded, not loading.
-    expect(await screen.findByRole("heading", { name: "testuser" })).not.toBeNull();
+    expect(
+      await screen.findByRole("heading", { name: "Welcome back, testuser" }),
+    ).not.toBeNull();
     expect(screen.queryByText("Let's get you set up")).toBeNull();
   });
 
@@ -170,7 +172,9 @@ describe("welcome banner", () => {
     );
     renderDashboard();
 
-    expect(await screen.findByRole("heading", { name: "testuser" })).not.toBeNull();
+    expect(
+      await screen.findByRole("heading", { name: "Welcome back, testuser" }),
+    ).not.toBeNull();
     expect(screen.queryByText("Let's get you set up")).toBeNull();
   });
 
@@ -193,5 +197,79 @@ describe("welcome banner", () => {
 
     expect(await screen.findByText("Let's get you set up")).not.toBeNull();
     expect(screen.getByRole("button", { name: "Resend" })).not.toBeNull();
+  });
+});
+
+describe("home header and quick stats", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  function daysAgo(days: number): string {
+    return new Date(Date.now() - days * 24 * 60 * 60 * 1000).toISOString();
+  }
+
+  it("greets the user by name in the page header", async () => {
+    mockSignedInUser(
+      makeUser({ createdAt: minutesAgo(60), emailConfirmedAt: minutesAgo(60) }),
+    );
+    renderDashboard();
+
+    expect(
+      await screen.findByRole("heading", { name: "Welcome back, testuser" }),
+    ).not.toBeNull();
+    // The email also appears in the overview rows, so scope this
+    // check to the header itself.
+    expect(
+      within(screen.getByRole("banner")).getByText("test@example.com"),
+    ).not.toBeNull();
+  });
+
+  it("shows the account age, email status and plan as quick stats", async () => {
+    mockSignedInUser(
+      makeUser({ createdAt: daysAgo(10), emailConfirmedAt: daysAgo(10) }),
+    );
+    renderDashboard();
+
+    expect(await screen.findByText("Account age")).not.toBeNull();
+    expect(screen.getByText("10 days")).not.toBeNull();
+    expect(screen.getByText("Email status")).not.toBeNull();
+    expect(screen.getByText("Verified")).not.toBeNull();
+    expect(screen.getByText("Plan")).not.toBeNull();
+    expect(screen.getByText("Free plan")).not.toBeNull();
+  });
+
+  it("shows 'Not verified' in the email stat for an unverified account", async () => {
+    mockSignedInUser(
+      makeUser({ createdAt: daysAgo(10), emailConfirmedAt: null }),
+    );
+    renderDashboard();
+
+    expect(await screen.findByText("Not verified")).not.toBeNull();
+  });
+
+  it("uses the singular unit for a one-day-old account", async () => {
+    mockSignedInUser(
+      makeUser({ createdAt: daysAgo(1), emailConfirmedAt: daysAgo(1) }),
+    );
+    renderDashboard();
+
+    expect(await screen.findByText("1 day")).not.toBeNull();
+  });
+
+  it("switches to months for an account a few months old", async () => {
+    mockSignedInUser(
+      makeUser({ createdAt: daysAgo(60), emailConfirmedAt: daysAgo(60) }),
+    );
+    renderDashboard();
+    expect(await screen.findByText("2 months")).not.toBeNull();
+  });
+
+  it("switches to years for an account over a year old", async () => {
+    mockSignedInUser(
+      makeUser({ createdAt: daysAgo(400), emailConfirmedAt: daysAgo(400) }),
+    );
+    renderDashboard();
+    expect(await screen.findByText("1 year")).not.toBeNull();
   });
 });

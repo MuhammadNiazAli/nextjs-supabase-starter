@@ -136,6 +136,24 @@
       "submitting": "Mise à jour..."
     }
   },
+  "dashboard": {
+    "home": {
+      "greeting": "Bon retour,",
+      "stats": {
+        "accountAge": "Ancienneté du compte",
+        "email": "Statut de l'e-mail",
+        "plan": "Plan",
+        "verified": "Vérifié",
+        "notVerified": "Non vérifié",
+        "ageDay": "{count} jour",
+        "ageDays": "{count} jours",
+        "ageMonth": "{count} mois",
+        "ageMonths": "{count} mois",
+        "ageYear": "{count} an",
+        "ageYears": "{count} ans"
+      }
+    }
+  },
   "pricing": {
     "stickyCta": {
       "subscribe": "S'abonner",
