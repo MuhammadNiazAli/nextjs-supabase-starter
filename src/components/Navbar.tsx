@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import ThemeToggle from "./ThemeToggle";
 import ReducedMotionToggle from "./ReducedMotionToggle";
+import ToastSoundToggle from "./ToastSoundToggle";
 import MagneticButton from "./MagneticButton";
 import LanguageSwitcher from "./LanguageSwitcher";
 import { useLanguage } from "@/lib/i18n/LanguageContext";
@@ -65,7 +66,7 @@ export default function Navbar() {
   };
 
   const linkClass =
-    "relative py-1 text-[13px] font-semibold uppercase tracking-wide text-gray-600 transition-colors duration-200 after:absolute after:-bottom-1 after:left-0 after:h-[2px] after:w-0 after:rounded-full after:bg-primary after:transition-all after:duration-300 hover:text-gray-900 hover:after:w-full dark:text-gray-400 dark:hover:text-white";
+    "relative py-1 text-[13px] font-semibold uppercase tracking-wide text-gray-600 transition-colors duration-200 after:absolute after:-bottom-1 after:start-0 after:h-[2px] after:w-0 after:rounded-full after:bg-primary after:transition-all after:duration-300 hover:text-gray-900 hover:after:w-full dark:text-gray-400 dark:hover:text-white";
 
   const drawerLinkClass =
     "w-full rounded-xl px-4 py-3 text-[15px] font-semibold text-gray-700 transition-colors duration-200 hover:bg-primary/10 hover:text-primary dark:text-gray-200 dark:hover:bg-primary/15";
@@ -116,6 +117,7 @@ export default function Navbar() {
             <LanguageSwitcher />
             <ThemeToggle />
             <ReducedMotionToggle />
+            <ToastSoundToggle />
             {!user && (
               <MagneticButton>
                 <Link
@@ -209,7 +211,7 @@ export default function Navbar() {
                   setMenuOpen(false);
                   handleLogout();
                 }}
-                className={`${drawerLinkClass} text-left`}
+                className={`${drawerLinkClass} text-start`}
               >
                 {t("navbar.logout")}
               </button>
@@ -234,6 +236,7 @@ export default function Navbar() {
           <LanguageSwitcher />
           <ThemeToggle />
           <ReducedMotionToggle />
+          <ToastSoundToggle />
         </div>
       </div>
     </>

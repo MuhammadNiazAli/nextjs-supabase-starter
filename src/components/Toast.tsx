@@ -8,6 +8,7 @@ import {
   useState,
   type ReactNode,
 } from "react";
+import { playToastSound } from "@/lib/sound";
 
 type ToastType = "success" | "error" | "info";
 
@@ -46,6 +47,11 @@ export function ToastProvider({ children }: { children: ReactNode }) {
     (message: string, type: ToastType = "info") => {
       const id = nextId.current++;
       setToasts((current) => [...current, { id, type, message }]);
+      // Only success and error toasts get a sound, and only when the
+      // user turned toast sounds on. Info toasts stay silent.
+      if (type !== "info") {
+        playToastSound(type);
+      }
       setTimeout(() => dismissToast(id), TOAST_DURATION_MS);
     },
     [dismissToast]
@@ -56,7 +62,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
       {children}
       <div
         aria-live="polite"
-        className="fixed top-4 right-4 z-50 flex flex-col gap-2 w-full max-w-sm px-4 sm:px-0 pointer-events-none"
+        className="fixed top-4 end-4 z-50 flex flex-col gap-2 w-full max-w-sm px-4 sm:px-0 pointer-events-none"
       >
         {toasts.map((toast) => (
           <div
