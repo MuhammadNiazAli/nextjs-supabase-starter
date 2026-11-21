@@ -71,6 +71,11 @@
     "on": "🚫 Animations réduites",
     "off": "🎬 Animations activées"
   },
+  "sound": {
+    "toggleLabel": "Basculer les sons des notifications",
+    "on": "🔊 Sons des notifications activés",
+    "off": "🔇 Sons des notifications désactivés"
+  },
   "language": {
     "label": "Langue"
   },
@@ -134,6 +139,12 @@
       "passwordPlaceholder": "Entrez votre nouveau mot de passe",
       "submit": "Mettre à jour le mot de passe",
       "submitting": "Mise à jour..."
+    }
+  },
+  "pricing": {
+    "stickyCta": {
+      "subscribe": "S'abonner",
+      "label": "Passer à Pro"
     }
   }
 }

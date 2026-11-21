@@ -95,6 +95,8 @@ export default function ContributorsSection() {
                 </div>
               )
             )}
+
+            <ContributorsTimeline contributors={contributors} />
           </div>
         )}
       </div>
@@ -327,8 +329,128 @@ function ContributorsSwiper({ contributors }: { contributors: Contributor[] }) {
   );
 }
 
-function ChevronIcon(props: React.SVGProps<SVGSVGElement>) {
+/**
+ * Animated vertical timeline of every contributor, ranked by commits.
+ *
+ * A centre line draws downward as the timeline scrolls into view and
+ * each entry fades in from alternating sides. The line is a plain
+ * div scaled on the Y axis, so the "draw" is one cheap transform
+ * instead of a layout-heavy height animation. Each entry reuses the
+ * shared useReveal hook, which already shows content instantly when
+ * the visitor prefers reduced motion (see the .reveal rules in
+ * globals.css), so the whole timeline is static for those visitors.
+ */
+function ContributorsTimeline({
+  contributors,
+}: {
+  contributors: Contributor[];
+}) {
+  const ranked = [...contributors].sort(
+    (a, b) => b.contributions - a.contributions
+  );
+  const { ref: lineRef, visible: lineVisible } =
+    useReveal<HTMLDivElement>(0.1);
+
   return (
+    <div className="relative w-full max-w-3xl" data-testid="contributors-timeline">
+      {/* Track line (faint) plus the drawn line on top of it. The
+          drawn line grows from the top via scaleY once visible. */}
+      <div
+        aria-hidden="true"
+        className="absolute left-4 top-0 h-full w-0.5 -translate-x-1/2 bg-gray-200 dark:bg-gray-800 sm:left-1/2"
+      />
+      <div
+        ref={lineRef}
+        aria-hidden="true"
+        data-testid="timeline-line"
+        className={`absolute left-4 top-0 h-full w-0.5 origin-top -translate-x-1/2 bg-primary transition-transform duration-1000 ease-out sm:left-1/2 ${
+          lineVisible ? "scale-y-100" : "scale-y-0"
+        }`}
+      />
+
+      <ol className="relative flex flex-col gap-8">
+        {ranked.map((c, index) => (
+          <TimelineEntry
+            key={c.login}
+            contributor={c}
+            rank={index + 1}
+            side={index % 2 === 0 ? "left" : "right"}
+          />
+        ))}
+      </ol>
+    </div>
+  );
+}
+
+/**
+ * One contributor on the timeline: a dot on the line, the rank, and
+ * a small card. On phones every card sits right of the line; on
+ * larger screens cards alternate sides so the timeline reads like a
+ * classic vertical timeline.
+ */
+function TimelineEntry({
+  contributor,
+  rank,
+  side,
+}: {
+  contributor: Contributor;
+  rank: number;
+  side: "left" | "right";
+}) {
+  const { ref, visible } = useReveal<HTMLLIElement>(0.3);
+
+  return (
+    <li
+      ref={ref}
+      data-testid="timeline-entry"
+      className={`reveal relative flex items-center gap-4 pl-12 sm:w-1/2 sm:pl-0 ${
+        side === "left"
+          ? "sm:pr-10 sm:text-right"
+          : "sm:ml-auto sm:pl-10 sm:text-left"
+      } ${visible ? "reveal-visible" : ""}`}
+    >
+      {/* Dot on the line — positioned against the li, so on phones
+          it sits on the left rail and on larger screens on the
+          centre line. */}
+      <span
+        aria-hidden="true"
+        className={`absolute top-1/2 h-3 w-3 -translate-y-1/2 rounded-full border-2 border-white bg-primary shadow dark:border-gray-950 ${
+          side === "left"
+            ? "left-4 -translate-x-1/2 sm:left-auto sm:right-0 sm:translate-x-1/2"
+            : "left-4 -translate-x-1/2 sm:left-0 sm:-translate-x-1/2"
+        }`}
+      />
+
+      <div
+        className={`flex w-full items-center gap-3 rounded-xl border border-gray-200 bg-white px-4 py-3 shadow-sm dark:border-gray-800 dark:bg-gray-900 ${
+          side === "left" ? "sm:flex-row-reverse" : ""
+        }`}
+      >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={contributor.avatarUrl}
+          alt={contributor.login}
+          loading="lazy"
+          className="h-10 w-10 shrink-0 rounded-full border border-gray-200 object-cover dark:border-gray-700"
+        />
+        <div className="min-w-0">
+          <p className="truncate text-sm font-semibold text-gray-900 dark:text-white">
+            <span className="text-primary">#{rank}</span>{" "}
+            {contributor.name || contributor.login}
+          </p>
+          <p className="truncate text-xs text-gray-500 dark:text-gray-400">
+            @{contributor.login} ·{" "}
+            {contributor.contributions === 1
+              ? "1 commit"
+              : `${contributor.contributions} commits`}
+          </p>
+        </div>
+      </div>
+    </li>
+  );
+}
+
+function ChevronIcon(props: React.SVGProps<SVGSVGElement>) {  return (
     <svg viewBox="0 0 24 24" fill="none" {...props}>
       <path
         d="m9 6 6 6-6 6"
