@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import {
   afterEach,
   beforeEach,
@@ -77,5 +77,54 @@ describe("missing-translation warning", () => {
 
     expect(screen.getByText("navbar.brand")).not.toBeNull();
     expect(console.warn).not.toHaveBeenCalled();
+  });
+});
+
+function LocaleSwitcherProbe() {
+  const { locale, setLocale } = useLanguage();
+  return (
+    <button type="button" onClick={() => setLocale(locale === "ur" ? "en" : "ur")}>
+      switch locale
+    </button>
+  );
+}
+
+describe("layout direction", () => {
+  beforeEach(() => {
+    // Each test gets a clean slate: no stored locale, and no leftover
+    // dir="rtl" on the shared document from a previous test's render.
+    window.localStorage.clear();
+    document.documentElement.dir = "ltr";
+  });
+
+  it("sets dir to rtl when the stored locale is Urdu", () => {
+    window.localStorage.setItem("locale", "ur");
+    renderProbe("footer.text");
+
+    expect(document.documentElement.dir).toBe("rtl");
+    expect(document.documentElement.lang).toBe("ur");
+  });
+
+  it("keeps dir ltr for English", () => {
+    renderProbe("footer.text");
+
+    expect(document.documentElement.dir).toBe("ltr");
+    expect(document.documentElement.lang).toBe("en");
+  });
+
+  it("flips dir when the locale switches, and back again", () => {
+    render(
+      <LanguageProvider>
+        <LocaleSwitcherProbe />
+      </LanguageProvider>,
+    );
+
+    expect(document.documentElement.dir).toBe("ltr");
+
+    fireEvent.click(screen.getByRole("button", { name: "switch locale" }));
+    expect(document.documentElement.dir).toBe("rtl");
+
+    fireEvent.click(screen.getByRole("button", { name: "switch locale" }));
+    expect(document.documentElement.dir).toBe("ltr");
   });
 });

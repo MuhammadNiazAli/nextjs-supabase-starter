@@ -71,6 +71,11 @@
     "on": "🚫 Motion reduced",
     "off": "🎬 Motion on"
   },
+  "sound": {
+    "toggleLabel": "Toggle toast sounds",
+    "on": "🔊 Toast sounds on",
+    "off": "🔇 Toast sounds off"
+  },
   "language": {
     "label": "Language"
   },
@@ -227,5 +232,11 @@
     "emailConfirm": "Check your inbox to confirm the new email address.",
     "save": "Save changes",
     "saving": "Saving..."
+  },
+  "pricing": {
+    "stickyCta": {
+      "subscribe": "Subscribe",
+      "label": "Upgrade to Pro"
+    }
   }
 }

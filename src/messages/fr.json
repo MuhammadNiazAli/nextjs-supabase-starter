@@ -71,6 +71,11 @@
     "on": "🚫 Animations réduites",
     "off": "🎬 Animations activées"
   },
+  "sound": {
+    "toggleLabel": "Basculer les sons des notifications",
+    "on": "🔊 Sons des notifications activés",
+    "off": "🔇 Sons des notifications désactivés"
+  },
   "language": {
     "label": "Langue"
   },
@@ -147,6 +152,12 @@
         "ageYear": "{count} an",
         "ageYears": "{count} ans"
       }
+    }
+  },
+  "pricing": {
+    "stickyCta": {
+      "subscribe": "S'abonner",
+      "label": "Passer à Pro"
     }
   }
 }
