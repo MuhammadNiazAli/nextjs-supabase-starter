@@ -12,6 +12,7 @@ test.describe("Auth flow", () => {
     await page.getByPlaceholder("Choose a username").fill(user.username);
     await page.getByPlaceholder("you@example.com").fill(user.email);
     await page.getByPlaceholder("Create a strong password").fill(user.password);
+    await page.getByPlaceholder("Type your password again").fill(user.password);
 
     await page.getByRole("button", { name: "Sign up" }).click();
 

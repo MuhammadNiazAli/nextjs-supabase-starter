@@ -7,30 +7,43 @@ export default function PasswordInput({
   onChange,
   placeholder = "Enter your password",
   autoComplete = "current-password",
+  id,
+  invalid,
+  describedBy,
+  inputClassName = "",
 }: {
   value: string;
   onChange: (value: string) => void;
   placeholder?: string;
   autoComplete?: string;
+  id?: string;
+  invalid?: boolean;
+  describedBy?: string;
+  // Extra classes for the <input> itself, e.g. the confirm field's
+  // match/mismatch border.
+  inputClassName?: string;
 }) {
   const [visible, setVisible] = useState(false);
 
   return (
     <div className="relative">
       <input
+        id={id}
         type={visible ? "text" : "password"}
+        aria-invalid={invalid}
+        aria-describedby={describedBy}
         placeholder={placeholder}
         value={value}
         onChange={(e) => onChange(e.target.value)}
         autoComplete={autoComplete}
-        className="w-full border border-gray-300 rounded-lg px-3 py-2.5 pr-10 text-sm bg-white dark:bg-gray-900 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition"
+        className={`w-full border border-gray-300 rounded-lg px-3 py-2.5 pe-10 text-sm bg-white dark:bg-gray-900 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition ${inputClassName}`}
       />
       <button
         type="button"
         onClick={() => setVisible((v) => !v)}
         aria-label={visible ? "Hide password" : "Show password"}
         aria-pressed={visible}
-        className="absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/50 rounded transition"
+        className="absolute end-2.5 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/50 rounded transition"
       >
         {visible ? (
           <svg

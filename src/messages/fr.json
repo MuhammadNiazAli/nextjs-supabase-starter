@@ -71,6 +71,11 @@
     "on": "🚫 Animations réduites",
     "off": "🎬 Animations activées"
   },
+  "sound": {
+    "toggleLabel": "Basculer les sons des notifications",
+    "on": "🔊 Sons des notifications activés",
+    "off": "🔇 Sons des notifications désactivés"
+  },
   "language": {
     "label": "Langue"
   },
@@ -102,6 +107,11 @@
       "emailPlaceholder": "you@example.com",
       "passwordLabel": "Mot de passe",
       "passwordPlaceholder": "Créez un mot de passe fort",
+      "confirmPasswordLabel": "Confirmer le mot de passe",
+      "confirmPasswordPlaceholder": "Saisissez à nouveau votre mot de passe",
+      "confirmPasswordRequired": "Veuillez confirmer votre mot de passe",
+      "passwordsMatch": "Les mots de passe correspondent",
+      "passwordsDoNotMatch": "Les mots de passe ne correspondent pas",
       "submit": "S’inscrire",
       "submitting": "Création du compte...",
       "divider": "ou",
@@ -129,6 +139,12 @@
       "passwordPlaceholder": "Entrez votre nouveau mot de passe",
       "submit": "Mettre à jour le mot de passe",
       "submitting": "Mise à jour..."
+    }
+  },
+  "pricing": {
+    "stickyCta": {
+      "subscribe": "S'abonner",
+      "label": "Passer à Pro"
     }
   }
 }

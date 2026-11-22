@@ -257,7 +257,7 @@ export default function DashboardPage() {
                   type="button"
                   onClick={handleResendVerification}
                   disabled={verificationLoading || cooldownSeconds > 0}
-                  className="ml-auto text-xs font-medium text-primary hover:underline disabled:opacity-60"
+                  className="ms-auto text-xs font-medium text-primary hover:underline disabled:opacity-60"
                 >
                   {verificationLoading
                     ? t("dashboard.sending")

@@ -1,5 +1,6 @@
 import "./globals.css";
 import Navbar from "@/components/Navbar";
+import BackgroundTabAttention from "@/components/BackgroundTabAttention";
 import SiteFooter from "@/components/SiteFooter";
 import Providers from "@/components/Providers";
 import type { Metadata } from "next";
@@ -82,10 +83,11 @@ export default function RootLayout({
         <Providers>
           <a
             href="#main-content"
-            className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:bg-primary focus:text-white focus:px-4 focus:py-2 focus:rounded-md"
+            className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:start-2 focus:z-50 focus:bg-primary focus:text-white focus:px-4 focus:py-2 focus:rounded-md"
           >
             Skip to main content
           </a>
+          <BackgroundTabAttention />
           <Navbar />
           <main id="main-content" className="min-h-[80vh]">
             {children}

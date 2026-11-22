@@ -71,6 +71,11 @@
     "on": "🚫 موشن کم ہے",
     "off": "🎬 موشن پوری ہے"
   },
+  "sound": {
+    "toggleLabel": "ٹوسٹ آوازیں تبدیل کریں",
+    "on": "🔊 ٹوسٹ آوازیں آن ہیں",
+    "off": "🔇 ٹوسٹ آوازیں بند ہیں"
+  },
   "language": {
     "label": "زبان"
   },
@@ -102,6 +107,11 @@
       "emailPlaceholder": "you@example.com",
       "passwordLabel": "پاس ورڈ",
       "passwordPlaceholder": "ایک مضبوط پاس ورڈ بنائیں",
+      "confirmPasswordLabel": "پاس ورڈ کی تصدیق کریں",
+      "confirmPasswordPlaceholder": "اپنا پاس ورڈ دوبارہ لکھیں",
+      "confirmPasswordRequired": "براہ کرم اپنے پاس ورڈ کی تصدیق کریں",
+      "passwordsMatch": "پاس ورڈ مماثل ہیں",
+      "passwordsDoNotMatch": "پاس ورڈ مماثل نہیں ہیں",
       "submit": "سائن اپ",
       "submitting": "اکاؤنٹ بنایا جا رہا ہے...",
       "divider": "یا",
@@ -211,5 +221,11 @@
     "emailConfirm": "نئے ای میل ایڈریس کی تصدیق کے لیے اپنا ان باکس چیک کریں۔",
     "save": "تبدیلیاں محفوظ کریں",
     "saving": "محفوظ ہو رہا ہے..."
+  },
+  "pricing": {
+    "stickyCta": {
+      "subscribe": "سبسکرائب کریں",
+      "label": "پرو میں اپ گریڈ کریں"
+    }
   }
 }
