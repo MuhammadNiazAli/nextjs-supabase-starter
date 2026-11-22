@@ -400,6 +400,27 @@ body {
   }
 }
 
+/* Confirm-password border on the signup page (see signup/page.tsx).
+   Once the user starts typing in the confirm field, its border fades to
+   red while it differs from the password and to green once they match.
+   The selectors carry two classes (plus :focus) so they beat the input's
+   own Tailwind border, dark-mode border and focus border utilities.
+   The focus ring colour follows the border so the two never clash. */
+.confirm-password-input {
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.confirm-password-input.is-mismatch,
+.confirm-password-input.is-mismatch:focus {
+  border-color: #ef4444;
+  --tw-ring-color: rgb(239 68 68 / 0.4);
+}
+
+.confirm-password-input.is-match,
+.confirm-password-input.is-match:focus {
+  border-color: #22c55e;
+  --tw-ring-color: rgb(34 197 94 / 0.4);
+}
 
 
 /* Magnetic button — wraps a primary call-to-action (see
@@ -417,6 +438,12 @@ body {
 
 @media (prefers-reduced-motion: reduce) {
   .magnetic-button {
+    transition: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .confirm-password-input {
     transition: none;
   }
 }

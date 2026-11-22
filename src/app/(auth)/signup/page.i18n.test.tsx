@@ -91,6 +91,10 @@ describe("signup page translations", () => {
       screen.getByPlaceholderText("Create a strong password"),
       { target: { value: "Password123!" } },
     );
+    fireEvent.change(
+      screen.getByPlaceholderText("Type your password again"),
+      { target: { value: "Password123!" } },
+    );
     fireEvent.click(screen.getByRole("button", { name: "Sign up" }));
 
     // Let the failed submit finish; the card shakes for 0.4s.
