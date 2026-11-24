@@ -9,6 +9,8 @@ import {
   type ReactNode,
 } from "react";
 import { playToastSound } from "@/lib/sound";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
+import { getLocalizedMessage } from "@/lib/i18n/authErrors";
 
 type ToastType = "success" | "error" | "info";
 
@@ -38,6 +40,7 @@ const TYPE_STYLES: Record<ToastType, string> = {
 export function ToastProvider({ children }: { children: ReactNode }) {
   const [toasts, setToasts] = useState<ToastItem[]>([]);
   const nextId = useRef(0);
+  const { t } = useLanguage();
 
   const dismissToast = useCallback((id: number) => {
     setToasts((current) => current.filter((toast) => toast.id !== id));
@@ -46,7 +49,8 @@ export function ToastProvider({ children }: { children: ReactNode }) {
   const showToast = useCallback(
     (message: string, type: ToastType = "info") => {
       const id = nextId.current++;
-      setToasts((current) => [...current, { id, type, message }]);
+      const localizedMessage = getLocalizedMessage(message, t);
+      setToasts((current) => [...current, { id, type, message: localizedMessage }]);
       // Only success and error toasts get a sound, and only when the
       // user turned toast sounds on. Info toasts stay silent.
       if (type !== "info") {
@@ -54,7 +58,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
       }
       setTimeout(() => dismissToast(id), TOAST_DURATION_MS);
     },
-    [dismissToast]
+    [dismissToast, t]
   );
 
   return (
