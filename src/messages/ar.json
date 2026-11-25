@@ -1,0 +1,231 @@
+{
+  "navbar": {
+    "brand": "فل ستاك ستارتر",
+    "login": "تسجيل الدخول",
+    "signup": "إنشاء حساب",
+    "pricing": "الأسعار",
+    "profile": "الملف الشخصي",
+    "logout": "تسجيل الخروج",
+    "toggleMenu": "تبديل القائمة"
+  },
+  "footer": {
+    "text": "مبني باستخدام Next.js وSupabase. مرخّص بموجب MIT ومفتوح للمساهمات.",
+    "tagline": "حزمة بداية مفتوحة المصدر لـ Next.js وSupabase صُممت للتعلّم. تدرّب على ميزات حقيقية، وأرسل طلبات سحب حقيقية، وتطوّر كمطوّر.",
+    "columns": {
+      "product": "المنتج",
+      "resources": "الموارد",
+      "community": "المجتمع"
+    },
+    "links": {
+      "docs": "التوثيق",
+      "license": "الترخيص",
+      "codeOfConduct": "مدونة قواعد السلوك",
+      "contribute": "دليل المساهمة",
+      "issues": "المشكلات المفتوحة",
+      "discussions": "المناقشات"
+    },
+    "starOnGithub": "ضع نجمة على GitHub",
+    "backToTop": "العودة إلى الأعلى"
+  },
+  "home": {
+    "titlePrefix": "مرحبًا بك في",
+    "titleHighlight": "Next.js Supabase Starter",
+    "subtitle": "تمنحك حزمة البداية هذه قاعدة كود حقيقية وعاملة للتدرّب عليها. افتح طلبات سحب، وراجع الكود، وتولَّ حلّ المشكلات، وابنِ ميزات لم تجرّبها من قبل، كل ذلك دون المساس بأي تطبيق إنتاجي.",
+    "getStarted": "ابدأ الآن",
+    "viewOnGithub": "عرض على GitHub",
+    "contribute": {
+      "eyebrow": "شارك معنا",
+      "title": "جديد هنا؟ قدّم أول مساهمة لك",
+      "subtitle": "لم ترسل طلب سحب من قبل؟ اتبع هذه الخطوات وسيتم دمج طلبك اليوم.",
+      "step1Title": "اختر مشكلة",
+      "step1Desc": "افتح تبويب المشكلات على GitHub واختر مشكلة تحمل وسم \"good first issue\" تشعر أنك قادر على حلّها.",
+      "step2Title": "انسخ المستودع (Fork)",
+      "step2Desc": "انقر زر Fork في أعلى يمين المستودع. سيؤدي ذلك إلى إنشاء نسختك الخاصة من المشروع تحت حسابك.",
+      "step3Title": "استنسخ نسختك",
+      "step3Desc": "انسخ رابط نسختك وشغّل أمر git clone عليه لجلب الكود إلى جهازك.",
+      "step4Title": "حلّ المشكلة",
+      "step4Desc": "أنشئ فرعًا جديدًا، وأجرِ تغييرات الكود الموضّحة في المشكلة، واعتمد عملك برسالة واضحة.",
+      "step5Title": "ادفع وافتح طلب سحب",
+      "step5Desc": "ادفع فرعك إلى نسختك، ثم افتح طلب سحب إلى المستودع الأصلي.",
+      "step6Title": "احصل على الدمج وتطوّر",
+      "step6Desc": "بمجرد مراجعة طلب السحب الخاص بك ودمجه، يُحتسب مساهمة حقيقية، ويظهر في رسم نشاطك على GitHub، ويضيف تدريبًا عمليًا وتعلّمًا إلى ملفك الشخصي.",
+      "cta": "تصفّح المشكلات المفتوحة"
+    },
+    "contributors": {
+      "eyebrow": "المجتمع",
+      "title": "المساهمون",
+      "subtitle": "الأشخاص الذين فتحوا المشكلات وأرسلوا طلبات السحب وساعدوا في تشكيل هذا المشروع.",
+      "adminBadge": "مشرف",
+      "error": "تعذّر تحميل المساهمين من GitHub الآن. يُرجى المحاولة مرة أخرى بعد قليل.",
+      "empty": "لا يوجد مساهمون لعرضهم بعد.",
+      "viewGithub": "الملف الشخصي على GitHub"
+    }
+  },
+  "theme": {
+    "toggleLabel": "تبديل الوضع الداكن",
+    "light": "☀️ فاتح",
+    "dark": "🌙 داكن"
+  },
+  "motion": {
+    "toggleLabel": "تبديل تقليل الحركة",
+    "on": "🚫 تم تقليل الحركة",
+    "off": "🎬 الحركة مفعّلة"
+  },
+  "sound": {
+    "toggleLabel": "تبديل أصوات التنبيهات",
+    "on": "🔊 أصوات التنبيهات مفعّلة",
+    "off": "🔇 أصوات التنبيهات متوقفة"
+  },
+  "language": {
+    "label": "اللغة"
+  },
+  "auth": {
+    "login": {
+      "title": "مرحبًا بعودتك",
+      "subtitle": "سجّل الدخول للمتابعة إلى حسابك.",
+      "emailLabel": "البريد الإلكتروني",
+      "emailPlaceholder": "you@example.com",
+      "passwordLabel": "كلمة المرور",
+      "passwordPlaceholder": "أدخل كلمة المرور",
+      "forgotPassword": "هل نسيت كلمة المرور؟",
+      "submit": "تسجيل الدخول",
+      "submitting": "جارٍ تسجيل الدخول...",
+      "redirecting": "جارٍ تسجيل دخولك...",
+      "divider": "أو",
+      "continueWithGoogle": "المتابعة باستخدام Google",
+      "continueWithGithub": "المتابعة باستخدام GitHub",
+      "noAccount": "ليس لديك حساب؟",
+      "signupLink": "إنشاء حساب"
+    },
+    "signup": {
+      "title": "أنشئ حسابك",
+      "subtitle": "انضم في ثوانٍ — إنه مجاني.",
+      "success": "تحقق من بريدك الإلكتروني لتأكيد حسابك.",
+      "usernameLabel": "اسم المستخدم",
+      "usernamePlaceholder": "اختر اسم مستخدم",
+      "emailLabel": "البريد الإلكتروني",
+      "emailPlaceholder": "you@example.com",
+      "passwordLabel": "كلمة المرور",
+      "passwordPlaceholder": "أنشئ كلمة مرور قوية",
+      "confirmPasswordLabel": "تأكيد كلمة المرور",
+      "confirmPasswordPlaceholder": "اكتب كلمة المرور مرة أخرى",
+      "confirmPasswordRequired": "يُرجى تأكيد كلمة المرور",
+      "passwordsMatch": "كلمتا المرور متطابقتان",
+      "passwordsDoNotMatch": "كلمتا المرور غير متطابقتين",
+      "submit": "إنشاء حساب",
+      "submitting": "جارٍ إنشاء الحساب...",
+      "divider": "أو",
+      "continueWithGoogle": "المتابعة باستخدام Google",
+      "continueWithGithub": "المتابعة باستخدام GitHub",
+      "hasAccount": "لديك حساب بالفعل؟",
+      "loginLink": "تسجيل الدخول"
+    },
+    "forgotPassword": {
+      "title": "هل نسيت كلمة المرور؟",
+      "subtitle": "أدخل بريدك الإلكتروني وسنرسل إليك رابط إعادة التعيين.",
+      "sent": "تم إرسال رابط إعادة التعيين. تحقق من بريدك الوارد.",
+      "emailLabel": "البريد الإلكتروني",
+      "emailPlaceholder": "you@example.com",
+      "submit": "إرسال رابط إعادة التعيين",
+      "submitting": "جارٍ الإرسال...",
+      "remembered": "هل تذكّرت كلمة المرور؟",
+      "backToLogin": "العودة إلى تسجيل الدخول"
+    },
+    "updatePassword": {
+      "title": "تعيين كلمة مرور جديدة",
+      "subtitle": "أدخل كلمة مرور جديدة لحسابك.",
+      "success": "تم تحديث كلمة المرور. يمكنك الآن تسجيل الدخول بكلمة المرور الجديدة.",
+      "passwordLabel": "كلمة المرور الجديدة",
+      "passwordPlaceholder": "أدخل كلمة المرور الجديدة",
+      "submit": "تحديث كلمة المرور",
+      "submitting": "جارٍ التحديث..."
+    }
+  },
+  "dashboard": {
+    "loginRequired": "يجب تسجيل الدخول لعرض هذه الصفحة.",
+    "sending": "جارٍ الإرسال...",
+    "welcome": {
+      "eyebrow": "مرحبًا بك معنا",
+      "title": "لنقم بإعداد حسابك",
+      "verifyEmail": "التحقق من البريد الإلكتروني",
+      "completeProfile": "أكمل ملفك الشخصي",
+      "explorePricing": "استكشف الأسعار",
+      "resend": "إعادة الإرسال"
+    },
+    "unverifiedAlert": {
+      "message": "يُرجى التحقق من عنوان بريدك الإلكتروني لفتح جميع الميزات.",
+      "resend": "إعادة إرسال رسالة التحقق"
+    },
+    "badge": {
+      "unverified": "غير موثّق",
+      "free": "الخطة المجانية",
+      "pro": "Pro"
+    },
+    "overview": {
+      "username": "اسم المستخدم",
+      "email": "البريد الإلكتروني",
+      "accountCreated": "تاريخ إنشاء الحساب",
+      "lastSignIn": "آخر تسجيل دخول",
+      "signedInWith": "سجّلت الدخول باستخدام"
+    },
+    "features": {
+      "createProjects": "إنشاء المشاريع",
+      "oneProject": "مشروع واحد",
+      "unlimitedProjects": "مشاريع غير محدودة",
+      "support": "الدعم",
+      "communitySupport": "دعم المجتمع",
+      "prioritySupport": "دعم ذو أولوية",
+      "advancedAnalytics": "تحليلات متقدمة",
+      "included": "مضمّنة",
+      "proOnly": "لخطة Pro فقط"
+    },
+    "locked": "تحقق من بريدك الإلكتروني لفتح الميزات",
+    "tabs": {
+      "label": "أقسام لوحة التحكم",
+      "overview": "نظرة عامة",
+      "billing": "الفوترة",
+      "settings": "إعدادات الحساب"
+    },
+    "billing": {
+      "currentPlan": "الخطة الحالية",
+      "proAccess": "لديك وصول كامل إلى جميع ميزات Pro.",
+      "freeAccess": "أنت على الخطة المجانية. قم بالترقية للحصول على مشاريع غير محدودة ودعم ذي أولوية.",
+      "upgrade": "الترقية"
+    },
+    "settings": {
+      "resetPassword": "إعادة تعيين كلمة المرور",
+      "deleteAccount": "حذف الحساب",
+      "deleteWarning": "سيؤدي ذلك إلى حذف حسابك وجميع بياناتك نهائيًا. لا يمكن التراجع عن هذا الإجراء.",
+      "confirmDelete": "نعم، احذف حسابي",
+      "cancel": "إلغاء",
+      "deleting": "جارٍ الحذف..."
+    },
+    "toast": {
+      "passwordResetSent": "تم إرسال رسالة إعادة تعيين كلمة المرور — تحقق من بريدك الوارد.",
+      "verificationSent": "تم إرسال رسالة التحقق — تحقق من بريدك الوارد.",
+      "sessionExpired": "انتهت جلستك. يُرجى تسجيل الدخول مرة أخرى.",
+      "deleteFailed": "فشل حذف الحساب.",
+      "accountDeleted": "تم حذف حسابك."
+    }
+  },
+  "profile": {
+    "loginRequired": "يجب تسجيل الدخول لعرض هذه الصفحة.",
+    "title": "الملف الشخصي",
+    "subtitle": "إدارة تفاصيل حسابك.",
+    "avatarAlt": "الصورة الرمزية للملف الشخصي",
+    "changePhoto": "تغيير الصورة",
+    "uploading": "جارٍ الرفع...",
+    "chooseImage": "يُرجى اختيار ملف صورة.",
+    "imageTooLarge": "يجب أن تكون الصورة أصغر من 2MB.",
+    "emailLabel": "البريد الإلكتروني",
+    "emailConfirm": "تحقق من بريدك الوارد لتأكيد عنوان البريد الإلكتروني الجديد.",
+    "save": "حفظ التغييرات",
+    "saving": "جارٍ الحفظ..."
+  },
+  "pricing": {
+    "stickyCta": {
+      "subscribe": "اشترك",
+      "label": "الترقية إلى Pro"
+    }
+  }
+}
