@@ -14,51 +14,61 @@ afterEach(() => {
   vi.unstubAllGlobals();
 });
 
+// The state label ("Motion on" / "Motion reduced") sits next to the
+// switch, not inside it, so it is found by its text, not by role.
+function stateLabelText(): string {
+  const reduced = screen.queryByText(/motion reduced/i);
+  if (reduced) return "reduced";
+  const on = screen.queryByText(/motion on/i);
+  if (on) return "on";
+  throw new Error("No motion state label found");
+}
+
 describe("ReducedMotionToggle", () => {
   it("renders with full motion by default", () => {
     render(<ReducedMotionToggle />);
-    const button = screen.getByRole("button", { name: /toggle reduce motion/i });
-    expect(button).toHaveTextContent("Motion on");
-    expect(button).toHaveAttribute("aria-pressed", "false");
+    const toggle = screen.getByRole("switch", { name: /toggle reduce motion/i });
+    expect(stateLabelText()).toBe("on");
+    expect(toggle).toHaveAttribute("aria-checked", "false");
     expect(document.documentElement.classList.contains("reduce-motion")).toBe(false);
   });
 
   it("switches to reduced motion on click", async () => {
     const user = userEvent.setup();
     render(<ReducedMotionToggle />);
-    const button = screen.getByRole("button", { name: /toggle reduce motion/i });
+    const toggle = screen.getByRole("switch", { name: /toggle reduce motion/i });
 
-    await user.click(button);
+    await user.click(toggle);
 
-    expect(button).toHaveTextContent("Motion reduced");
-    expect(button).toHaveAttribute("aria-pressed", "true");
+    expect(stateLabelText()).toBe("reduced");
+    expect(toggle).toHaveAttribute("aria-checked", "true");
     expect(document.documentElement.classList.contains("reduce-motion")).toBe(true);
   });
 
   it("switches back to full motion on second click", async () => {
     const user = userEvent.setup();
     render(<ReducedMotionToggle />);
-    const button = screen.getByRole("button", { name: /toggle reduce motion/i });
+    const toggle = screen.getByRole("switch", { name: /toggle reduce motion/i });
 
-    await user.click(button);
-    await user.click(button);
+    await user.click(toggle);
+    await user.click(toggle);
 
-    expect(button).toHaveTextContent("Motion on");
-    expect(button).toHaveAttribute("aria-pressed", "false");
+    expect(stateLabelText()).toBe("on");
+    expect(toggle).toHaveAttribute("aria-checked", "false");
     expect(document.documentElement.classList.contains("reduce-motion")).toBe(false);
   });
 
   it("persists the chosen setting to localStorage when toggled", async () => {
     const user = userEvent.setup();
     render(<ReducedMotionToggle />);
-    const button = screen.getByRole("button", { name: /toggle reduce motion/i });
+    const toggle = screen.getByRole("switch", { name: /toggle reduce motion/i });
 
     expect(window.localStorage.getItem("reduce-motion")).toBe("off");
 
-    await user.click(button);
+    await user.click(toggle);
     expect(window.localStorage.getItem("reduce-motion")).toBe("on");
 
-    await user.click(button);
+    await user.click(toggle);
     expect(window.localStorage.getItem("reduce-motion")).toBe("off");
   });
 
@@ -66,10 +76,10 @@ describe("ReducedMotionToggle", () => {
     window.localStorage.setItem("reduce-motion", "on");
 
     render(<ReducedMotionToggle />);
-    const button = screen.getByRole("button", { name: /toggle reduce motion/i });
+    const toggle = screen.getByRole("switch", { name: /toggle reduce motion/i });
 
-    expect(button).toHaveTextContent("Motion reduced");
-    expect(button).toHaveAttribute("aria-pressed", "true");
+    expect(stateLabelText()).toBe("reduced");
+    expect(toggle).toHaveAttribute("aria-checked", "true");
     expect(document.documentElement.classList.contains("reduce-motion")).toBe(true);
   });
 
@@ -77,10 +87,10 @@ describe("ReducedMotionToggle", () => {
     window.localStorage.setItem("reduce-motion", "off");
 
     render(<ReducedMotionToggle />);
-    const button = screen.getByRole("button", { name: /toggle reduce motion/i });
+    const toggle = screen.getByRole("switch", { name: /toggle reduce motion/i });
 
-    expect(button).toHaveTextContent("Motion on");
-    expect(button).toHaveAttribute("aria-pressed", "false");
+    expect(stateLabelText()).toBe("on");
+    expect(toggle).toHaveAttribute("aria-checked", "false");
     expect(document.documentElement.classList.contains("reduce-motion")).toBe(false);
   });
 
@@ -97,17 +107,17 @@ describe("ReducedMotionToggle", () => {
     }));
 
     render(<ReducedMotionToggle />);
-    const button = screen.getByRole("button", { name: /toggle reduce motion/i });
+    const toggle = screen.getByRole("switch", { name: /toggle reduce motion/i });
 
-    expect(button).toHaveTextContent("Motion reduced");
+    expect(stateLabelText()).toBe("reduced");
     expect(document.documentElement.classList.contains("reduce-motion")).toBe(true);
   });
 
   it("follows a setting change made in another tab", () => {
     render(<ReducedMotionToggle />);
-    const button = screen.getByRole("button", { name: /toggle reduce motion/i });
+    const toggle = screen.getByRole("switch", { name: /toggle reduce motion/i });
 
-    expect(button).toHaveTextContent("Motion on");
+    expect(stateLabelText()).toBe("on");
 
     // A storage event is how one tab learns another tab changed the setting.
     // fireEvent wraps the dispatch in act() so React flushes the update
@@ -117,7 +127,7 @@ describe("ReducedMotionToggle", () => {
       new StorageEvent("storage", { key: "reduce-motion", newValue: "on" }),
     );
 
-    expect(button).toHaveTextContent("Motion reduced");
+    expect(stateLabelText()).toBe("reduced");
     expect(document.documentElement.classList.contains("reduce-motion")).toBe(true);
 
     fireEvent(
@@ -125,20 +135,20 @@ describe("ReducedMotionToggle", () => {
       new StorageEvent("storage", { key: "reduce-motion", newValue: "off" }),
     );
 
-    expect(button).toHaveTextContent("Motion on");
+    expect(stateLabelText()).toBe("on");
     expect(document.documentElement.classList.contains("reduce-motion")).toBe(false);
   });
 
   it("ignores storage events for other keys", () => {
     render(<ReducedMotionToggle />);
-    const button = screen.getByRole("button", { name: /toggle reduce motion/i });
+    const toggle = screen.getByRole("switch", { name: /toggle reduce motion/i });
 
     fireEvent(
       window,
       new StorageEvent("storage", { key: "theme", newValue: "on" }),
     );
 
-    expect(button).toHaveTextContent("Motion on");
+    expect(stateLabelText()).toBe("on");
     expect(document.documentElement.classList.contains("reduce-motion")).toBe(false);
   });
 });
