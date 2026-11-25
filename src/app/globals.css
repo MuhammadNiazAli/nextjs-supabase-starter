@@ -422,6 +422,26 @@ body {
   --tw-ring-color: rgb(34 197 94 / 0.4);
 }
 
+
+/* Magnetic button — wraps a primary call-to-action (see
+   MagneticButton.tsx) so it leans a few pixels toward the cursor
+   while hovered. The transition is what makes the drift smooth and
+   the return on mouse leave feel like a spring back instead of a
+   snap. inline-block so the transform actually applies to the span.
+   The component also skips the shift entirely under reduced motion;
+   this rule is the fallback for the OS-level setting. */
+.magnetic-button {
+  display: inline-block;
+  transition: transform 0.25s ease-out;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .magnetic-button {
+    transition: none;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .confirm-password-input {
     transition: none;
