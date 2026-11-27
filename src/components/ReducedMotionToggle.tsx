@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useLanguage } from "@/lib/i18n/LanguageContext";
+import Switch from "./Switch";
 
 const STORAGE_KEY = "reduce-motion";
 
@@ -59,14 +60,20 @@ export default function ReducedMotionToggle() {
     return () => window.removeEventListener("storage", handleStorage);
   }, []);
 
+  // The switch carries the accessible name and the on/off state; the
+  // text beside it is the same state label the old button showed, kept
+  // for sighted users and hidden from screen readers so it is not
+  // announced twice.
   return (
-    <button
-      onClick={() => setReduced((prev) => !prev)}
-      className="text-sm px-3 py-1 rounded border border-gray-300 dark:border-gray-700"
-      aria-label={t("motion.toggleLabel")}
-      aria-pressed={reduced}
-    >
-      {reduced ? t("motion.on") : t("motion.off")}
-    </button>
+    <span className="inline-flex items-center gap-2">
+      <Switch
+        checked={reduced}
+        onChange={setReduced}
+        label={t("motion.toggleLabel")}
+      />
+      <span aria-hidden="true" className="text-sm">
+        {reduced ? t("motion.on") : t("motion.off")}
+      </span>
+    </span>
   );
 }

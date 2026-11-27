@@ -2,6 +2,7 @@
 
 import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { useReveal } from "@/lib/useReveal";
+import MagneticButton from "@/components/MagneticButton";
 
 const STEP_KEYS = [1, 2, 3, 4, 5, 6] as const;
 
@@ -106,12 +107,14 @@ export default function Home() {
             {t("home.subtitle")}
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
-            <a
-              href="/signup"
-              className="bg-primary text-white px-5 py-2 rounded-md hover:bg-primary/90 transition shadow-sm shadow-primary/30"
-            >
-              {t("home.getStarted")}
-            </a>
+            <MagneticButton>
+              <a
+                href="/signup"
+                className="bg-primary text-white px-5 py-2 rounded-md hover:bg-primary/90 transition shadow-sm shadow-primary/30"
+              >
+                {t("home.getStarted")}
+              </a>
+            </MagneticButton>
             <a
               href={repoUrl}
               className="border border-gray-300 text-gray-900 px-5 py-2 rounded-md hover:bg-gray-900 hover:text-white hover:border-gray-900 transition dark:border-white/30 dark:text-white dark:hover:bg-white dark:hover:text-gray-900 dark:hover:border-white"

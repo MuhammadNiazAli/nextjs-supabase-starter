@@ -9,8 +9,22 @@ import PasswordInput from "@/components/PasswordInput";
 import PasswordStrengthMeter from "@/components/PasswordStrengthMeter";
 import Spinner from "@/components/Spinner";
 import { useToast } from "@/components/Toast";
+import FormError from "@/components/FormError";
 import { useLanguage } from "@/lib/i18n/LanguageContext";
-import { signupSchema, type SignupFormValues } from "@/lib/validation/authSchemas";
+import { getPasswordMatchState, matchStateClassName } from "@/lib/passwordMatch";
+import {
+  PASSWORDS_DO_NOT_MATCH,
+  signupFormSchema,
+  type SignupFormValues,
+} from "@/lib/validation/authSchemas";
+
+// The schema's error messages are English; the confirm field only ever
+// has two, so map them to translated text here.
+function confirmPasswordErrorKey(message: string | undefined): string {
+  return message === PASSWORDS_DO_NOT_MATCH
+    ? "auth.signup.passwordsDoNotMatch"
+    : "auth.signup.confirmPasswordRequired";
+}
 
 export default function SignupPage() {
   const [success, setSuccess] = useState(false);
@@ -43,11 +57,13 @@ export default function SignupPage() {
     control,
     formState: { errors },
   } = useForm<SignupFormValues>({
-    resolver: zodResolver(signupSchema),
-    defaultValues: { username: "", email: "", password: "" },
+    resolver: zodResolver(signupFormSchema),
+    defaultValues: { username: "", email: "", password: "", confirmPassword: "" },
   });
 
   const passwordValue = useWatch({ control, name: "password" });
+  const confirmPasswordValue = useWatch({ control, name: "confirmPassword" });
+  const matchState = getPasswordMatchState(passwordValue, confirmPasswordValue);
 
   const handleSignup = async (values: SignupFormValues) => {
     setLoading(true);
@@ -118,11 +134,7 @@ export default function SignupPage() {
                 className="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm bg-white dark:bg-gray-900 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition"
                 {...register("username")}
               />
-              {errors.username && (
-                <p role="alert" className="text-red-500 text-xs mt-1.5">
-                  {errors.username.message}
-                </p>
-              )}
+              <FormError message={errors.username?.message} />
             </div>
             <div>
               <label className="block text-xs font-medium text-gray-500 mb-1.5">
@@ -136,11 +148,7 @@ export default function SignupPage() {
                 className="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm bg-white dark:bg-gray-900 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition"
                 {...register("email")}
               />
-              {errors.email && (
-                <p role="alert" className="text-red-500 text-xs mt-1.5">
-                  {errors.email.message}
-                </p>
-              )}
+              <FormError message={errors.email?.message} />
             </div>
             <div>
               <label className="block text-xs font-medium text-gray-500 mb-1.5">
@@ -159,9 +167,52 @@ export default function SignupPage() {
                 )}
               />
               <PasswordStrengthMeter password={passwordValue} />
-              {errors.password && (
-                <p role="alert" className="text-red-500 text-xs mt-1.5">
-                  {errors.password.message}
+              <FormError message={errors.password?.message} />
+            </div>
+            <div>
+              <label
+                htmlFor="confirm-password"
+                className="block text-xs font-medium text-gray-500 mb-1.5"
+              >
+                {t("auth.signup.confirmPasswordLabel")}
+              </label>
+              <Controller
+                control={control}
+                name="confirmPassword"
+                render={({ field }) => (
+                  <PasswordInput
+                    id="confirm-password"
+                    value={field.value}
+                    onChange={field.onChange}
+                    placeholder={t("auth.signup.confirmPasswordPlaceholder")}
+                    autoComplete="new-password"
+                    invalid={Boolean(errors.confirmPassword) || matchState === "mismatch"}
+                    describedBy="confirm-password-message"
+                    inputClassName={matchStateClassName(matchState)}
+                  />
+                )}
+              />
+              {/* A submit error wins over the live hint; the hint is polite
+                  so screen readers hear it without being interrupted. */}
+              {errors.confirmPassword ? (
+                <p
+                  id="confirm-password-message"
+                  role="alert"
+                  className="text-red-500 text-xs mt-1.5"
+                >
+                  {t(confirmPasswordErrorKey(errors.confirmPassword.message))}
+                </p>
+              ) : (
+                <p
+                  id="confirm-password-message"
+                  aria-live="polite"
+                  className={
+                    "text-xs mt-1.5 " +
+                    (matchState === "match" ? "text-green-600" : "text-red-500")
+                  }
+                >
+                  {matchState === "match" && t("auth.signup.passwordsMatch")}
+                  {matchState === "mismatch" && t("auth.signup.passwordsDoNotMatch")}
                 </p>
               )}
             </div>

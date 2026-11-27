@@ -66,6 +66,11 @@
     "light": "☀️ Claro",
     "dark": "🌙 Oscuro"
   },
+  "motion": {
+    "toggleLabel": "Reducir el movimiento",
+    "on": "🚫 Movimiento reducido",
+    "off": "🎬 Movimiento activado"
+  },
   "sound": {
     "toggleLabel": "Activar sonidos de notificación",
     "on": "🔊 Sonidos de notificación activados",
@@ -102,6 +107,11 @@
       "emailPlaceholder": "tu@ejemplo.com",
       "passwordLabel": "Contraseña",
       "passwordPlaceholder": "Crea una contraseña segura",
+      "confirmPasswordLabel": "Confirmar contraseña",
+      "confirmPasswordPlaceholder": "Escribe tu contraseña de nuevo",
+      "confirmPasswordRequired": "Confirma tu contraseña",
+      "passwordsMatch": "Las contraseñas coinciden",
+      "passwordsDoNotMatch": "Las contraseñas no coinciden",
       "submit": "Regístrate",
       "submitting": "Creando cuenta...",
       "divider": "o",
@@ -141,6 +151,22 @@
       "completeProfile": "Completa tu perfil",
       "explorePricing": "Ver planes",
       "resend": "Reenviar"
+    },
+    "home": {
+      "greeting": "Bienvenido de nuevo,",
+      "stats": {
+        "accountAge": "Antigüedad de la cuenta",
+        "email": "Estado del correo",
+        "plan": "Plan",
+        "verified": "Verificado",
+        "notVerified": "Sin verificar",
+        "ageDay": "{count} día",
+        "ageDays": "{count} días",
+        "ageMonth": "{count} mes",
+        "ageMonths": "{count} meses",
+        "ageYear": "{count} año",
+        "ageYears": "{count} años"
+      }
     },
     "unverifiedAlert": {
       "message": "Verifica tu correo electrónico para desbloquear todas las funciones.",

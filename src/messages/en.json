@@ -107,6 +107,11 @@
       "emailPlaceholder": "you@example.com",
       "passwordLabel": "Password",
       "passwordPlaceholder": "Create a strong password",
+      "confirmPasswordLabel": "Confirm password",
+      "confirmPasswordPlaceholder": "Type your password again",
+      "confirmPasswordRequired": "Please confirm your password",
+      "passwordsMatch": "Passwords match",
+      "passwordsDoNotMatch": "Passwords do not match",
       "submit": "Sign up",
       "submitting": "Creating account...",
       "divider": "or",
@@ -146,6 +151,22 @@
       "completeProfile": "Complete your profile",
       "explorePricing": "Explore pricing",
       "resend": "Resend"
+    },
+    "home": {
+      "greeting": "Welcome back,",
+      "stats": {
+        "accountAge": "Account age",
+        "email": "Email status",
+        "plan": "Plan",
+        "verified": "Verified",
+        "notVerified": "Not verified",
+        "ageDay": "{count} day",
+        "ageDays": "{count} days",
+        "ageMonth": "{count} month",
+        "ageMonths": "{count} months",
+        "ageYear": "{count} year",
+        "ageYears": "{count} years"
+      }
     },
     "unverifiedAlert": {
       "message": "Please verify your email address to unlock all features.",

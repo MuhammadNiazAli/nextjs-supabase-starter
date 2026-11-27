@@ -107,6 +107,11 @@
       "emailPlaceholder": "you@example.com",
       "passwordLabel": "Mot de passe",
       "passwordPlaceholder": "Créez un mot de passe fort",
+      "confirmPasswordLabel": "Confirmer le mot de passe",
+      "confirmPasswordPlaceholder": "Saisissez à nouveau votre mot de passe",
+      "confirmPasswordRequired": "Veuillez confirmer votre mot de passe",
+      "passwordsMatch": "Les mots de passe correspondent",
+      "passwordsDoNotMatch": "Les mots de passe ne correspondent pas",
       "submit": "S’inscrire",
       "submitting": "Création du compte...",
       "divider": "ou",
@@ -201,6 +206,22 @@
       "sessionExpired": "Votre session a expiré. Veuillez vous reconnecter.",
       "deleteFailed": "Échec de la suppression du compte.",
       "accountDeleted": "Votre compte a été supprimé."
+    },
+"home": {
+      "greeting": "Bon retour,",
+      "stats": {
+        "accountAge": "Ancienneté du compte",
+        "email": "Statut de l'e-mail",
+        "plan": "Plan",
+        "verified": "Vérifié",
+        "notVerified": "Non vérifié",
+        "ageDay": "{count} jour",
+        "ageDays": "{count} jours",
+        "ageMonth": "{count} mois",
+        "ageMonths": "{count} mois",
+        "ageYear": "{count} an",
+        "ageYears": "{count} ans"
+      }
     }
   },
   "profile": {
@@ -217,6 +238,7 @@
     "save": "Enregistrer les modifications",
     "saving": "Enregistrement en cours..."
   },
+    
   "pricing": {
     "stickyCta": {
       "subscribe": "S'abonner",
